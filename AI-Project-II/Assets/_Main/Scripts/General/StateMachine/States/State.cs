@@ -45,16 +45,6 @@ namespace Game.StateMachine
             OnExit();
         }
 
-        public void Enable()
-        {
-            OnEnable();
-        }
-
-        public void Disable()
-        {
-            OnDisable();
-        }
-
         public virtual bool CanTransition()
         {
             return true;
@@ -89,14 +79,6 @@ namespace Game.StateMachine
         }
 
         protected virtual void OnExit()
-        {
-        }
-
-        protected virtual void OnEnable()
-        {
-        }
-
-        protected virtual void OnDisable()
         {
         }
 

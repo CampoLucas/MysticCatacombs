@@ -33,16 +33,6 @@ namespace Game.StateMachine
         void Exit();
 
         /// <summary>
-        /// Called when the fsm object is enabled.
-        /// </summary>
-        void Enable();
-
-        /// <summary>
-        /// Called when the fsm object is disable.
-        /// </summary>
-        void Disable();
-
-        /// <summary>
         /// Determines if the state is able to transition.
         /// </summary>
         /// <returns></returns>

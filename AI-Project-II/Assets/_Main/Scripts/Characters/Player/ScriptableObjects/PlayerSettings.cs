@@ -6,6 +6,9 @@ namespace Project.Characters.Player
     [CreateAssetMenu(fileName = "New PlayerSettings", menuName = "Project/Characters/Player")]
     public class PlayerSettings : ScriptableObject
     {
+        public MovementData Move => moveSettings;
+        public MovementData Run => runSettings;
+        
         //[Header("Life")]
         
         [Header("Movement")] 

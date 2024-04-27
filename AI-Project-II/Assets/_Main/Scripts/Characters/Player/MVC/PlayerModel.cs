@@ -11,9 +11,9 @@ namespace Project.Characters.Player
     public class PlayerModel : MonoBehaviour
     {
         public PlayerSettings Stats => data;
+        public IMovement Movement { get; private set; }
         
         [SerializeField] private PlayerSettings data;
-        private IMovement _movement;
         private NullChecker<IMovement> _moveCheck;
 
         private void Awake()
@@ -34,12 +34,12 @@ namespace Project.Characters.Player
         
         public void Move(Vector3 dir)
         {
-            _movement.Move(dir);
+            Movement.Move(dir);
         }
 
         public void Move(Vector3 dir, float speed, float delta)
         {
-            _movement.Move(dir, speed, delta);
+            Movement.Move(dir, speed, delta);
         }
 
         #region Setters
@@ -52,9 +52,9 @@ namespace Project.Characters.Player
         public void SetMovement(IMovement movement, bool dispose = false)
         {
             if (dispose && _moveCheck)
-                _movement.Dispose();
-            _movement = movement;
-            _moveCheck.Set(_movement);
+                Movement.Dispose();
+            Movement = movement;
+            _moveCheck.Set(Movement);
         }
 
         #endregion

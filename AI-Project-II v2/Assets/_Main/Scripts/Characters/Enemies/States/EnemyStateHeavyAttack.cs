@@ -1,0 +1,19 @@
+﻿namespace Game.Enemies.States
+{
+    public class EnemyStateHeavyAttack<T> : EnemyStateLightAttack<T>
+    {
+        protected override void Attack()
+        {
+            Model.HeavyAttack();
+            View.CrossFade(Model.CurrentWeapon().GetData().HeavyAttack01.EventHash);
+            var timer = Model.CurrentWeapon().GetData().HeavyAttack01.Duration;
+            Model.SetTimer(timer);
+        }
+
+        protected override void CancelAttack()
+        {
+            base.CancelAttack();
+            Model.CancelHeavyAttack();
+        }
+    }
+}

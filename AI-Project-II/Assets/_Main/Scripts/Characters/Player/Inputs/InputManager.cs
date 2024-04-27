@@ -36,6 +36,11 @@ namespace Project.Characters.Player
             }
         }
 
+        public Vector3 MoveDir()
+        {
+            return MoveDirection;
+        }
+
         #region EventHandelers
 
         private void SubscribeEvents()

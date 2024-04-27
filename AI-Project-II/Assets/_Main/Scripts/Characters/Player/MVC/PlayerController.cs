@@ -7,13 +7,14 @@ namespace Project.Characters.Player
 {
     public class PlayerController : MonoBehaviour
     {
+        private PlayerModel _model;
         private InputManager _input;
         private FSM _fsm;
 
         private void Awake()
         {
+            _model = GetComponent<PlayerModel>();
             _input = GetComponent<InputManager>();
-            
             InitFsm();
         }
 
@@ -31,15 +32,18 @@ namespace Project.Characters.Player
         {
             _fsm = new FSM(gameObject);
 
-            var gravity = new MoveState(-0.67f, () => Vector3.up);
-            var move = new MoveState(5, () => _input.MoveDirection);
-            var movement = new CompoundState(new[]
-            {
-                new CompoundState.CompState(gravity, () => true),
-                new CompoundState.CompState(move, () => true),
-            });
+            var move = new MovementState(_model.Movement, _model.Stats.Move, _input.MoveDir);
+            var run = new MovementState(_model.Movement, _model.Stats.Run, _input.MoveDir);
+            
+            //Idle
+            //Movement state
+            //Running state
+            //Damage state
+            //Attack state
+            //Death state
 
-            _fsm.AddState("Move", movement);
+            _fsm.AddState("Move", move);
+            _fsm.AddState("Run", run);
             _fsm.SetState("Move");
         }
     }
