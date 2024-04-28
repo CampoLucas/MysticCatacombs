@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Game.Pathfinding
 {
@@ -8,14 +10,20 @@ namespace Game.Pathfinding
     /// Esto lo hace ideal para terrenos complejos, obstáculos dinámicos y búsqueda de caminos más inteligente y eficiente.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class AStar<T>
+    public class AStar<T> : IDisposable
     {
-        public List<T> Run(T start, 
-            Func<T, bool> satiesfies, 
-            Func<T, List<T>> connections, 
-            Func<T, T, float> getCost, 
-            Func<T, float> heuristic, 
-            int watchdog = 500)
+        private SemaphoreSlim _semaphore = new(1, 1);
+        private Action<bool> _onCompleted;
+        
+        public AStar(){}
+
+        public AStar(Action<bool> onCompleted)
+        {
+            _onCompleted = onCompleted;
+        }
+        
+        public List<T> Run(T start, Func<T, bool> satisfies, Func<T, List<T>> connections, Func<T, T, float> getCost, 
+            Func<T, float> heuristic, int watchdog = 500)
         {
             var pending = new PriorityQueue<T>();
             var visited = new HashSet<T>();
@@ -30,8 +38,9 @@ namespace Game.Pathfinding
                 watchdog--;
                 var curr = pending.Dequeue();
 
-                if (satiesfies(curr))
+                if (satisfies(curr))
                 {
+                    OnCompleteHandler(true);
                     return ReconstructPath(parent, curr);
                 }
 
@@ -56,11 +65,27 @@ namespace Game.Pathfinding
                 {
                     // No path found
                     Logging.LogError("Watchdog called");
+                    OnCompleteHandler(false);
                     return new List<T>();
                 }
             }
             Logging.LogError("Watchdog called");
+            OnCompleteHandler(false);
             return new List<T>();
+        }
+
+        public async Task<List<T>> RunAsync(T start, Func<T, bool> satisfies, Func<T, List<T>> connections,
+            Func<T, T, float> getCost, Func<T, float> heuristic, int watchdog = 500)
+        {
+            await _semaphore.WaitAsync();
+            try
+            {
+                return Run(start, satisfies, connections, getCost, heuristic, watchdog);
+            }
+            finally
+            {
+                _semaphore.Release();
+            }
         }
 
         public List<T> CleanPath(List<T> path, Func<T, T, bool> inView)
@@ -102,22 +127,6 @@ namespace Game.Pathfinding
         public void CleanPath<TList>(List<TList> path, Func<TList, TList, bool> inView, out List<TList> cleanedPath)
         {
             CleanUpPath(path, inView, out cleanedPath);
-            // cleanedPath = new List<TList>();
-            // if (path is not { Count: > 2 })
-            // {
-            //     cleanedPath = path;
-            //     return;
-            // }
-            // cleanedPath.Add(path[0]);
-            // for (var i = 2; i < path.Count; i++)
-            // {
-            //     var gp = cleanedPath[cleanedPath.Count - 1];
-            //     if (!inView(gp, path[i]))
-            //     {
-            //         cleanedPath.Add(path[i - 1]);
-            //     }
-            // }
-            // cleanedPath.Add(path[path.Count - 1]);
         }
         
         public static void CleanUpPath<TList>(List<TList> path, Func<TList, TList, bool> inView, out List<TList> cleanedPath)
@@ -138,6 +147,21 @@ namespace Game.Pathfinding
                 }
             }
             cleanedPath.Add(path[path.Count - 1]);
+        }
+
+        public void Dispose()
+        {
+            if (_semaphore != null)
+                _semaphore.Dispose();
+            _semaphore = null;
+
+            _onCompleted = null;
+        }
+
+        private void OnCompleteHandler(bool success)
+        {
+            if (_onCompleted != null)
+                _onCompleted(success);
         }
     }
 

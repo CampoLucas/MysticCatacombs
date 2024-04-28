@@ -146,7 +146,7 @@ namespace Game.Enemies
                 visionCone.SetMaterial(input);
         }
 
-        public Vector3 GetWaypoint() => pathfinding.GetWaypoint();
+        public Vector3 GetWaypoint() => pathfinding.CalculateWaypoint();
 
 
         public override void Dispose()
