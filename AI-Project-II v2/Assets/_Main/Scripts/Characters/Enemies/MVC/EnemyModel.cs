@@ -1,4 +1,5 @@
-﻿using Game.Scripts.VisionCone;
+﻿using System;
+using Game.Scripts.VisionCone;
 using UnityEngine;
 using Game.Entities;
 using Game.Interfaces;
@@ -23,11 +24,13 @@ namespace Game.Enemies
         private bool _isFollowing;
         private FollowTarget _followTarget;
         private Pathfinder _pathfinder;
+        [SerializeField] private Pathfinding.Pathfinding pathfinding;
 
         
         protected override void Awake()
         {
             base.Awake();
+            
             _data = GetData<EnemySO>();
             _fieldOfView = new FieldOfView(_data.FOV, transform);
             _path = GetComponent<PathToFollow>();
@@ -41,6 +44,11 @@ namespace Game.Enemies
                 _hasVisionCone = true;
                 visionCone.SetMesh(_data.FOV);
             }
+        }
+
+        private void Start()
+        {
+            pathfinding.InitPathfinder(transform);
         }
 
 
@@ -138,19 +146,30 @@ namespace Game.Enemies
                 visionCone.SetMaterial(input);
         }
 
+        public Vector3 GetWaypoint() => pathfinding.GetWaypoint();
+
 
         public override void Dispose()
         {
             base.Dispose();
-            _fieldOfView.Dispose();
+            if (_fieldOfView != null)
+                _fieldOfView.Dispose();
             _fieldOfView = null;
             _data = null;
+            
+            if (pathfinding != null) pathfinding.Dispose();
+            pathfinding = null;
         }
 
         protected virtual void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.position, GetData<EnemySO>().AttackRange);
+
+            if (pathfinding != null)
+            {
+                pathfinding.OnDrawGizmosSelected();
+            }
         }
 
         #if UNITY_EDITOR
@@ -187,7 +206,15 @@ namespace Game.Enemies
 
             #endregion
 
+            if (pathfinding != null)
+            {
+                pathfinding.OnDrawGizmos();
+            }
+
+
         }
         #endif
+        
+        
     }
 }

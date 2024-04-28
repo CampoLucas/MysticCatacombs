@@ -101,6 +101,27 @@ namespace Game.Pathfinding
 
         public void CleanPath<TList>(List<TList> path, Func<TList, TList, bool> inView, out List<TList> cleanedPath)
         {
+            CleanUpPath(path, inView, out cleanedPath);
+            // cleanedPath = new List<TList>();
+            // if (path is not { Count: > 2 })
+            // {
+            //     cleanedPath = path;
+            //     return;
+            // }
+            // cleanedPath.Add(path[0]);
+            // for (var i = 2; i < path.Count; i++)
+            // {
+            //     var gp = cleanedPath[cleanedPath.Count - 1];
+            //     if (!inView(gp, path[i]))
+            //     {
+            //         cleanedPath.Add(path[i - 1]);
+            //     }
+            // }
+            // cleanedPath.Add(path[path.Count - 1]);
+        }
+        
+        public static void CleanUpPath<TList>(List<TList> path, Func<TList, TList, bool> inView, out List<TList> cleanedPath)
+        {
             cleanedPath = new List<TList>();
             if (path is not { Count: > 2 })
             {

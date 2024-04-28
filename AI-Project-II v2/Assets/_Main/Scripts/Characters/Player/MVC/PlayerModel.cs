@@ -21,7 +21,8 @@ namespace Game.Player
 
         public override void Dispose()
         {
-            Damageable.OnDie -= OnGameOverHandler;
+            if (Damageable != null)
+                Damageable.OnDie -= OnGameOverHandler;
             base.Dispose();
         }
     }

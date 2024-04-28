@@ -9,7 +9,7 @@ namespace Game.Pathfinding
 {
     public class Node : MonoBehaviour
     {
-        public Transform MyTransform { get; private set; }
+        public Transform Transform => tr;
         public string Name => gameObject.name;
         public List<Node> Neightbourds => neightbours;
         public bool IsTrap => isTrap;
@@ -17,11 +17,12 @@ namespace Game.Pathfinding
         [SerializeField] private bool isTrap;
         [SerializeField] private List<Node> neightbours;
         [SerializeField] private LayerMask mask;
+        [HideInInspector] [SerializeField] private Transform tr;
 
         public void Init(bool _isTrap, string name)
         {
             isTrap = _isTrap;
-            MyTransform = transform;
+            tr = transform;
             gameObject.name = name;
             mask = gameObject.layer;
         }

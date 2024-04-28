@@ -12,7 +12,7 @@ namespace Game.Enemies.States
         {
             base.Start();
             Model.SetTimer(Random.Range(8f, 16f));
-            CalculatePath();
+            //CalculatePath();
             Model.SetTarget(Controller.Target.Transform);
             Model.SetVisionConeColor(VisionConeEnum.InSight);
         }
@@ -42,12 +42,16 @@ namespace Game.Enemies.States
 
         protected override void Follow()
         {
-            if (!Model.IsTargetInRange())
-            {
-                Logging.LogPathfinder($"Is target in range: {Model.IsTargetInRange()}");
-                CalculatePath();
-            }
-            Model.FollowTarget(Model.GetPathfinder(), Steering, ObsAvoidance);
+            // if (!Model.IsTargetInRange())
+            // {
+            //     Logging.LogPathfinder($"Is target in range: {Model.IsTargetInRange()}");
+            //     CalculatePath();
+            // }
+            // Model.FollowTarget(Model.GetPathfinder(), Steering, ObsAvoidance);
+            var dir = Model.GetWaypoint() - Model.Transform.position;
+            
+            
+            Model.Move(dir.normalized);
         }
     }
 }
