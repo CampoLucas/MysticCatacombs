@@ -20,17 +20,20 @@ MonoBehaviour:
   invulnerableCooldown: 0.1
   hitAnimation: {fileID: 11400000, guid: d48f0b50d9785464fbcfe906275ae1cb, type: 2}
   deathAnimation: {fileID: 11400000, guid: 6f1558d83ff2f6243bcbf1465fc1a564, type: 2}
+  level: 1
+  maxLevel: 15
   attackRange: 5
-  fovRange: 10.23
-  fovAngle: 120
-  fovMask:
-    serializedVersion: 2
-    m_Bits: 8
+  fieldOfView:
+    range: 0.25
+    angle: 120
+    mask:
+      serializedVersion: 2
+      m_Bits: 0
   obsRange: 1
   obsAngle: 180
   maxObs: 5
   obsMultiplier: 2
   obsMask:
     serializedVersion: 2
-    m_Bits: 384
+    m_Bits: 392
   pursuitTime: 0.5

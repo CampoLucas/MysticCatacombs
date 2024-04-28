@@ -19,7 +19,7 @@ namespace Game.Enemies.States
             {
                 Model.ChangeWaypoint();
             }
-            Model.FollowTarget(Model.GetNextWaypoint(), Controller.GetObsAvoid());
+            //Model.FollowTarget(Model.GetNextWaypoint(), Controller.GetObsAvoid());
             View.UpdateMovementValues(0.5f);
         }
 

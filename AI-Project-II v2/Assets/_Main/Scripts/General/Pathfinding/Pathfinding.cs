@@ -361,7 +361,10 @@ namespace Game.Pathfinding
 
         private Vector3 GetCurrentWaypoint()
         {
-            if (Vector3.Distance(_origin.position, Waypoints[CurrentIndex]) < minDistanceToReachNode)
+            var currentPoint = Waypoints[CurrentIndex];
+            currentPoint.y = _origin.position.y;
+            
+            if (Vector3.Distance(_origin.position, currentPoint) < minDistanceToReachNode)
             {
                 OnPointHandler();
                 SetNextNode();

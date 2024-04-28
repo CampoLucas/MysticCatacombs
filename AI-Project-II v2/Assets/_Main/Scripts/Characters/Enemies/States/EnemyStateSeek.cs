@@ -13,7 +13,6 @@ namespace Game.Enemies.States
             base.Start();
             Model.SetTimer(Random.Range(8f, 16f));
             //CalculatePath();
-            Model.SetTarget(Controller.Target.Transform);
             Model.SetVisionConeColor(VisionConeEnum.InSight);
         }
 
@@ -29,15 +28,6 @@ namespace Game.Enemies.States
             {
                 Model.SetFollowing(false);
             }
-        }
-
-        private void CalculatePath()
-        {
-            var pos = Model.transform.position;
-            var targetPos = Controller.Target.Transform.position;
-
-            if (Model.SetNodes(pos, targetPos))
-                Model.CalculatePath();
         }
 
         protected override void Follow()

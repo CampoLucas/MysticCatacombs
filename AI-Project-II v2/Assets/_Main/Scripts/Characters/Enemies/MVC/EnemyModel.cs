@@ -22,9 +22,7 @@ namespace Game.Enemies
         private InRange _range;
         private Vector3 _direction = Vector3.zero;
         private bool _isFollowing;
-        private FollowTarget _followTarget;
-        private Pathfinder _pathfinder;
-        [SerializeField] private Pathfinding.Pathfinding pathfinding;
+        public Pathfinding.Pathfinding pathfinding;
 
         
         protected override void Awake()
@@ -35,8 +33,6 @@ namespace Game.Enemies
             _fieldOfView = new FieldOfView(_data.FOV, transform);
             _path = GetComponent<PathToFollow>();
             _range = new InRange(transform);
-            _followTarget = new FollowTarget(transform, this, _data);
-            _pathfinder = GetComponent<Pathfinder>();
             visionCone = GetComponentInChildren<VisionCone>();
 
             if (visionCone != null)
@@ -79,60 +75,6 @@ namespace Game.Enemies
         public bool HasARoute() => _path.Path;
         public bool ReachedWaypoint() => _path.ReachedWaypoint();
         public void ChangeWaypoint() => _path.ChangeWaypoint();
-        
-        public void FollowTarget(Transform target, ISteering obsAvoidance)
-        {
-            _followTarget.Follow(target, obsAvoidance);
-        }
-        
-        public void FollowTarget(Vector3 target, ISteering obsAvoidance)
-        {
-            _followTarget.Follow(target, obsAvoidance);
-        }
-        
-        public void FollowTarget(Vector3 target, Vector3 flocking ,ISteering obsAvoidance)
-        {
-            _followTarget.Follow(target,flocking, obsAvoidance);
-        }
-        
-        public void FollowTarget(ISteering steering, ISteering obsAvoidance)
-        {
-            _followTarget.Follow(steering, obsAvoidance);
-        }
-
-        public void FollowTarget(IPathfinder pathfinder, ISteering steering, ISteering obsAvoidance)
-        {
-            _followTarget.Follow(pathfinder, steering, obsAvoidance);
-        }
-        public void FollowTarget(IPathfinder pathfinder, Vector3 flocking, ISteering obsAvoidance)
-        {
-            _followTarget.Follow(pathfinder, flocking, obsAvoidance);
-        }
-
-        public bool SetNodes(Vector3 origin, Vector3 target)
-        {
-            return _pathfinder.SetNodes(origin, target);
-        }
-
-        public void CalculatePath()
-        {
-            _pathfinder.Run();
-        }
-
-        public bool IsTargetInRange()
-        {
-            return _pathfinder.IsTargetInRange();
-        }
-
-        public IPathfinder GetPathfinder()
-        {
-            return _pathfinder;
-        }
-
-        public void SetTarget(Transform target)
-        {
-            _pathfinder.SetTarget(target);
-        }
 
         public bool IsTargetInSight(Transform target) => CheckRange(target) && CheckAngle(target) && CheckView(target);
         public bool IsFollowing() => _isFollowing;

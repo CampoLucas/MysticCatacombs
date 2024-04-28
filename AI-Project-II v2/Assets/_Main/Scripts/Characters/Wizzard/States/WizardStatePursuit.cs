@@ -40,7 +40,7 @@ namespace Game.Enemies.States
 
         protected virtual void Follow()
         {
-            Model.FollowTarget(Steering, ObsAvoidance);
+            //Model.FollowTarget(Steering, ObsAvoidance);
         }
 
         public override void Dispose()

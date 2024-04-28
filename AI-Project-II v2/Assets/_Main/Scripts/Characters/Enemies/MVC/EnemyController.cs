@@ -6,11 +6,16 @@ using Game.Entities;
 using UnityEngine;
 using Game.FSM;
 using Game.Sheared;
-using Game.Entities.Steering;
+using Game.Entities.Steering.Testing;
 using Game.Interfaces;
 using Game.Player;
+using Game.Player.States;
 using Game.SO;
 using Unity.VisualScripting;
+using ISteering = Game.Interfaces.ISteering;
+using ObstacleAvoidance = Game.Entities.Steering.ObstacleAvoidance;
+using Pursuit = Game.Entities.Steering.Pursuit;
+using Seek = Game.Entities.Steering.Seek;
 
 namespace Game.Enemies
 {
@@ -24,8 +29,10 @@ namespace Game.Enemies
         protected ISteering Pursuit;
         protected ISteering ObsAvoidance;
         
-        private EnemySO _data;
+        
         [SerializeField] private PlayerModel player;
+        private EnemySO _data;
+        private Entities.Steering.Testing.ISteering CurrentSteering;
 
         
         protected virtual void InitSteering()
@@ -49,8 +56,20 @@ namespace Game.Enemies
             var states = new List<EnemyStateBase<EnemyStatesEnum>>();
 
             var idle = new EnemyStateIdle<EnemyStatesEnum>();
-            var seek = new EnemyStateSeek<EnemyStatesEnum>(Seek, ObsAvoidance);
-            var pursuit = new EnemyStatePursuit<EnemyStatesEnum>(Pursuit, ObsAvoidance);
+            //var seek = new EnemyStateSeek<EnemyStatesEnum>(Seek, ObsAvoidance);
+            var seek = new EnemyStateMove<EnemyStatesEnum>(
+                new SeekPathfinder(transform, 1, GetModel<EnemyModel>().pathfinding), new[]
+                {
+                    new ObstacleAvoidanceDecorator(transform, _data.ObsAngle, _data.ObsRange, _data.MaxObs, 0.5f,
+                        _data.ObsMask)
+                });
+            //var pursuit = new EnemyStatePursuit<EnemyStatesEnum>(Pursuit, ObsAvoidance);
+            var pursuit = new EnemyStateMove<EnemyStatesEnum>(
+                new Entities.Steering.Testing.Pursuit(transform, 1, _data.PursuitTime), new []
+                {
+                    new ObstacleAvoidanceDecorator(transform, _data.ObsAngle, _data.ObsRange, _data.MaxObs, 0.5f,
+                        _data.ObsMask)
+                });
             var damage = new EnemyStateDamage<EnemyStatesEnum>();
             var lightAttack = new EnemyStateLightAttack<EnemyStatesEnum>();
             var heavyAttack = new EnemyStateHeavyAttack<EnemyStatesEnum>();
@@ -187,34 +206,6 @@ namespace Game.Enemies
             //_model.Spawn();
         }
 
-        public ISteering GetSeek() => Seek;
-        public ISteering GetPursuit() => Pursuit;
-        public ISteering GetObsAvoid() => ObsAvoidance;
-
-        // protected bool IsInAttackingRange()
-        // {
-        //     return Model != null && GetModel<EnemyModel>().TargetInRange(Player.Transform);
-        // }
-        //
-        // protected bool HasARoute()
-        // {
-        //     if (Model != null)
-        //         return GetModel<EnemyModel>().HasARoute();
-        //     return false;
-        // }
-        //
-        // protected bool IsPlayerInSight()
-        // {
-        //     return Model != null && GetModel<EnemyModel>().IsTargetInSight(Player.Transform);
-        // }
-        //
-        // protected bool IsPlayerOutOfSight()
-        // {
-        //     if (Model != null)
-        //         return !GetModel<EnemyModel>().IsTargetInSight(Player.Transform) && GetModel<EnemyModel>().IsFollowing();
-        //     return false;
-        // }
-
         public override bool DoLightAttack()
         {
             return MyRandoms.Roulette(new Dictionary<bool, float>
@@ -233,6 +224,28 @@ namespace Game.Enemies
             });
         }
 
+        public override Vector3 MoveDirection()
+        {
+            var targetPos = Target.Transform.position;
+
+            if (CurrentSteering == null)
+            {
+                Debug.LogError("CurrentSteering is null", this);
+                return Vector3.zero;
+            }
+            return CurrentSteering.GetDir(Target.Transform);
+        }
+
+        public override float MoveAmount()
+        {
+            return 1;
+        }
+
+        public void SetSteering(Entities.Steering.Testing.ISteering steering)
+        {
+            CurrentSteering = steering;
+        }
+
         public void SetNewTarget(IModel newTarget)
         {
             if (newTarget == null) Debug.LogError("target is null");
@@ -242,36 +255,6 @@ namespace Game.Enemies
             Target = newTarget;
             InitSteering();
         }
-
-        // protected bool IsTargetAlive()
-        // {
-        //     if (Model != null)
-        //         return GetModel<EnemyModel>().IsTargetAlive(Player);
-        //     return false;
-        // }
-        //
-        // protected bool HasTakenDamage()
-        // {
-        //     if (Model != null)
-        //         return Model.HasTakenDamage();
-        //     return false;
-        // }
-        //
-        // protected bool IsAlive()
-        // {
-        //     if (Model != null)
-        //         return Model.IsAlive();
-        //     return false;
-        // }
-        //
-        // protected void ActionSeek() => StateMachine.SetState(EnemyStatesEnum.Seek);
-        // protected void ActionPursuit() => StateMachine.SetState(EnemyStatesEnum.Pursuit);
-        // protected void ActionLightAttack() => StateMachine.SetState(EnemyStatesEnum.LightAttack);
-        // protected void ActionHeavyAttack() => StateMachine.SetState(EnemyStatesEnum.HeavyAttack);
-        // protected void ActionDamage() => StateMachine.SetState(EnemyStatesEnum.Damage);
-        // protected void ActionDie() => StateMachine.SetState(EnemyStatesEnum.Die);
-        // protected void ActionIdle() => StateMachine.SetState(EnemyStatesEnum.Idle);
-        // protected void ActionFollowRoute() => StateMachine.SetState(EnemyStatesEnum.FollowRoute);
 
         public override void Dispose()
         {

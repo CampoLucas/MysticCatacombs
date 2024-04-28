@@ -19,7 +19,6 @@ GameObject:
   - component: {fileID: 2878532175023282206}
   - component: {fileID: 56466937}
   - component: {fileID: 298113399026734968}
-  - component: {fileID: 4826039641117432753}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -103,6 +102,31 @@ MonoBehaviour:
   spawnable: 0
   stats: {fileID: 11400000, guid: a0266c3916141964b95f06451acf23b8, type: 2}
   weapon: {fileID: 298113400796027390}
+  pathfinding:
+    target: {fileID: 0}
+    entityRadius: 0.5
+    radiusToCheck: 4
+    closestNodeRange: 7
+    minDistanceToReachNode: 0.5
+    runAsynchronously: 1
+    nodeLayer:
+      serializedVersion: 2
+      m_Bits: 2048
+    unwalkableLayer:
+      serializedVersion: 2
+      m_Bits: 1288
+    showGizmos: 1
+    onSelected: 0
+    showPath: 1
+    lineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+    startPointColor: {r: 0, g: 1, b: 0, a: 1}
+    endPointColor: {r: 1, g: 0, b: 0, a: 1}
+    nextPointColor: {r: 0, g: 1, b: 1, a: 1}
+    currentPointColor: {r: 1, g: 0, b: 1, a: 1}
+    showDetection: 1
+    entityRadiusColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+    radiusToCheckColor: {r: 1, g: 0, b: 0, a: 1}
+    closestNodeColor: {r: 0, g: 0, b: 1, a: 1}
 --- !u!114 &5450059233993777539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,29 +201,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Path>k__BackingField: {fileID: 11400000, guid: 6262ed8b35235104380f7abd7d49c755, type: 2}
---- !u!114 &4826039641117432753
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2878532175023282192}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8605b7e4d5580b546a0f5e36ac2f5693, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <Target>k__BackingField: {fileID: 0}
-  radius: 2
-  nodeLayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  maskObs:
-    serializedVersion: 2
-    m_Bits: 1288
-  inViewRadius: 0.5
-  closestNodeRange: 5
-  hideGizmos: 0
 --- !u!1 &2941201905607459326
 GameObject:
   m_ObjectHideFlags: 0

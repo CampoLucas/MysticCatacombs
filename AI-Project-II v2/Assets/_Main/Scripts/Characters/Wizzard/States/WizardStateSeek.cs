@@ -11,8 +11,6 @@ namespace Game.Enemies.States
         {
             base.Start();
             Model.SetTimer(Random.Range(8f, 16f));
-            CalculatePath();
-            Model.SetTarget(Controller.Target.Transform);
         }
 
         public override void Execute()
@@ -29,23 +27,9 @@ namespace Game.Enemies.States
             }
         }
 
-        private void CalculatePath()
-        {
-            var pos = Model.transform.position;
-            var targetPos = Controller.Target.Transform.position;
-
-            if (Model.SetNodes(pos, targetPos))
-                Model.CalculatePath();
-        }
-
         protected override void Follow()
         {
-            if (!Model.IsTargetInRange())
-            {
-                Logging.LogPathfinder($"Is target in range: {Model.IsTargetInRange()}");
-                CalculatePath();
-            }
-            Model.FollowTarget(Model.GetPathfinder(), Steering, ObsAvoidance);
+            
         }
     }
 }
