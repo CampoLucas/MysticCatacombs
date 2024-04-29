@@ -1,6 +1,7 @@
 using UnityEngine;
+using Game.Interfaces;
 
-namespace Game.Entities.Steering.Testing
+namespace Game.Entities.Steering
 {
     public class PursuitDecorator : Pursuit, ISteeringDecorator
     {
@@ -14,14 +15,14 @@ namespace Game.Entities.Steering.Testing
         {
         }
 
-        public override Vector3 GetDir(Transform target)
+        protected override Vector3 CalculateDir(Transform target)
         {
-            return base.GetDir(target) + Child.GetDir(target);
+            return Child.GetDir(target) + base.CalculateDir(target);
         }
 
-        public override Vector3 GetDir(Vector3 position)
+        protected override Vector3 CalculateDir(Vector3 position)
         {
-            return base.GetDir(position) + Child.GetDir(position);
+            return Child.GetDir(position) + base.CalculateDir(position);
         }
         
         public void SetChild(ISteering child)
@@ -35,6 +36,15 @@ namespace Game.Entities.Steering.Testing
             if (Child != null)
                 Child.Dispose();
             Child = null;
+        }
+        
+        public override void Draw()
+        {
+            base.Draw();
+#if UNITY_EDITOR
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawRay(Origin.position, Child.CatchDirection);
+#endif
         }
     }
 }

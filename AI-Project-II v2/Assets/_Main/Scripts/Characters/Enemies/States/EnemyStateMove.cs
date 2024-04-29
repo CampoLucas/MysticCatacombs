@@ -1,8 +1,6 @@
 ﻿using Game.Enemies.States;
-using Game.Entities.Steering.Testing;
 using Game.Interfaces;
 using UnityEngine;
-using ISteering = Game.Entities.Steering.Testing.ISteering;
 
 namespace Game.Player.States
 {
@@ -10,10 +8,11 @@ namespace Game.Player.States
     {
         private ISteering _steering;
 
-        public EnemyStateMove(ISteering steering, ISteeringDecorator[] decorators)
+        public EnemyStateMove(ISteering steering, ISteeringDecorator[] decorators = null)
         {
             _steering = steering;
 
+            if (decorators == null) return;
             for (var i = 0; i < decorators.Length; i++)
             {
                 decorators[i].SetChild(_steering);
@@ -44,6 +43,14 @@ namespace Game.Player.States
         {
             base.Exit();
             Model.Move(Vector3.zero);
+        }
+
+        public override void Dispose()
+        {
+            if (_steering != null) _steering.Dispose();
+            _steering = null;
+            
+            base.Dispose();
         }
     }
 }

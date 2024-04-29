@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using Game.DecisionTree;
 using Game.Enemies.States;
 using Game.Entities;
+using Game.Entities.Steering;
 using UnityEngine;
 using Game.FSM;
 using Game.Sheared;
-using Game.Entities.Steering.Testing;
 using Game.Interfaces;
+using Game.Pathfinding;
 using Game.Player;
 using Game.Player.States;
 using Game.SO;
@@ -23,32 +24,10 @@ namespace Game.Enemies
     {
         public IModel Target { get; private set; }
 
-        protected ITreeNode Root;
-
-        protected ISteering Seek;
-        protected ISteering Pursuit;
-        protected ISteering ObsAvoidance;
-        
-        
         [SerializeField] private PlayerModel player;
+        [SerializeField] private Pathfinder pathfinder; 
         private EnemySO _data;
-        private Entities.Steering.Testing.ISteering CurrentSteering;
-
-        
-        protected virtual void InitSteering()
-        {
-            var transform1 = transform;
-            var transform2 = Target.Transform;
-            
-            if (Seek != null) Seek.Dispose();
-            Seek = new Seek(transform1, transform2);
-            
-            if (Pursuit != null) Pursuit.Dispose();
-            Pursuit = new Pursuit(transform1, Target, _data.PursuitTime);
-            
-            if (ObsAvoidance != null) ObsAvoidance.Dispose();
-            ObsAvoidance = new ObstacleAvoidance(transform1, _data.ObsAngle, _data.ObsRange, _data.MaxObs, _data.ObsMask);
-        }
+        private ISteering CurrentSteering;
 
         protected override void InitFSM()
         {
@@ -57,17 +36,18 @@ namespace Game.Enemies
 
             var idle = new EnemyStateIdle<EnemyStatesEnum>();
             //var seek = new EnemyStateSeek<EnemyStatesEnum>(Seek, ObsAvoidance);
+            var t = transform;
             var seek = new EnemyStateMove<EnemyStatesEnum>(
-                new SeekPathfinder(transform, 1, GetModel<EnemyModel>().pathfinding), new[]
+                new SeekPathfinder(t, 1, pathfinder), new[]
                 {
-                    new ObstacleAvoidanceDecorator(transform, _data.ObsAngle, _data.ObsRange, _data.MaxObs, 0.5f,
+                    new ObstacleAvoidanceDecorator(t, _data.ObsAngle, _data.ObsRange, _data.MaxObs, 0.5f,
                         _data.ObsMask)
                 });
             //var pursuit = new EnemyStatePursuit<EnemyStatesEnum>(Pursuit, ObsAvoidance);
             var pursuit = new EnemyStateMove<EnemyStatesEnum>(
-                new Entities.Steering.Testing.Pursuit(transform, 1, _data.PursuitTime), new []
+                new Pursuit(t, 1, _data.PursuitTime), new []
                 {
-                    new ObstacleAvoidanceDecorator(transform, _data.ObsAngle, _data.ObsRange, _data.MaxObs, 0.5f,
+                    new ObstacleAvoidanceDecorator(t, _data.ObsAngle, _data.ObsRange, _data.MaxObs, 0.5f,
                         _data.ObsMask)
                 });
             var damage = new EnemyStateDamage<EnemyStatesEnum>();
@@ -199,11 +179,9 @@ namespace Game.Enemies
             if (player == null) Debug.LogError("Player is null");
             if (player as IModel == null) Debug.LogError("Player as IModel is null");
             SetNewTarget(player);
-            //InitSteering();
-            //InitTree();
             base.Start();
             
-            //_model.Spawn();
+            pathfinder.InitPathfinder(transform);
         }
 
         public override bool DoLightAttack()
@@ -241,34 +219,36 @@ namespace Game.Enemies
             return 1;
         }
 
-        public void SetSteering(Entities.Steering.Testing.ISteering steering)
+        public void SetSteering(ISteering steering)
         {
             CurrentSteering = steering;
         }
 
         public void SetNewTarget(IModel newTarget)
         {
-            if (newTarget == null) Debug.LogError("target is null");
-            if (Target == newTarget == null) Debug.LogError("target is the same");
             if (newTarget == null || Target == newTarget) return;
-            
             Target = newTarget;
-            InitSteering();
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (pathfinder != null) pathfinder.OnDrawGizmos();
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            if (pathfinder != null) pathfinder.OnDrawGizmosSelected();
+            
+            if (CurrentSteering != null) CurrentSteering.Draw();
         }
 
         public override void Dispose()
         {
             base.Dispose();
-            if (Root != null) Root.Dispose();
             
-            if (Seek != null) Seek.Dispose();
-            if (Pursuit != null) Pursuit.Dispose();
-            if (ObsAvoidance != null) ObsAvoidance.Dispose();
             Target = null;
-            Root = null;
-            Seek = null;
-            Pursuit = null;
-            ObsAvoidance = null;
+            if (CurrentSteering != null) CurrentSteering.Dispose();
+            CurrentSteering = null;
         }
     }
 }

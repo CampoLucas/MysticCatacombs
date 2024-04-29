@@ -24674,6 +24674,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1942221121}
     m_Modifications:
     - target: {fileID: 2676991179575740404, guid: 4263ff5a6ff10ef45ab9fc83d34143b0, type: 3}
+      propertyPath: pathfinder.target
+      value: 
+      objectReference: {fileID: 1927019588}
+    - target: {fileID: 2676991179575740404, guid: 4263ff5a6ff10ef45ab9fc83d34143b0, type: 3}
       propertyPath: pathfinding.target
       value: 
       objectReference: {fileID: 1927019588}
@@ -24729,6 +24733,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1927019609}
+    - target: {fileID: 8985879467679423952, guid: 4263ff5a6ff10ef45ab9fc83d34143b0, type: 3}
+      propertyPath: pathfinder.target
+      value: 
+      objectReference: {fileID: 1927019588}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4263ff5a6ff10ef45ab9fc83d34143b0, type: 3}
 --- !u!1001 &873263731087248040

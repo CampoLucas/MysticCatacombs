@@ -5,27 +5,58 @@ namespace Game.Entities.Steering
 {
     public class Seek : ISteering
     {
-        private Transform _target;
-        private Transform _origin;
+        public Vector3 CatchDirection { get; protected set; }
+        
+        protected Transform Origin;
+        protected readonly float Strength;
+        
 
-        public Seek(Transform origin, Transform target)
+        public Seek(Transform origin, float strength)
         {
-            _target = target;
-            _origin = origin;
+            Origin = origin;
+            Strength = strength;
+        }
+        
+        public Vector3 GetDir(Transform target)
+        {
+            CatchDirection = CalculateDir(target);
+            return CatchDirection;
         }
 
-        /// <summary>
-        /// A method that returns the direction to the target.
-        /// </summary>
-        public virtual Vector3 GetDir()
+        public Vector3 GetDir(Vector3 position)
         {
-            return (_target.position - _origin.position).normalized;
+            CatchDirection = CalculateDir(position);
+            return CatchDirection;
         }
 
-        public void Dispose()
+        protected virtual Vector3 CalculateDir(Transform target)
         {
-            _target = null;
-            _origin = null;
+            var targetPos = target.position;
+            var originPos = Origin.position;
+            targetPos.y = originPos.y;
+            
+            return (targetPos - originPos).normalized * Strength;
+        }
+        protected virtual Vector3 CalculateDir(Vector3 position)
+        {
+            var targetPos = position;
+            var originPos = Origin.position;
+            targetPos.y = originPos.y;
+            
+            return (targetPos - originPos).normalized * Strength;
+        }
+        
+        public virtual void Dispose()
+        {
+            Origin = null;
+        }
+
+        public virtual void Draw()
+        {
+#if UNITY_EDITOR
+            Gizmos.color = Color.blue;
+            Gizmos.DrawRay(Origin.position, CatchDirection);
+#endif
         }
     }
 }

@@ -6,17 +6,18 @@ namespace Game.Entities.Steering
 {
     public class Flee : Seek
     {
-        public Flee(Transform origin, Transform target) : base(origin, target)
+        public Flee(Transform origin, float strength) : base(origin, strength)
         {
         }
 
-        /// <summary>
-        /// A method that gets the flee direction.
-        /// </summary>
-        /// <returns> Returns the opposite direction of seek</returns>
-        public override Vector3 GetDir()
+        protected override Vector3 CalculateDir(Transform target)
         {
-            return -base.GetDir();
+            return -base.CalculateDir(target);
+        }
+
+        protected override Vector3 CalculateDir(Vector3 position)
+        {
+            return -base.CalculateDir(position);
         }
     }
 }

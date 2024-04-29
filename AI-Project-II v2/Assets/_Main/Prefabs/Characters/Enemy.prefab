@@ -87,6 +87,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  pathfinder:
+    target: {fileID: 0}
+    entityRadius: 0.5
+    radiusToCheck: 4
+    closestNodeRange: 7
+    minDistanceToReachNode: 0.5
+    runAsynchronously: 1
+    nodeLayer:
+      serializedVersion: 2
+      m_Bits: 2048
+    unwalkableLayer:
+      serializedVersion: 2
+      m_Bits: 1288
+    showGizmos: 1
+    onSelected: 0
+    showPath: 1
+    lineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+    startPointColor: {r: 0, g: 1, b: 0, a: 1}
+    endPointColor: {r: 1, g: 0, b: 0, a: 1}
+    nextPointColor: {r: 0, g: 1, b: 1, a: 1}
+    currentPointColor: {r: 1, g: 0, b: 1, a: 1}
+    showDetection: 1
+    entityRadiusColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+    radiusToCheckColor: {r: 1, g: 0, b: 0, a: 1}
+    closestNodeColor: {r: 0, g: 0, b: 1, a: 1}
 --- !u!114 &2676991179575740404
 MonoBehaviour:
   m_ObjectHideFlags: 0

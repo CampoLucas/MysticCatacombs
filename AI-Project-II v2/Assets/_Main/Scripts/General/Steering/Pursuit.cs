@@ -1,42 +1,34 @@
-using Game.Interfaces;
 using UnityEngine;
 
 namespace Game.Entities.Steering
 {
-    public class Pursuit : ISteering
+    public class Pursuit : Seek
     {
-        private Transform _origin;
-        private IModel _target;
         private readonly float _time;
-
-        public Pursuit(Transform origin, IModel target, float time)
+        private Vector3 _prevPosition;
+        
+        public Pursuit(Transform origin, float strength, float time) : base(origin, strength)
         {
-            _origin = origin;
-            _target = target;
             _time = time;
         }
 
-        /// <summary>
-        /// A method that returns the predicted direction of the target.
-        /// It calculates de direction the target will reach depending on it's speed
-        /// </summary>
-        /// <returns></returns>
-        public virtual Vector3 GetDir()
+        protected override Vector3 CalculateDir(Transform target)
         {
-            var position = _target.Transform.position;
-            var position1 = _origin.position;
-            var distance = Vector3.Distance(position1, position);
-            // would it be good if the time is multiplied by the distance?
-            var point = position +
-                        _target.GetForward() * Mathf.Clamp(_target.GetVelocity().magnitude * _time, -distance, distance);
-            var dir = (point - position1).normalized;
+            // do something to check if it is the first time calling the method.
+
+            var targetPos = target.position;
+            var originPos = Origin.position;
+            targetPos.y = originPos.y;
+            var distance = Vector3.Distance(originPos, targetPos);
+            var point = targetPos + target.forward *
+                Mathf.Clamp(GetTargetVelocity(targetPos).magnitude * _time, -distance, distance);
+            var dir = (point - originPos).normalized;
             return dir;
         }
 
-        public void Dispose()
+        private Vector3 GetTargetVelocity(Vector3 pos)
         {
-            _origin = null;
-            _target = null;
+            return pos - _prevPosition;
         }
     }
 }

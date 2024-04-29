@@ -1,15 +1,20 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game.Interfaces
 {
-    public interface ISteering : IDisposable
+    public interface ISteering : IDisposable, IDrawable
     {
+        Vector3 CatchDirection { get; }
         /// <summary>
-        /// Method that calculates the direction and returns it. 
+        /// Calculates the direction using a Transform and returns it. 
         /// </summary>
-        Vector3 GetDir();
+        Vector3 GetDir(Transform target);
+
+        /// <summary>
+        /// Calculates the direction using a position and returns it. 
+        /// </summary>
+        /// <returns></returns>
+        Vector3 GetDir(Vector3 position);
     }
 }

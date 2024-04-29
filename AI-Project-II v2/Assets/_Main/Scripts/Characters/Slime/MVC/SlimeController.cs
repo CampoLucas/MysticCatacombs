@@ -47,7 +47,7 @@ namespace Game.Entities.Slime
 
         private void InitSteering()
         {
-            _obsAvoidance = new ObstacleAvoidance(transform, _data.ObsAngle, _data.ObsRange, _data.MaxObs,_data.ObsMask);
+            _obsAvoidance = new ObstacleAvoidance(transform, _data.ObsAngle, _data.ObsRange, _data.MaxObs, 0.5f,_data.ObsMask);
         }
 
         protected override void InitFSM()

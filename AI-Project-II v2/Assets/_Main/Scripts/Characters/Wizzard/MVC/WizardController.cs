@@ -7,17 +7,13 @@ using Game.Enemies.States;
 using Game.Entities.Steering;
 using Game.FSM;
 using Game.Interfaces;
-using UnityEngine;
+using Game.Player.States;
 
 public class WizardController : EnemyController
 {
     private ISteering _flee;
 
-    protected override void InitSteering()
-    {
-        base.InitSteering();
-        _flee = new Flee(transform, Target.Transform);
-    }
+    
 
     protected override void InitFSM()
     {
@@ -26,8 +22,10 @@ public class WizardController : EnemyController
         var states = new List<EnemyStateBase<EnemyStatesEnum>>();
 
         var idle = new EnemyStateIdle<EnemyStatesEnum>();
-        var seek = new EnemyStateSeek<EnemyStatesEnum>(Seek, ObsAvoidance);
-        var pursuit = new EnemyStatePursuit<EnemyStatesEnum>(Pursuit, ObsAvoidance);
+
+        var t = transform;
+        var seek = new EnemyStateMove<EnemyStatesEnum>(new Seek(t, 1));
+        var pursuit = new EnemyStateMove<EnemyStatesEnum>(new Pursuit(t, 1, 1));
         var damage = new EnemyStateDamage<EnemyStatesEnum>();
         var lightAttack = new EnemyStateLightAttack<EnemyStatesEnum>();
         var heavyAttack = new EnemyStateHeavyAttack<EnemyStatesEnum>();

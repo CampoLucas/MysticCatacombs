@@ -6,6 +6,7 @@ using Game.Interfaces;
 using Game.Player;
 using Game.SO;
 using Game.Pathfinding;
+using UnityEngine.Serialization;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -22,7 +23,7 @@ namespace Game.Enemies
         private InRange _range;
         private Vector3 _direction = Vector3.zero;
         private bool _isFollowing;
-        public Pathfinding.Pathfinding pathfinding;
+        [FormerlySerializedAs("pathfinding")] public Pathfinding.Pathfinder pathfinder;
 
         
         protected override void Awake()
@@ -44,7 +45,7 @@ namespace Game.Enemies
 
         private void Start()
         {
-            pathfinding.InitPathfinder(transform);
+            pathfinder.InitPathfinder(transform);
         }
 
 
@@ -88,9 +89,8 @@ namespace Game.Enemies
                 visionCone.SetMaterial(input);
         }
 
-        public Vector3 GetWaypoint() => pathfinding.CalculateWaypoint();
-
-
+        public Vector3 GetWaypoint() => pathfinder.CalculateWaypoint();
+        
         public override void Dispose()
         {
             base.Dispose();
@@ -99,8 +99,8 @@ namespace Game.Enemies
             _fieldOfView = null;
             _data = null;
             
-            if (pathfinding != null) pathfinding.Dispose();
-            pathfinding = null;
+            if (pathfinder != null) pathfinder.Dispose();
+            pathfinder = null;
         }
 
         protected virtual void OnDrawGizmosSelected()
@@ -108,9 +108,9 @@ namespace Game.Enemies
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.position, GetData<EnemySO>().AttackRange);
 
-            if (pathfinding != null)
+            if (pathfinder != null)
             {
-                pathfinding.OnDrawGizmosSelected();
+                pathfinder.OnDrawGizmosSelected();
             }
         }
 
@@ -148,9 +148,9 @@ namespace Game.Enemies
 
             #endregion
 
-            if (pathfinding != null)
+            if (pathfinder != null)
             {
-                pathfinding.OnDrawGizmos();
+                pathfinder.OnDrawGizmos();
             }
 
 

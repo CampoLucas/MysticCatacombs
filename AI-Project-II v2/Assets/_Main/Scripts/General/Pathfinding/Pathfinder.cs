@@ -11,7 +11,7 @@ namespace Game.Pathfinding
     /// Runs a algorithm to find a path.
     /// </summary>
     [Serializable]
-    public class Pathfinding : IDisposable
+    public class Pathfinder : IDisposable
     {
         /// <summary>
         /// The resulting path of the algorithm.

@@ -1,21 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
-using Game.Entities;
 using UnityEngine;
 
 namespace Game.Entities.Steering
 {
     public class Evade : Pursuit
     {
-        public Evade(Transform origin, EntityModel target, float time): base(origin, target, time) { }
-
-        /// <summary>
-        /// A method that gets the evade direction.
-        /// </summary>
-        /// <returns> Returns the opposite direction of pursuit</returns>
-        public override Vector3 GetDir()
+        public Evade(Transform origin, float strength, float time) : base(origin, strength, time)
         {
-            return - base.GetDir();
+        }
+
+        protected override Vector3 CalculateDir(Transform target)
+        {
+            return -base.CalculateDir(target);
+        }
+
+        protected override Vector3 CalculateDir(Vector3 position)
+        {
+            return -base.CalculateDir(position);
         }
     }
 }
