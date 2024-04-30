@@ -11,6 +11,7 @@ namespace Game.Enemies.States
             var timer = Model.GetData().HitAnimation.Duration;
             Model.SetTimer(timer);
             Model.SetFollowing(true);
+            Continue = false;
         }
 
         public override void Execute()
@@ -19,6 +20,10 @@ namespace Game.Enemies.States
             if (Model.GetTimerComplete())
             {
                 Model.RunTimer();
+            }
+            else
+            {
+                Continue = true;
             }
         }
 

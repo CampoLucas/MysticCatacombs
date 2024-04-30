@@ -42,5 +42,7 @@ namespace Game.FSM
         /// </summary>
         /// <param name="input"></param>
         void RemoveTransition(T input);
+
+        bool CanTransition();
     }
 }

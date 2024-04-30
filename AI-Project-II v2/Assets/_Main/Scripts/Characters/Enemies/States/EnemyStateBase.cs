@@ -13,6 +13,7 @@ namespace Game.Enemies.States
         protected EnemyModel Model;
         protected IView View;
         protected EnemyController Controller;
+        protected bool Continue = true;
 
         /// <summary>
         /// A method that initializes the provided parameters.
@@ -60,6 +61,7 @@ namespace Game.Enemies.States
 
         // private void OnDamageHandler() => Controller.StateMachine.S;
         // private void OnDeadHandler() => Tree.Execute();
+        public override bool CanTransition() => Continue;
 
         /// <summary>
         /// A method that nullifies all references and unsubscribes from all events

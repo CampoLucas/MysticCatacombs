@@ -22,7 +22,7 @@ MonoBehaviour:
   deathAnimation: {fileID: 11400000, guid: 6f1558d83ff2f6243bcbf1465fc1a564, type: 2}
   level: 1
   maxLevel: 15
-  attackRange: 5
+  attackRange: 8.73
   fieldOfView:
     range: 0.25
     angle: 120

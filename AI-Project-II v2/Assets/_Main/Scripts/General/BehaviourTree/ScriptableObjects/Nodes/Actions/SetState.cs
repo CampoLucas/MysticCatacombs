@@ -17,19 +17,23 @@ namespace BehaviourTreeAsset.Runtime.Nodes
             _controller = Owner.GetComponent<IController<EnemyStatesEnum>>();
         }
 
+        protected override void OnStart()
+        {
+            _controller.StateMachine.SetState(to);
+        }
+
         protected override NodeState OnUpdate()
         {
             if (_controller == null)
             {
 #if UNITY_EDITOR
-                Debug.LogWarning("Controller is null in SetState node", Owner);
+                Debug.LogWarning($"SetState({to.ToString()}): Controller is null in SetState node", Owner);
 #endif
 
                 return NodeState.Failure;
             }
-
-            _controller.StateMachine.SetState(to);
-            return NodeState.Success;
+            
+            return _controller.StateMachine.Current.CanTransition() ? NodeState.Success : NodeState.Running;
         }
 
         private void OnDestroy()

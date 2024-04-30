@@ -83,5 +83,7 @@ namespace Game.FSM
             _transitionList = null;
             Logging.LogDestroy("Transition Dictionary Nulled");
         }
+
+        public virtual bool CanTransition() => true;
     }
 }
