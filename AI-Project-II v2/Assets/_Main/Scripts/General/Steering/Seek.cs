@@ -1,3 +1,4 @@
+using Game.Data;
 using Game.Interfaces;
 using UnityEngine;
 
@@ -15,6 +16,11 @@ namespace Game.Entities.Steering
         {
             Origin = origin;
             Strength = strength;
+        }
+
+        public Seek(Transform origin, SteeringData data) : this(origin, data.Strength)
+        {
+            
         }
         
         public Vector3 GetDir(Transform target)
@@ -37,6 +43,7 @@ namespace Game.Entities.Steering
             
             return (targetPos - originPos).normalized * Strength;
         }
+        
         protected virtual Vector3 CalculateDir(Vector3 position)
         {
             var targetPos = position;

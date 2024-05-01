@@ -19,7 +19,8 @@ namespace Game.Entities.Flocking
             Vector3 front = Vector3.zero;
             for (int i = 0; i < boids.Count; i++)
             {
-                front += boids[i].Front;
+                var boid = boids[i];
+                front += boid.Front;
             }
             return front.normalized * _multiplier;
         }

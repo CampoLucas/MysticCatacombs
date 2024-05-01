@@ -16,14 +16,20 @@ namespace Game.Managers
         private int _maxBoids;
         private Collider[] _colliders;
         private LayerMask _boidMask;
+        private float _strength;
+        private GameObject _owner;
+        private float _detectionRange;
 
-        public FlockingHandler(List<IFlocking> flockings, IBoid self, LayerMask boidMask, int maxBoids = 5)
+        public FlockingHandler(GameObject owner, List<IFlocking> flockings, IBoid self, LayerMask boidMask, float detectionDetectionRange, float strength = 1, int maxBoids = 5)
         {
             Self = self;
             _flockings = flockings;
             _boidMask = boidMask;
             _maxBoids = maxBoids;
             _colliders = new Collider[_maxBoids];
+            _strength = strength;
+            _owner = owner;
+            _detectionRange = detectionDetectionRange;
         }
         
         public Vector3 GetDir(Transform target)
@@ -62,18 +68,23 @@ namespace Game.Managers
                 }
             }
 
-            return dir.normalized;
+            return dir.normalized  * _strength;
         }
 
         private void GetNeighbours()
         {
             _boids.Clear();
             
-            _boidsCount = Physics.OverlapSphereNonAlloc(Self.Position, Self.Radius, _colliders, _boidMask);
+            _boidsCount = Physics.OverlapSphereNonAlloc(Self.Position, _detectionRange, _colliders, _boidMask);
 
             for (var i = 0; i < _boidsCount; i++)
             {
                 var curr = _colliders[i];
+                if (curr.gameObject == _owner)
+                {
+                    _boidsCount--;
+                }
+                
                 var boid = curr.GetComponent<IBoid>();
                 
                 if (boid == null) continue;
@@ -96,6 +107,7 @@ namespace Game.Managers
             
             _boids = null;
             _colliders = null;
+            _owner = null;
         }
 
         public virtual void Draw()

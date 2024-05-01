@@ -1,3 +1,4 @@
+using Game.Data;
 using UnityEngine;
 using Game.Interfaces;
 
@@ -11,9 +12,11 @@ namespace Game.Entities.Steering
         {
         }
         
-        public PursuitDecorator(ISteering child, Transform origin, float strength, float time) : base(origin, strength, time)
+        public PursuitDecorator(Transform origin, PursuitData data) : base(origin, data)
         {
         }
+        
+        
 
         protected override Vector3 CalculateDir(Transform target)
         {

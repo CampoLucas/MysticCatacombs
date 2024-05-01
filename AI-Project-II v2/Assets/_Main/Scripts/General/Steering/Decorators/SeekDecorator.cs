@@ -1,3 +1,4 @@
+using Game.Data;
 using Game.Interfaces;
 using UnityEngine;
 
@@ -11,9 +12,8 @@ namespace Game.Entities.Steering
         {
         }
         
-        public SeekDecorator(ISteering child, Transform origin, float strength) : base(origin, strength)
+        public SeekDecorator(Transform origin, SteeringData data) : base(origin, data)
         {
-            Child = child;
         }
 
         protected override Vector3 CalculateDir(Transform target)

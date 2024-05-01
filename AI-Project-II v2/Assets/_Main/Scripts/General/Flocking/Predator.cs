@@ -26,11 +26,11 @@ namespace Game.Entities.Flocking
         
         public Vector3 GetDir(List<IBoid> boids, IBoid self)
         {
-            int count = Physics.OverlapSphereNonAlloc(self.Position, _predatorRange, _colliders, _whatIsPredator);
+            var count = Physics.OverlapSphereNonAlloc(self.Position, _predatorRange, _colliders, _whatIsPredator);
 
             if (count < 1) return Vector3.zero;
             
-            Vector3 dir = Vector3.zero;
+            var dir = Vector3.zero;
             
             for (int i = 0; i < count; i++)
             {

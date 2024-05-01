@@ -16,12 +16,16 @@ namespace Game.Entities.Flocking
         
         public Vector3 GetDir(List<IBoid> boids, IBoid self)
         {
-            Vector3 center = Vector3.zero;
-            Vector3 dir = Vector3.zero;
+            var center = Vector3.zero;
+            var dir = Vector3.zero;
+            
             for (int i = 0; i < boids.Count; i++)
             {
-                center += boids[i].Position;
+                var boid = boids[i];
+                
+                center += boid.Position;
             }
+            
             if (boids.Count > 0)
             {
                 center /= boids.Count;

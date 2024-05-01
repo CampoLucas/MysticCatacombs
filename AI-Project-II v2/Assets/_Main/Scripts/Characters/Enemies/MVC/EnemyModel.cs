@@ -117,7 +117,7 @@ namespace Game.Enemies
             #region ObsAvoidance
 
             Gizmos.color = Color.blue;
-            var halfObs = GetData<EnemySO>().ObsAngle / 2f;
+            var halfObs = GetData<EnemySO>().ObstacleAvoidance.Angle / 2f;
             var obsLeftRayRotation = Quaternion.AngleAxis(-halfObs, Vector3.up);
             var obsRightRayRotation = Quaternion.AngleAxis(halfObs, Vector3.up);
 
@@ -125,13 +125,13 @@ namespace Game.Enemies
             var obsRightRayDirection = obsRightRayRotation * forward;
 
             
-            Gizmos.DrawRay(position, obsLeftRayDirection * GetData<EnemySO>().ObsRange);
-            Gizmos.DrawRay(position, obsRightRayDirection * GetData<EnemySO>().ObsRange);
+            Gizmos.DrawRay(position, obsLeftRayDirection * GetData<EnemySO>().ObstacleAvoidance.Range);
+            Gizmos.DrawRay(position, obsRightRayDirection * GetData<EnemySO>().ObstacleAvoidance.Range);
 
             Handles.color = new Color(0f, 0f, 1f, 0.1f);
-            Handles.DrawSolidArc(position, Vector3.up, obsLeftRayDirection, GetData<EnemySO>().ObsAngle, GetData<EnemySO>().ObsRange);
+            Handles.DrawSolidArc(position, Vector3.up, obsLeftRayDirection, GetData<EnemySO>().ObstacleAvoidance.Angle, GetData<EnemySO>().ObstacleAvoidance.Range);
             Handles.color = Color.blue;
-            Handles.DrawWireArc(position, Vector3.up, obsLeftRayDirection, GetData<EnemySO>().ObsAngle, GetData<EnemySO>().ObsRange);
+            Handles.DrawWireArc(position, Vector3.up, obsLeftRayDirection, GetData<EnemySO>().ObstacleAvoidance.Angle, GetData<EnemySO>().ObstacleAvoidance.Range);
 
             #endregion
             

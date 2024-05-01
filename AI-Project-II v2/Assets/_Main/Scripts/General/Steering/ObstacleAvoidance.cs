@@ -1,3 +1,4 @@
+using Game.Data;
 using Game.Interfaces;
 using UnityEngine;
 
@@ -21,6 +22,12 @@ namespace Game.Entities.Steering
             _mask = mask;
             _strength = strength;
             _obs = new Collider[maxObs];
+        }
+
+        public ObstacleAvoidance(Transform origin, ObstacleAvoidanceData data) : this(origin, data.Angle, data.Range,
+            data.MaxObs, data.Strength, data.Mask)
+        {
+            
         }
 
 

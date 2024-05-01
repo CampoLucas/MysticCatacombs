@@ -54,9 +54,9 @@ namespace Game.Entities
         public T GetData<T>() where T : StatSO => (T)stats;
         public Vector3 GetVelocity() => Rigidbody.velocity;
         public Vector3 GetForward() => transform.forward;
-        public bool IsAlive() => Damageable.IsAlive();
-        public bool IsInvulnerable() => Damageable.IsInvulnerable();
-        public bool HasTakenDamage() => Damageable.HasTakenDamage();
+        public bool IsAlive() => Damageable != null && Damageable.IsAlive();
+        public bool IsInvulnerable() => Damageable != null && Damageable.IsInvulnerable();
+        public bool HasTakenDamage() => Damageable != null && Damageable.HasTakenDamage();
         public Weapon CurrentWeapon() => weapon;
         public void LightAttack() => _lightAttack.Attack();
         public void CancelLightAttack() => _lightAttack.CancelAttack();

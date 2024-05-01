@@ -9,7 +9,9 @@ namespace Game.Entities.Steering
     {
         public ISteering Child { get; private set; }
         
-        public FlockingDecorator(List<IFlocking> flockings, IBoid self, LayerMask boidMask, int maxBoids = 5) : base(flockings, self, boidMask, maxBoids)
+        public FlockingDecorator(GameObject owner, List<IFlocking> flockings, IBoid self, LayerMask boidMask, 
+            float detectionDetectionRange, float strength, int maxBoids = 5) 
+            : base(owner, flockings, self, boidMask, detectionDetectionRange, strength, maxBoids)
         {
         }
 

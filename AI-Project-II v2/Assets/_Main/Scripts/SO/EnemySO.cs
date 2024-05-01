@@ -1,5 +1,6 @@
 ﻿using Game.Data;
 using Game.Enemies;
+using Game.Managers;
 using UnityEngine;
 
 namespace Game.SO
@@ -9,12 +10,10 @@ namespace Game.SO
     {
         public float AttackRange => attackRange;
         public FieldOfViewData FOV => fieldOfView; 
-        public float ObsRange => obsRange;
-        public float ObsAngle => obsAngle;
-        public int MaxObs => maxObs;
-        public float ObsMultiplier => obsMultiplier;
-        public LayerMask ObsMask => obsMask;
-        public float PursuitTime => pursuitTime;
+        public SeekData Seek => seek;
+        public PursuitData Pursuit => pursuit;
+        public ObstacleAvoidanceData ObstacleAvoidance => obstacleAvoidance;
+        public FlockingHandlerData Flocking => flocking;
 
         [Header("Attack")]
         [SerializeField] private float attackRange = 0.5f;
@@ -22,14 +21,11 @@ namespace Game.SO
         [Header("Cone Vision")]
         [SerializeField] private FieldOfViewData fieldOfView;
         
-        [Header("Obstacle Avoidance")]
-        [SerializeField] private float obsRange = 5;
-        [SerializeField] private float obsAngle = 90;
-        [SerializeField] private int maxObs = 5;
-        [SerializeField] private float obsMultiplier = 1;
-        [SerializeField] private LayerMask obsMask;
+        [Header("Steering")] 
+        [SerializeField] private SeekData seek;
+        [SerializeField] private PursuitData pursuit;
+        [SerializeField] private ObstacleAvoidanceData obstacleAvoidance;
+        [SerializeField] private FlockingHandlerData flocking;
 
-        [Header("Pursuit")] 
-        [SerializeField] private float pursuitTime = 0.5f;
     }
 }

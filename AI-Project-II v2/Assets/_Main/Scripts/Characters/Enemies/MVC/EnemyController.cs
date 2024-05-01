@@ -25,19 +25,9 @@ namespace Game.Enemies
 
         [SerializeField] private PlayerModel player;
         [SerializeField] private Pathfinder pathfinder;
-
-        [Header("Flocking")] 
-        [SerializeField] private LayerMask floackingMask;
-        [SerializeField] private int maxBoids;
-        [SerializeField] private float alignmentMultiplier;
-        [SerializeField] private float avoidanceMultiplier;
-        [SerializeField] private float avoidanceRange;
-        [SerializeField] private float cohesionMultiplier;
         
         private EnemySO _data;
         private ISteering _currentSteering;
-        private FlockingDecorator _pursuitFlocking;
-        private FlockingDecorator _seekFlocking;
 
         protected override void InitFSM()
         {
@@ -45,30 +35,21 @@ namespace Game.Enemies
             var states = new List<EnemyStateBase<EnemyStatesEnum>>();
 
             var idle = new EnemyStateIdle<EnemyStatesEnum>();
-            //var seek = new EnemyStateSeek<EnemyStatesEnum>(Seek, ObsAvoidance);
             var t = transform;
             
-            var seek = new EnemyStateMove<EnemyStatesEnum>(
-                new SeekPathfinder(t, 1, pathfinder), 
-                new ISteeringDecorator[]
-                {
-                    new ObstacleAvoidanceDecorator(t, _data.ObsAngle, _data.ObsRange, _data.MaxObs, 0.5f,
-                        _data.ObsMask),
-                    _seekFlocking,
-                });
+            var seek = new EnemyStateMove<EnemyStatesEnum>(_data.Seek.Get(t, pathfinder), new [] 
+            { 
+                _data.ObstacleAvoidance.GetDecorator(t), 
+                _data.Flocking.GetDecorator(GetModel<EnemyModel>()) 
+            });
             seek.OnStart += OnSeekStartHandler;
             seek.OnExecute += OnSeekExecuteHandler;
             
-            
-            //var pursuit = new EnemyStatePursuit<EnemyStatesEnum>(Pursuit, ObsAvoidance);
-            var pursuit = new EnemyStateMove<EnemyStatesEnum>(
-                new Pursuit(t, 1, _data.PursuitTime), 
-                new ISteeringDecorator[]
-                {
-                    new ObstacleAvoidanceDecorator(t, _data.ObsAngle, _data.ObsRange, _data.MaxObs, 0.5f,
-                        _data.ObsMask),
-                    _pursuitFlocking,
-                });
+            var pursuit = new EnemyStateMove<EnemyStatesEnum>(_data.Pursuit.Get(t), new []
+            {
+                _data.ObstacleAvoidance.GetDecorator(t),
+                _data.Flocking.GetDecorator(GetModel<EnemyModel>())
+            });
             pursuit.OnStart += OnPursuitStartHandler;
             
             var damage = new EnemyStateDamage<EnemyStatesEnum>();
@@ -168,21 +149,6 @@ namespace Game.Enemies
             StateMachine.SetInitState(idle);
         }
 
-        private void InitFlocking()
-        {
-            var alignment = new Alignment(alignmentMultiplier);
-            var avoidance = new Avoidance(avoidanceMultiplier, avoidanceRange);
-            var cohesion = new Cohesion(cohesionMultiplier);
-
-            var flockings = new List<IFlocking>
-            {
-                alignment, avoidance, cohesion,
-            };
-
-            _pursuitFlocking = new FlockingDecorator(flockings, GetModel<EnemyModel>(), floackingMask, maxBoids);
-            _seekFlocking = new FlockingDecorator(flockings, GetModel<EnemyModel>(), floackingMask, maxBoids);
-        }
-
         // protected virtual void InitTree()
         // {
         //     var idle = new TreeAction(ActionIdle);
@@ -219,7 +185,6 @@ namespace Game.Enemies
             if (player == null) Debug.LogError("Player is null");
             if (player as IModel == null) Debug.LogError("Player as IModel is null");
             SetNewTarget(player);
-            InitFlocking();
             
             base.Start();
             

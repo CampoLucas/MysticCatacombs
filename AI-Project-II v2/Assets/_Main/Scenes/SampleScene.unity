@@ -16495,7 +16495,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2878532175023282199, guid: 4263ff5a6ff10ef45ab9fc83d34143b0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -13.57633
+      value: -10.24
       objectReference: {fileID: 0}
     - target: {fileID: 2878532175023282199, guid: 4263ff5a6ff10ef45ab9fc83d34143b0, type: 3}
       propertyPath: m_LocalPosition.y
@@ -16503,7 +16503,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2878532175023282199, guid: 4263ff5a6ff10ef45ab9fc83d34143b0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 8.193487
+      value: -0.19
       objectReference: {fileID: 0}
     - target: {fileID: 2878532175023282199, guid: 4263ff5a6ff10ef45ab9fc83d34143b0, type: 3}
       propertyPath: m_LocalRotation.w
@@ -16542,9 +16542,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1927019609}
     - target: {fileID: 8985879467679423952, guid: 4263ff5a6ff10ef45ab9fc83d34143b0, type: 3}
+      propertyPath: avoidanceRange
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8985879467679423952, guid: 4263ff5a6ff10ef45ab9fc83d34143b0, type: 3}
       propertyPath: pathfinder.target
       value: 
       objectReference: {fileID: 1927019588}
+    - target: {fileID: 8985879467679423952, guid: 4263ff5a6ff10ef45ab9fc83d34143b0, type: 3}
+      propertyPath: cohesionMultiplier
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8985879467679423952, guid: 4263ff5a6ff10ef45ab9fc83d34143b0, type: 3}
+      propertyPath: alignmentMultiplier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8985879467679423952, guid: 4263ff5a6ff10ef45ab9fc83d34143b0, type: 3}
+      propertyPath: avoidanceMultiplier
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8985879467679423952, guid: 4263ff5a6ff10ef45ab9fc83d34143b0, type: 3}
       propertyPath: <Player>k__BackingField
       value: 
@@ -21044,9 +21060,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1927019609}
     - target: {fileID: 8985879467679423952, guid: 4263ff5a6ff10ef45ab9fc83d34143b0, type: 3}
+      propertyPath: avoidanceRange
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8985879467679423952, guid: 4263ff5a6ff10ef45ab9fc83d34143b0, type: 3}
       propertyPath: pathfinder.target
       value: 
       objectReference: {fileID: 1927019588}
+    - target: {fileID: 8985879467679423952, guid: 4263ff5a6ff10ef45ab9fc83d34143b0, type: 3}
+      propertyPath: cohesionMultiplier
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8985879467679423952, guid: 4263ff5a6ff10ef45ab9fc83d34143b0, type: 3}
+      propertyPath: alignmentMultiplier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8985879467679423952, guid: 4263ff5a6ff10ef45ab9fc83d34143b0, type: 3}
+      propertyPath: avoidanceMultiplier
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8985879467679423952, guid: 4263ff5a6ff10ef45ab9fc83d34143b0, type: 3}
       propertyPath: <Player>k__BackingField
       value: 

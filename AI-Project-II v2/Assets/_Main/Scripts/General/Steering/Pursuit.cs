@@ -1,3 +1,4 @@
+using Game.Data;
 using UnityEngine;
 
 namespace Game.Entities.Steering
@@ -10,6 +11,11 @@ namespace Game.Entities.Steering
         public Pursuit(Transform origin, float strength, float time) : base(origin, strength)
         {
             _time = time;
+        }
+
+        public Pursuit(Transform origin, PursuitData data) : this(origin, data.Strength, data.PursuitTime)
+        {
+            
         }
 
         protected override Vector3 CalculateDir(Transform target)

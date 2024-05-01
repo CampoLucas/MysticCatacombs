@@ -1,12 +1,13 @@
+using Game.Pathfinding;
 using UnityEngine;
 
 namespace Game.Entities.Steering
 {
     public class SeekPathfinder : Seek
     {
-        private Pathfinding.Pathfinder pathfinder;
+        private Pathfinder pathfinder;
         
-        public SeekPathfinder(Transform origin, float strength, Pathfinding.Pathfinder pathfinder) : base(origin, strength)
+        public SeekPathfinder(Transform origin, float strength, Pathfinder pathfinder) : base(origin, strength)
         {
             this.pathfinder = pathfinder;
         }

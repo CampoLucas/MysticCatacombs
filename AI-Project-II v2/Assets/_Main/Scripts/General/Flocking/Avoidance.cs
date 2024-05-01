@@ -18,11 +18,14 @@ namespace Game.Entities.Flocking
 
         public Vector3 GetDir(List<IBoid> boids, IBoid self)
         {
-            Vector3 dir = Vector3.zero;
-            for (int i = 0; i < boids.Count; i++)
+            var dir = Vector3.zero;
+            for (var i = 0; i < boids.Count; i++)
             {
-                Vector3 diff = self.Position - boids[i].Position;
-                float distance = diff.magnitude;
+                var boid = boids[i]; 
+                
+                var diff = self.Position - boid.Position;
+                var distance = diff.magnitude;
+                
                 if (distance > _personalRange) continue;
                 dir += diff.normalized * (_multiplier - distance);
             }

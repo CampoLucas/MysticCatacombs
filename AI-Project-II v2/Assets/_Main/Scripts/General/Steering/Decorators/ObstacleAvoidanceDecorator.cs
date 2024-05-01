@@ -1,3 +1,4 @@
+using Game.Data;
 using Game.Interfaces;
 using UnityEngine;
 
@@ -7,14 +8,16 @@ namespace Game.Entities.Steering
     {
         public ISteering Child { get; private set; }
         
-        public ObstacleAvoidanceDecorator(Transform origin, float angle, float radius, int maxObs, float strength, LayerMask mask) : base(origin, angle, radius, maxObs, strength, mask)
+        public ObstacleAvoidanceDecorator(Transform origin, float angle, float radius, int maxObs, float strength, 
+            LayerMask mask) : base(origin, angle, radius, maxObs, strength, mask)
         {
         }
         
-        public ObstacleAvoidanceDecorator(ISteering child, Transform origin, float angle, float radius, int maxObs, float strength, LayerMask mask) : base(origin, angle, radius, maxObs, strength, mask)
+        public ObstacleAvoidanceDecorator(Transform origin, ObstacleAvoidanceData data) : base(origin, data)
         {
-            Child = child;
         }
+        
+        
         
         protected override Vector3 CalculateDir(Transform target)
         {
