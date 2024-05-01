@@ -12,6 +12,7 @@ using Game.Pathfinding;
 using Game.Player;
 using Game.Player.States;
 using Game.SO;
+using Random = UnityEngine.Random;
 
 namespace Game.Enemies
 {
@@ -38,6 +39,10 @@ namespace Game.Enemies
                     new ObstacleAvoidanceDecorator(t, _data.ObsAngle, _data.ObsRange, _data.MaxObs, 0.5f,
                         _data.ObsMask)
                 });
+            seek.OnStart += OnSeekStartHandler;
+            seek.OnExecute += OnSeekExecuteHandler;
+            
+            
             //var pursuit = new EnemyStatePursuit<EnemyStatesEnum>(Pursuit, ObsAvoidance);
             var pursuit = new EnemyStateMove<EnemyStatesEnum>(
                 new Pursuit(t, 1, _data.PursuitTime), new []
@@ -45,6 +50,8 @@ namespace Game.Enemies
                     new ObstacleAvoidanceDecorator(t, _data.ObsAngle, _data.ObsRange, _data.MaxObs, 0.5f,
                         _data.ObsMask)
                 });
+            pursuit.OnStart += OnPursuitStartHandler;
+            
             var damage = new EnemyStateDamage<EnemyStatesEnum>();
             var lightAttack = new EnemyStateLightAttack<EnemyStatesEnum>();
             var heavyAttack = new EnemyStateHeavyAttack<EnemyStatesEnum>();
@@ -223,6 +230,28 @@ namespace Game.Enemies
         {
             if (newTarget == null || Target == newTarget) return;
             Target = newTarget;
+        }
+
+        private void OnPursuitStartHandler()
+        {
+            GetModel<EnemyModel>().SetFollowing(true);
+        }
+
+        private void OnSeekStartHandler()
+        {
+            Model.SetTimer(Random.Range(8f, 16f));
+        }
+        
+        private void OnSeekExecuteHandler()
+        {
+            if (Model.GetTimerComplete())
+            {
+                Model.RunTimer();
+            }
+            else
+            {
+                GetModel<EnemyModel>().SetFollowing(false);
+            }
         }
 
         private void OnDrawGizmos()

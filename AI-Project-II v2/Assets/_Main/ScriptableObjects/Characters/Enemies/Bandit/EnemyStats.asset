@@ -24,7 +24,7 @@ MonoBehaviour:
   maxLevel: 15
   attackRange: 1.24
   fieldOfView:
-    range: 4
+    range: 9.73
     angle: 120
     mask:
       serializedVersion: 2
@@ -36,4 +36,4 @@ MonoBehaviour:
   obsMask:
     serializedVersion: 2
     m_Bits: 4488
-  pursuitTime: 0.5
+  pursuitTime: 10

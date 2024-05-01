@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,22 +7,26 @@ namespace Game.FSM
 {
     public class State<T> : IState<T>
     {
+        public Action OnStart;
+        public Action OnExecute;
+        public Action OnExit;
+        
         private Dictionary<T, IState<T>> _transitions = new();
         private List<T> _transitionList = new();
 
         public virtual void Start()
         {
-            
+            OnStart?.Invoke();
         }
 
         public virtual void Execute()
         {
-            
+            OnExecute?.Invoke();
         }
 
         public virtual void Exit()
         {
-            
+            OnExit?.Invoke();
         }
 
         public IState<T> GetTransition(T input) => _transitions.ContainsKey(input) ? _transitions[input] : null;

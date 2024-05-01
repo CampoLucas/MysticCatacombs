@@ -22,18 +22,18 @@ namespace Game.Entities.Steering
             var targetVelocity = GetTargetVelocity(targetPos).magnitude;
             _prevPosition = targetPos;
 
-            // if (targetVelocity > 0.01f)
-            // {
-            //     
-            // }
-            //
-            // return (targetPos - originPos).normalized * Strength;
-            var distance = Vector3.Distance(originPos, targetPos);
-            var point = targetPos + target.forward *
-                Mathf.Clamp(targetVelocity * _time, -distance, distance);
+            if (targetVelocity > 0.01f)
+            {
+                var distance = Vector3.Distance(originPos, targetPos);
+                var point = targetPos + target.forward *
+                    Mathf.Clamp(targetVelocity * _time, -distance, distance);
             
-            var dir = (point - originPos).normalized;
-            return dir * Strength;
+                var dir = (point - originPos).normalized;
+                return dir * Strength;
+            }
+            
+            return (targetPos - originPos).normalized * Strength;
+            
         }
 
         private Vector3 GetTargetVelocity(Vector3 pos)
