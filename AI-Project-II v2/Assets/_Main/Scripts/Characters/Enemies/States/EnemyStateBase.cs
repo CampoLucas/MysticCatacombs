@@ -28,39 +28,39 @@ namespace Game.Enemies.States
         /// <summary>
         /// When it awakes it subscribes to the damage and dead events because any state has to be able to transition to those states.
         /// </summary>
-        // public override void Start()
-        // {
-        //     base.Start();
-        //     if (Model.Damageable != null)
-        //     {
-        //         Model.Damageable.OnTakeDamage += OnDamageHandler;
-        //         Model.Damageable.OnDie += OnDeadHandler;
-        //     }
-        // }
+        public override void Start()
+        {
+            base.Start();
+            if (Model.Damageable != null)
+            {
+                Model.Damageable.OnTakeDamage += OnDamageHandler;
+                Model.Damageable.OnDie += OnDeadHandler;
+            }
+        }
 
         /// <summary>
         /// When it changes states it unsubscribes to all the events.
         /// </summary>
-        // public override void Exit()
-        // {
-        //     base.Exit();
-        //     UnsubscribeAll();
-        // }
+        public override void Exit()
+        {
+            base.Exit();
+            UnsubscribeAll();
+        }
 
         /// <summary>
         /// A method that unsubscribes to all events
         /// </summary>
-        // public void UnsubscribeAll()
-        // {
-        //     if (Model.Damageable != null)
-        //     {
-        //         Model.Damageable.OnTakeDamage -= OnDamageHandler;
-        //         Model.Damageable.OnDie -= OnDeadHandler;
-        //     }
-        // }
+        public void UnsubscribeAll()
+        {
+            if (Model.Damageable != null)
+            {
+                Model.Damageable.OnTakeDamage -= OnDamageHandler;
+                Model.Damageable.OnDie -= OnDeadHandler;
+            }
+        }
 
-        // private void OnDamageHandler() => Controller.StateMachine.S;
-        // private void OnDeadHandler() => Tree.Execute();
+        private void OnDamageHandler() => Continue = true;
+        private void OnDeadHandler() => Continue = true;
         public override bool CanTransition() => Continue;
 
         /// <summary>

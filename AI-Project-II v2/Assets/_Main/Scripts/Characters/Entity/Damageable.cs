@@ -28,14 +28,24 @@ namespace Game.Entities
             InitStats();
         }
 
-        private void LateUpdate()
-        {
-            _hasTakenDamage = false;
-        }
+        // private void LateUpdate()
+        // {
+        //     _hasTakenDamage = false;
+        // }
 
         public bool IsAlive() => _currentLife > 0;
         public bool IsInvulnerable() => _isInvulnerable;
-        public bool HasTakenDamage() => _hasTakenDamage;
+
+        public bool HasTakenDamage()
+        {
+            if (_hasTakenDamage)
+            {
+                _hasTakenDamage = false;
+                return true;
+            }
+
+            return false;
+        }
         
         public void TakeDamage(float damage)
         {
