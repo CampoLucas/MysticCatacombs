@@ -13,8 +13,10 @@ using UnityEditor;
 
 namespace Game.Enemies
 {
-    public class EnemyModel : EntityModel
+    public class EnemyModel : EntityModel, IBoid
     {
+        [SerializeField] private float radius;
+        
         private VisionCone visionCone;
         private bool _hasVisionCone;
         private EnemySO _data;
@@ -23,7 +25,6 @@ namespace Game.Enemies
         private InRange _range;
         private Vector3 _direction = Vector3.zero;
         private bool _isFollowing;
-        [FormerlySerializedAs("pathfinding")] public Pathfinding.Pathfinder pathfinder;
 
         
         protected override void Awake()
@@ -41,11 +42,6 @@ namespace Game.Enemies
                 _hasVisionCone = true;
                 visionCone.SetMesh(_data.FOV);
             }
-        }
-
-        private void Start()
-        {
-            pathfinder.InitPathfinder(transform);
         }
 
 
@@ -89,7 +85,6 @@ namespace Game.Enemies
                 visionCone.SetMaterial(input);
         }
 
-        public Vector3 GetWaypoint() => pathfinder.CalculateWaypoint();
         
         public override void Dispose()
         {
@@ -98,20 +93,12 @@ namespace Game.Enemies
                 _fieldOfView.Dispose();
             _fieldOfView = null;
             _data = null;
-            
-            if (pathfinder != null) pathfinder.Dispose();
-            pathfinder = null;
         }
 
         protected virtual void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.position, GetData<EnemySO>().AttackRange);
-
-            if (pathfinder != null)
-            {
-                pathfinder.OnDrawGizmosSelected();
-            }
         }
 
         #if UNITY_EDITOR
@@ -147,16 +134,15 @@ namespace Game.Enemies
             Handles.DrawWireArc(position, Vector3.up, obsLeftRayDirection, GetData<EnemySO>().ObsAngle, GetData<EnemySO>().ObsRange);
 
             #endregion
-
-            if (pathfinder != null)
-            {
-                pathfinder.OnDrawGizmos();
-            }
+            
 
 
         }
         #endif
-        
-        
+
+
+        public Vector3 Position => Transform.position;
+        public Vector3 Front => Transform.forward;
+        public float Radius => radius;
     }
 }

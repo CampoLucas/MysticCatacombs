@@ -11,12 +11,12 @@ namespace Game.Entities.Slime
     {
         public SlimeFlockingManager(SlimeSO data, IBoid self, Levelable levelable) : base(self, data)
         {
-            var predator = new Predator(data,levelable);
-            var alignment = new Alignment(data);
-            var cohesion = new Cohesion(data);
-            var avoidance = new Avoidance(data);
+            // var predator = new Predator(data,levelable);
+            // var alignment = new Alignment(data);
+            // var cohesion = new Cohesion(data);
+            // var avoidance = new Avoidance(data);
 
-            Flocking = new IFlocking[] {predator,alignment,cohesion, avoidance};
+            //Flocking = new IFlocking[] {predator,alignment,cohesion, avoidance};
         }
     }
 }

@@ -8,16 +8,10 @@ namespace Game.Entities.Flocking
     public class Cohesion : IFlocking
     {
         private readonly float _multiplier;
-        private readonly SlimeSO _data;
 
         public Cohesion(float multiplier)
         {
             _multiplier = multiplier;
-        }
-
-        public Cohesion(SlimeSO data)
-        {
-            _data = data;
         }
         
         public Vector3 GetDir(List<IBoid> boids, IBoid self)
@@ -33,7 +27,12 @@ namespace Game.Entities.Flocking
                 center /= boids.Count;
                 dir = center - self.Position;
             }
-            return dir.normalized * _data.CohesionMultiplier;
+            return dir.normalized * _multiplier;
+        }
+
+        public void Dispose()
+        {
+            
         }
     }
 }

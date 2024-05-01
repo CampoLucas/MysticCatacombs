@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using Game.DecisionTree;
 using Game.Enemies.States;
 using Game.Entities;
+using Game.Entities.Flocking;
 using Game.Entities.Steering;
 using UnityEngine;
 using Game.FSM;
 using Game.Sheared;
 using Game.Interfaces;
+using Game.Managers;
 using Game.Pathfinding;
 using Game.Player;
 using Game.Player.States;
 using Game.SO;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Game.Enemies
@@ -21,9 +24,20 @@ namespace Game.Enemies
         public IModel Target { get; private set; }
 
         [SerializeField] private PlayerModel player;
-        [SerializeField] private Pathfinder pathfinder; 
+        [SerializeField] private Pathfinder pathfinder;
+
+        [Header("Flocking")] 
+        [SerializeField] private LayerMask floackingMask;
+        [SerializeField] private int maxBoids;
+        [SerializeField] private float alignmentMultiplier;
+        [SerializeField] private float avoidanceMultiplier;
+        [SerializeField] private float avoidanceRange;
+        [SerializeField] private float cohesionMultiplier;
+        
         private EnemySO _data;
-        private ISteering CurrentSteering;
+        private ISteering _currentSteering;
+        private FlockingDecorator _pursuitFlocking;
+        private FlockingDecorator _seekFlocking;
 
         protected override void InitFSM()
         {
@@ -33,11 +47,14 @@ namespace Game.Enemies
             var idle = new EnemyStateIdle<EnemyStatesEnum>();
             //var seek = new EnemyStateSeek<EnemyStatesEnum>(Seek, ObsAvoidance);
             var t = transform;
+            
             var seek = new EnemyStateMove<EnemyStatesEnum>(
-                new SeekPathfinder(t, 1, pathfinder), new[]
+                new SeekPathfinder(t, 1, pathfinder), 
+                new ISteeringDecorator[]
                 {
                     new ObstacleAvoidanceDecorator(t, _data.ObsAngle, _data.ObsRange, _data.MaxObs, 0.5f,
-                        _data.ObsMask)
+                        _data.ObsMask),
+                    _seekFlocking,
                 });
             seek.OnStart += OnSeekStartHandler;
             seek.OnExecute += OnSeekExecuteHandler;
@@ -45,10 +62,12 @@ namespace Game.Enemies
             
             //var pursuit = new EnemyStatePursuit<EnemyStatesEnum>(Pursuit, ObsAvoidance);
             var pursuit = new EnemyStateMove<EnemyStatesEnum>(
-                new Pursuit(t, 1, _data.PursuitTime), new []
+                new Pursuit(t, 1, _data.PursuitTime), 
+                new ISteeringDecorator[]
                 {
                     new ObstacleAvoidanceDecorator(t, _data.ObsAngle, _data.ObsRange, _data.MaxObs, 0.5f,
-                        _data.ObsMask)
+                        _data.ObsMask),
+                    _pursuitFlocking,
                 });
             pursuit.OnStart += OnPursuitStartHandler;
             
@@ -149,6 +168,21 @@ namespace Game.Enemies
             StateMachine.SetInitState(idle);
         }
 
+        private void InitFlocking()
+        {
+            var alignment = new Alignment(alignmentMultiplier);
+            var avoidance = new Avoidance(avoidanceMultiplier, avoidanceRange);
+            var cohesion = new Cohesion(cohesionMultiplier);
+
+            var flockings = new List<IFlocking>
+            {
+                alignment, avoidance, cohesion,
+            };
+
+            _pursuitFlocking = new FlockingDecorator(flockings, GetModel<EnemyModel>(), floackingMask, maxBoids);
+            _seekFlocking = new FlockingDecorator(flockings, GetModel<EnemyModel>(), floackingMask, maxBoids);
+        }
+
         // protected virtual void InitTree()
         // {
         //     var idle = new TreeAction(ActionIdle);
@@ -185,6 +219,8 @@ namespace Game.Enemies
             if (player == null) Debug.LogError("Player is null");
             if (player as IModel == null) Debug.LogError("Player as IModel is null");
             SetNewTarget(player);
+            InitFlocking();
+            
             base.Start();
             
             pathfinder.InitPathfinder(transform);
@@ -212,12 +248,12 @@ namespace Game.Enemies
         {
             var targetPos = Target.Transform.position;
 
-            if (CurrentSteering == null)
+            if (_currentSteering == null)
             {
                 Debug.LogError("CurrentSteering is null", this);
                 return Vector3.zero;
             }
-            return CurrentSteering.GetDir(Target.Transform);
+            return _currentSteering.GetDir(Target.Transform).normalized;
         }
 
         public override float MoveAmount()
@@ -227,7 +263,7 @@ namespace Game.Enemies
 
         public void SetSteering(ISteering steering)
         {
-            CurrentSteering = steering;
+            _currentSteering = steering;
         }
 
         public void SetNewTarget(IModel newTarget)
@@ -268,7 +304,7 @@ namespace Game.Enemies
         {
             if (pathfinder != null) pathfinder.OnDrawGizmosSelected();
             
-            if (CurrentSteering != null) CurrentSteering.Draw();
+            if (_currentSteering != null) _currentSteering.Draw();
             
             
         }
@@ -278,8 +314,11 @@ namespace Game.Enemies
             base.Dispose();
             
             Target = null;
-            if (CurrentSteering != null) CurrentSteering.Dispose();
-            CurrentSteering = null;
+            if (_currentSteering != null) _currentSteering.Dispose();
+            _currentSteering = null;
+            
+            if (pathfinder != null) pathfinder.Dispose();
+            pathfinder = null;
         }
     }
 }

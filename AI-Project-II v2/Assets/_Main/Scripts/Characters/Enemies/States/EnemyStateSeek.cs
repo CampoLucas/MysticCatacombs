@@ -38,10 +38,10 @@ namespace Game.Enemies.States
             //     CalculatePath();
             // }
             // Model.FollowTarget(Model.GetPathfinder(), Steering, ObsAvoidance);
-            var dir = Model.GetWaypoint() - Model.Transform.position;
+            //var dir = Model.GetWaypoint() - Model.Transform.position;
             
             
-            Model.Move(dir.normalized);
+            //Model.Move(dir.normalized);
         }
     }
 }

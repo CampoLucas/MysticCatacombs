@@ -9,11 +9,11 @@ namespace Game.Entities.Flocking
     {
         private readonly float _personalRange;
         private readonly float _multiplier;
-        private readonly SlimeSO _data;
 
-        public Avoidance(SlimeSO data)
+        public Avoidance(float multiplier, float personalRange)
         {
-            _data = data;
+            _multiplier = multiplier;
+            _personalRange = personalRange;
         }
 
         public Vector3 GetDir(List<IBoid> boids, IBoid self)
@@ -23,11 +23,16 @@ namespace Game.Entities.Flocking
             {
                 Vector3 diff = self.Position - boids[i].Position;
                 float distance = diff.magnitude;
-                if (distance > _data.PersonalRange) continue;
-                dir += diff.normalized * (_data.PersonalRange - distance);
+                if (distance > _personalRange) continue;
+                dir += diff.normalized * (_multiplier - distance);
             }
 
-            return dir.normalized * _data.AvoidanceMultiplier;
+            return dir.normalized * _multiplier;
+        }
+
+        public void Dispose()
+        {
+            
         }
     }
 }

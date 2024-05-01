@@ -34,7 +34,8 @@ namespace Game.Player.States
             var dir = Controller.MoveDirection();
             dir.y = 0;
             
-            Model.Move(dir);
+            Model.Move(Model.Transform.forward);
+            //Model.Move(dir);
             Model.Rotate(dir);
             View.UpdateMovementValues(Controller.MoveAmount());
         }
