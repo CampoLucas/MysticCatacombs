@@ -12,11 +12,6 @@ using Game.Pathfinding;
 using Game.Player;
 using Game.Player.States;
 using Game.SO;
-using Unity.VisualScripting;
-using ISteering = Game.Interfaces.ISteering;
-using ObstacleAvoidance = Game.Entities.Steering.ObstacleAvoidance;
-using Pursuit = Game.Entities.Steering.Pursuit;
-using Seek = Game.Entities.Steering.Seek;
 
 namespace Game.Enemies
 {
@@ -233,6 +228,7 @@ namespace Game.Enemies
         private void OnDrawGizmos()
         {
             if (pathfinder != null) pathfinder.OnDrawGizmos();
+            if (StateMachine != null) StateMachine.Draw(transform);
         }
 
         private void OnDrawGizmosSelected()
@@ -240,6 +236,8 @@ namespace Game.Enemies
             if (pathfinder != null) pathfinder.OnDrawGizmosSelected();
             
             if (CurrentSteering != null) CurrentSteering.Draw();
+            
+            
         }
 
         public override void Dispose()

@@ -44,7 +44,7 @@ namespace Game.Entities.Steering
             base.Draw();
 #if UNITY_EDITOR
             Gizmos.color = Color.magenta;
-            Gizmos.DrawRay(Origin.position, Child.CatchDirection);
+            Child.Draw();
 #endif
         }
     }

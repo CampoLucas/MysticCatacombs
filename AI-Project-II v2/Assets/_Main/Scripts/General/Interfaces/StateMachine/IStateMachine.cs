@@ -1,5 +1,6 @@
 using System;
 using Game.FSM;
+using UnityEngine;
 
 namespace Game.Interfaces
 {
@@ -11,5 +12,6 @@ namespace Game.Interfaces
         void SetInitState(IState<T> state);
         void OnUpdate();
         void SetState(T input);
+        void Draw(Transform origin);
     }
 }

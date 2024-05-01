@@ -74,5 +74,13 @@ namespace Game.FSM
             Current = null;
             Logging.LogDestroy("State Nullified");
         }
+
+        public void Draw(Transform origin)
+        {
+#if UNITY_EDITOR
+            UnityEditor.Handles.color = Color.green;
+            UnityEditor.Handles.Label(origin.position + new Vector3(0, 2, 0), CurrentID.ToString());
+#endif
+        }
     }
 }

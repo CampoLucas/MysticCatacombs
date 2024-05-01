@@ -19,11 +19,21 @@ namespace Game.Entities.Steering
             var targetPos = target.position;
             var originPos = Origin.position;
             targetPos.y = originPos.y;
+            var targetVelocity = GetTargetVelocity(targetPos).magnitude;
+            _prevPosition = targetPos;
+
+            // if (targetVelocity > 0.01f)
+            // {
+            //     
+            // }
+            //
+            // return (targetPos - originPos).normalized * Strength;
             var distance = Vector3.Distance(originPos, targetPos);
             var point = targetPos + target.forward *
-                Mathf.Clamp(GetTargetVelocity(targetPos).magnitude * _time, -distance, distance);
+                Mathf.Clamp(targetVelocity * _time, -distance, distance);
+            
             var dir = (point - originPos).normalized;
-            return dir;
+            return dir * Strength;
         }
 
         private Vector3 GetTargetVelocity(Vector3 pos)
