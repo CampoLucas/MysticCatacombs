@@ -30,6 +30,11 @@ namespace Game.Player
             _states.Add(heavyAttack);
             _states.Add(damage);
             _states.Add(dead);
+            
+            StateMachine.AddState(new List<IState<PlayerStatesEnum>>
+            {
+                idle, move, damage, lightAttack, heavyAttack, dead,
+            });
 
             idle.AddTransition(new Dictionary<PlayerStatesEnum, IState<PlayerStatesEnum>>
             {

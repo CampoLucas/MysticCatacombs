@@ -40,6 +40,8 @@ namespace Game.FSM
         public void AddTransition(Dictionary<T, IState<T>> transitions)
         {
             _transitions = _transitions.Union(transitions).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            _transitionList.Clear();
+            _transitionList.AddRange(_transitions.Keys);
         }
         
         /// <summary>
@@ -80,15 +82,40 @@ namespace Game.FSM
         /// </summary>
         public virtual void Dispose()
         {
-            for (var i = _transitionList.Count - 1; i >= 0; i--)
+            UnsubscribeAll();
+
+            if (_transitionList != null)
             {
-                RemoveTransition(_transitionList[i]);
+                for (var i = _transitionList.Count - 1; i >= 0; i--)
+                {
+                    RemoveTransition(_transitionList[i]);
+                }
             }
+            
             _transitions = null;
             _transitionList = null;
             Logging.LogDestroy("Transition Dictionary Nulled");
         }
 
         public virtual bool CanTransition() => true;
+
+        private void UnsubscribeAll()
+        {
+            UnsubscribeAllAction(OnStart);
+            UnsubscribeAllAction(OnExecute);
+            UnsubscribeAllAction(OnExit);
+        }
+        
+        private void UnsubscribeAllAction(Action action)
+        {
+            if (action == null) return;
+            var delegates = action.GetInvocationList();
+            if (delegates.Length == 0) return;
+
+            foreach (var d in delegates)
+            {
+                action -= (Action)d;
+            }
+        }
     }
 }

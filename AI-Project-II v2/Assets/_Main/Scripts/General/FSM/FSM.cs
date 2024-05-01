@@ -14,6 +14,8 @@ namespace Game.FSM
     {
         public T CurrentID { get; private set; }
         public IState<T> Current { get; private set; }
+
+        private List<IState<T>> _states = new();
         
         /// <summary>
         /// A default constructor that creates a new FSM object.
@@ -47,6 +49,16 @@ namespace Game.FSM
                 Current.Execute();
         }
 
+        public void AddState(IState<T> state)
+        {
+            _states.Add(state);
+        }
+
+        public void AddState(List<IState<T>> states)
+        {
+            _states.AddRange(states);
+        }
+
         /// <summary>
         /// A method that performs a transition from the current state to a new state based on the provided input parameter.
         /// The new state is obtained by calling the GetTransition method on the current state.
@@ -69,7 +81,14 @@ namespace Game.FSM
         /// </summary>
         public void Dispose()
         {
-            Current.Dispose();
+            for (var i = 0; i < _states.Count; i++)
+            {
+                _states[i].Dispose();
+            }
+            _states.Clear();
+            
+            if (Current != null)
+                Current.Dispose();
             Logging.LogDestroy("State Disposed");
             Current = null;
             Logging.LogDestroy("State Nullified");

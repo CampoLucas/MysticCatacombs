@@ -52,6 +52,7 @@ namespace Game.Enemies.States
         /// </summary>
         public void UnsubscribeAll()
         {
+            if (Model == null) return;
             if (Model.Damageable != null)
             {
                 Model.Damageable.OnTakeDamage -= OnDamageHandler;
@@ -68,8 +69,8 @@ namespace Game.Enemies.States
         /// </summary>
         public override void Dispose()
         {
+            UnsubscribeAll();
             base.Dispose();
-            //UnsubscribeAll();
             Model = null;
             View = null;
             Controller = null;

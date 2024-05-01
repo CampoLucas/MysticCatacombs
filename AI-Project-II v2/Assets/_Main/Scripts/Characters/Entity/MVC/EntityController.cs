@@ -80,12 +80,14 @@ namespace Game.Entities
 
         public virtual void Dispose()
         {
-            Model = null;
-            View = null;
-            
             if (StateMachine != null)
                 StateMachine.Dispose();
             StateMachine = null;
+            
+            
+            Model = null;
+            View = null;
+            
         }
     }
 }

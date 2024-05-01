@@ -66,6 +66,10 @@ namespace Game.Enemies
             states.Add(heavyAttack);
             states.Add(dead);
             states.Add(followRoute);
+            StateMachine.AddState(new List<IState<EnemyStatesEnum>>
+            {
+                idle, seek, pursuit, damage, lightAttack, heavyAttack, dead, followRoute
+            });
             
             idle.AddTransition(new Dictionary<EnemyStatesEnum, IState<EnemyStatesEnum>>
             {

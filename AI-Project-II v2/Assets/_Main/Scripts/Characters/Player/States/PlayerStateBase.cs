@@ -65,6 +65,7 @@ namespace Game.Player.States
         /// </summary>
         public void UnsubscribeAll()
         {
+            if (Model == null) return;
             if (Model.Damageable != null)
             {
                 Model.Damageable.OnTakeDamage -= OnDamageHandler;
@@ -80,8 +81,8 @@ namespace Game.Player.States
         /// </summary>
         public override void Dispose()
         {
-            base.Dispose();
             UnsubscribeAll();
+            base.Dispose();
             Model = null;
             View = null;
             Controller = null;
