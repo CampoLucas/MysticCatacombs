@@ -41,9 +41,10 @@ MonoBehaviour:
     maxObs: 5
     mask:
       serializedVersion: 2
-      m_Bits: 8
+      m_Bits: 264
   flocking:
     strength: 1
+    range: 0
     flockingMask:
       serializedVersion: 2
       m_Bits: 128
