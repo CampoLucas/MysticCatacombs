@@ -1,42 +1,51 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 
-    public class Pool<T> where T: new()
+    public class Pool<T> : IDisposable where T: new()
     {
-        private List<T> used;
-        private List<T> unused;
+        public List<T> Used { get; private set; } = new();
+        public List<T> UnUsed { get; private set; } = new();
+        
+        private Func<T> _create;
 
-        public List<T> Used { get => used; }
-        public List<T> UnUsed { get => unused; }
-
-        public Pool()
+        public Pool(Func<T> create)
         {
-            used = new List<T>();
-            unused = new List<T>();
+            _create = create;
         }
+        
         public T Get()
         {
             T t;
-            if (unused.Count > 0)
+            if (UnUsed.Count > 0)
             {
-                t = unused.First();
-                unused.Remove(t);
+                t = UnUsed.First();
+                UnUsed.Remove(t);
             }
             else
             {
-                t = new T();
+                t = _create();
             }
-            used.Add(t);
+            Used.Add(t);
             return t;
         }
+        
         public void Recicle (T t)
         {
-            used.Remove(t);
-            unused.Add(t);
+            Used.Remove(t);
+            UnUsed.Add(t);
         }
+        
         public void Add(T t)
         {
-            used.Add(t);
+            Used.Add(t);
+        }
+
+        public void Dispose()
+        {
+            Used.Clear();
+            UnUsed.Clear();
+            _create = null;
         }
     }

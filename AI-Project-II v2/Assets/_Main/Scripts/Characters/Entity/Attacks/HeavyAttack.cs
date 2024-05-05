@@ -8,7 +8,7 @@ namespace Game.Entities
 {
     public class HeavyAttack : LightAttack
     {
-        protected override float GetStartTime() => Entity.CurrentWeapon().GetData().HeavyAttackTriggerStarts;
-        protected override float GetEndTime() => Entity.CurrentWeapon().GetData().HeavyAttackTriggerEnds;
+        protected override float GetStartTime() => Entity.CurrentWeapon().Stats.HeavyAttackTriggerStarts;
+        protected override float GetEndTime() => Entity.CurrentWeapon().Stats.HeavyAttackTriggerEnds;
     }
 }

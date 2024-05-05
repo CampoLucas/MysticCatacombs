@@ -29,19 +29,19 @@ namespace Game.Entities
                 if (!_activated && _timer >= GetStartTime())
                 {
                     _activated = true;
-                    Entity.CurrentWeapon().EnableTrigger();
+                    Entity.CurrentWeapon().Begin();
                 }
                 if (!_deactivated && _timer >= GetEndTime())
                 {
                     _deactivated = false;
-                    Entity.CurrentWeapon().DisableTrigger();
+                    Entity.CurrentWeapon().End();
                     _enable = false;
                 }
             }
         }
 
-        protected virtual float GetStartTime() => Entity.CurrentWeapon().GetData().LightAttackTriggerStarts;
-        protected virtual float GetEndTime() => Entity.CurrentWeapon().GetData().LightAttackTriggerEnds;
+        protected virtual float GetStartTime() => Entity.CurrentWeapon().Stats.LightAttackTriggerStarts;
+        protected virtual float GetEndTime() => Entity.CurrentWeapon().Stats.LightAttackTriggerEnds;
 
         public void Attack()
         {
@@ -54,7 +54,7 @@ namespace Game.Entities
         public void CancelAttack()
         {
             _enable = false;
-            Entity.CurrentWeapon().DisableTrigger();
+            Entity.CurrentWeapon().End();
         }
 
         private void OnDestroy()

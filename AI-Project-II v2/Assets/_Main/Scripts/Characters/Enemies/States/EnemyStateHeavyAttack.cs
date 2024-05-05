@@ -5,8 +5,8 @@
         protected override void Attack()
         {
             Model.HeavyAttack();
-            View.CrossFade(Model.CurrentWeapon().GetData().HeavyAttack01.EventHash);
-            var timer = Model.CurrentWeapon().GetData().HeavyAttack01.Duration;
+            View.CrossFade(Model.CurrentWeapon().Stats.HeavyAttack01.EventHash);
+            var timer = Model.CurrentWeapon().Stats.HeavyAttack01.Duration;
             Model.SetTimer(timer);
         }
 

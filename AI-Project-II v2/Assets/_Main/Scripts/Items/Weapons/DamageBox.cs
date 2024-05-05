@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Game.CustomCollider;
 using UnityEngine;
 using Game.SO;
 using Game.Sheared;
@@ -10,7 +11,7 @@ namespace Game.Items.Weapons
     {
         [SerializeField] private bool destroyOnEnter;
         private Damageable _damageable;
-        private BoxCastTrigger _trigger;
+        private Trigger _trigger;
         private WeaponSO _data;
         private Dictionary<GameObject, Damageable> _damageables = new();
         
@@ -29,7 +30,7 @@ namespace Game.Items.Weapons
         private void Start()
         {
             if (_trigger)
-                _trigger.OnCastEnter += CastEnter;
+                _trigger.OnEnter += CastEnter;
         }
 
         private void Damage(Damageable damageable)
@@ -58,10 +59,11 @@ namespace Game.Items.Weapons
 
         private void OnDestroy()
         {
-            _trigger.OnCastEnter -= CastEnter;
+            _trigger.OnEnter -= CastEnter;
             _trigger = null;
             _data = null;
             _damageables = null;
+            
         }
     }
 }

@@ -39,8 +39,8 @@ namespace Game.Enemies.States
         protected virtual void Attack()
         {
             Model.LightAttack();
-            View.CrossFade(Model.CurrentWeapon().GetData().LightAttack01.EventHash);
-            var timer = Model.CurrentWeapon().GetData().LightAttack01.Duration;
+            View.CrossFade(Model.CurrentWeapon().Stats.LightAttack01.EventHash);
+            var timer = Model.CurrentWeapon().Stats.LightAttack01.Duration;
             Model.SetTimer(timer);
         }
         

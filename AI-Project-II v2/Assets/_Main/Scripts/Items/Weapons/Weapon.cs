@@ -1,4 +1,5 @@
 ﻿using System;
+using Game.CustomCollider;
 using UnityEngine;
 using Game.SO;
 using Game.Sheared;
@@ -9,7 +10,7 @@ namespace Game.Items.Weapons
     public class Weapon : MonoBehaviour
     {
         [FormerlySerializedAs("stats")] [SerializeField] protected WeaponSO Stats;
-        private BoxCastTrigger _trigger;
+        private Trigger _trigger;
         private DamageBox _damageBox;
 
         private void InitData()
@@ -21,7 +22,7 @@ namespace Game.Items.Weapons
 
         private void Awake()
         {
-            _trigger = GetComponentInChildren<BoxCastTrigger>();
+            _trigger = GetComponentInChildren<Trigger>();
             _damageBox = GetComponentInChildren<DamageBox>();
             InitData();
         }

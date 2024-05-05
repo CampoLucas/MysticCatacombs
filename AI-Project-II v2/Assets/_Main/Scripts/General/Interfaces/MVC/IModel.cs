@@ -2,6 +2,7 @@ using System;
 using Game.Entities;
 using Game.Items.Weapons;
 using Game.SO;
+using Game.WeaponSystem;
 using UnityEngine;
 
 namespace Game.Interfaces
@@ -34,7 +35,7 @@ namespace Game.Interfaces
 
         #region Attacks
 
-        Weapon CurrentWeapon();
+        BaseWeapon CurrentWeapon();
         public void LightAttack();
         public void CancelLightAttack();
         public void HeavyAttack();

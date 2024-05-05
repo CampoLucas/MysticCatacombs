@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Game.Interfaces;
-using Game.Items.Weapons;
 using Game.Sheared;
 using Game.SO;
+using Game.WeaponSystem;
+using Weapon = Game.Items.Weapons.Weapon;
 
 namespace Game.Entities
 {
@@ -15,7 +16,7 @@ namespace Game.Entities
 
         [SerializeField] private bool spawnable;
         [SerializeField] private StatSO stats;
-        [SerializeField] private Weapon weapon;
+        [SerializeField] private BaseWeapon weapon;
 
         protected Rigidbody Rigidbody { get; private set; }
         private IMovement _walkMovement;
@@ -57,7 +58,7 @@ namespace Game.Entities
         public bool IsAlive() => Damageable != null && Damageable.IsAlive();
         public bool IsInvulnerable() => Damageable != null && Damageable.IsInvulnerable();
         public bool HasTakenDamage() => Damageable != null && Damageable.HasTakenDamage();
-        public Weapon CurrentWeapon() => weapon;
+        public BaseWeapon CurrentWeapon() => weapon;
         public void LightAttack() => _lightAttack.Attack();
         public void CancelLightAttack() => _lightAttack.CancelAttack();
         public void HeavyAttack() => _heavyAttack.Attack();

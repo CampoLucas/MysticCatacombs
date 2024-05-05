@@ -1294,6 +1294,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 22774232}
     m_Modifications:
+    - target: {fileID: 83904549037079271, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.0933397
+      objectReference: {fileID: 0}
+    - target: {fileID: 83904549037079271, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.008891991
+      objectReference: {fileID: 0}
     - target: {fileID: 2878532175023282192, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
       propertyPath: m_Name
       value: Spider (1)
@@ -1341,6 +1349,14 @@ PrefabInstance:
     - target: {fileID: 2878532175023282199, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080591588049154742, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7293313
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080591588049154742, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.2611809
       objectReference: {fileID: 0}
     - target: {fileID: 8985879467679423952, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
       propertyPath: player
@@ -5591,6 +5607,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1197780570}
     m_Modifications:
+    - target: {fileID: 83904549037079271, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.0933397
+      objectReference: {fileID: 0}
+    - target: {fileID: 83904549037079271, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.008891991
+      objectReference: {fileID: 0}
     - target: {fileID: 2878532175023282192, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
       propertyPath: m_Name
       value: Spider
@@ -5638,6 +5662,14 @@ PrefabInstance:
     - target: {fileID: 2878532175023282199, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080591588049154742, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7293313
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080591588049154742, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.2611809
       objectReference: {fileID: 0}
     - target: {fileID: 8985879467679423952, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
       propertyPath: player
@@ -7636,6 +7668,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 22774232}
     m_Modifications:
+    - target: {fileID: 83904549037079271, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.0933397
+      objectReference: {fileID: 0}
+    - target: {fileID: 83904549037079271, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.008891991
+      objectReference: {fileID: 0}
     - target: {fileID: 2878532175023282192, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
       propertyPath: m_Name
       value: Spider (2)
@@ -7683,6 +7723,14 @@ PrefabInstance:
     - target: {fileID: 2878532175023282199, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080591588049154742, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7293313
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080591588049154742, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.2611809
       objectReference: {fileID: 0}
     - target: {fileID: 8985879467679423952, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
       propertyPath: player
@@ -8945,6 +8993,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 22774232}
     m_Modifications:
+    - target: {fileID: 83904549037079271, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.0933397
+      objectReference: {fileID: 0}
+    - target: {fileID: 83904549037079271, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.008891991
+      objectReference: {fileID: 0}
     - target: {fileID: 2878532175023282192, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
       propertyPath: m_Name
       value: Spider (3)
@@ -8992,6 +9048,14 @@ PrefabInstance:
     - target: {fileID: 2878532175023282199, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080591588049154742, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7293313
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080591588049154742, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.2611809
       objectReference: {fileID: 0}
     - target: {fileID: 8985879467679423952, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
       propertyPath: player
@@ -19790,6 +19854,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1197780570}
     m_Modifications:
+    - target: {fileID: 83904549037079271, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.0933397
+      objectReference: {fileID: 0}
+    - target: {fileID: 83904549037079271, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.008891991
+      objectReference: {fileID: 0}
     - target: {fileID: 2878532175023282192, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
       propertyPath: m_Name
       value: Spider (1)
@@ -19837,6 +19909,14 @@ PrefabInstance:
     - target: {fileID: 2878532175023282199, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080591588049154742, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7293313
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080591588049154742, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.2611809
       objectReference: {fileID: 0}
     - target: {fileID: 8985879467679423952, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
       propertyPath: player
@@ -28356,6 +28436,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 22774232}
     m_Modifications:
+    - target: {fileID: 83904549037079271, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.0933397
+      objectReference: {fileID: 0}
+    - target: {fileID: 83904549037079271, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.008891991
+      objectReference: {fileID: 0}
     - target: {fileID: 2878532175023282192, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
       propertyPath: m_Name
       value: Spider
@@ -28403,6 +28491,14 @@ PrefabInstance:
     - target: {fileID: 2878532175023282199, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080591588049154742, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7293313
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080591588049154742, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.2611809
       objectReference: {fileID: 0}
     - target: {fileID: 8985879467679423952, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
       propertyPath: player
