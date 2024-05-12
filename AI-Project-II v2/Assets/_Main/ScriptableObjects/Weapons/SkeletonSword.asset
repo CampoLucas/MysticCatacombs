@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: SkeletonSword
   m_EditorClassIdentifier: 
   damage: 1
+  range: 1.8
   weaponIndex: 1
   lightAttack: {fileID: 11400000, guid: 39a4d3a0e5c462347a143ce0a9ed55b4, type: 2}
   heavyAttack: {fileID: 11400000, guid: b801a826fe2542c4eb191365fbd40039, type: 2}

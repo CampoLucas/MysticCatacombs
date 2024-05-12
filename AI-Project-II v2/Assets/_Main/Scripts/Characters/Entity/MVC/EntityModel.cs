@@ -34,6 +34,11 @@ namespace Game.Entities
             Damageable = GetComponent<Damageable>();
             _waitTimer = new WaitTimer();
             _level = new Levelable(stats.Level, stats.MaxLevel);
+            
+        }
+
+        private void Start()
+        {
             weapon.Equip(gameObject);
         }
 
@@ -41,6 +46,7 @@ namespace Game.Entities
 
         public virtual void Move(Vector3 dir, float speed) => _movement?.Move(dir, speed);
         public void Rotate(Vector3 dir) => _rotate?.Rotate(dir);
+        public void Rotate(Vector3 dir, float speed) => _rotate?.Rotate(dir, speed);
         public StatSO GetData() => stats;
         public T GetData<T>() where T : StatSO => (T)stats;
         public Vector3 GetVelocity() => Controller.velocity;

@@ -21,6 +21,13 @@ namespace Game.Entities
 
         public void Rotate(Vector3 dir)
         {
+            Rotate(dir, _data.RotSpeed);
+        }
+
+        public void Rotate(Vector3 dir, float speed, float delta = -1)
+        {
+            if (delta < 0) delta = Time.deltaTime;
+            
             _lastTargetDir = dir.normalized;
 
             if (_lastTargetDir == Vector3.zero)
@@ -28,10 +35,8 @@ namespace Game.Entities
                 _lastTargetDir = _transform.forward;
             }
 
-            var rs = _data.RotSpeed; // rs == rotation speed
-
             var tr = Quaternion.LookRotation(_lastTargetDir); // tr == target rotation
-            _targetRotation = Quaternion.Slerp(_transform.rotation, tr, rs * Time.deltaTime);
+            _targetRotation = Quaternion.Slerp(_transform.rotation, tr, speed * delta);
 
             _transform.rotation = _targetRotation;
         }

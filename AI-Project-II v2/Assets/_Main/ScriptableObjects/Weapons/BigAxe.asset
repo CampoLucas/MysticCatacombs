@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: BigAxe
   m_EditorClassIdentifier: 
   damage: 3
+  range: 2.22
   weaponIndex: 3
   lightAttack: {fileID: 11400000, guid: 11842203a216491458b03da530bdfe0f, type: 2}
   heavyAttack: {fileID: 11400000, guid: b75811c7b5d2e8d4286f5c9cf81064d0, type: 2}

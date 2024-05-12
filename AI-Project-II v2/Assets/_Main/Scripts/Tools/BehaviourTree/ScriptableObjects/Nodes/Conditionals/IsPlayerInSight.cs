@@ -37,6 +37,14 @@ namespace BehaviourTreeAsset.Runtime.Nodes
                 return NodeState.Failure;
             }
 
+            if (_controller.Target == null)
+            {
+#if UNITY_EDITOR
+                Debug.LogWarning("The EnemyModel doesn't have a target", Owner);
+#endif
+                return NodeState.Failure;
+            }
+
             return _model && _model.IsTargetInSight(_controller.Target.Transform)
                 ? NodeState.Success
                 : NodeState.Failure;

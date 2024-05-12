@@ -24,14 +24,14 @@ namespace Game.CustomCollider
                 {
                     if (hit != null)
                     {
-                        if (OnEnter != null) OnEnter(hit);
+                        if (OnEnter != null) OnEnter?.Invoke(hit);
                         CachedNewColliders.Add(hit);
                     }
                 }
                 else if (hit != null && hit.enabled)
                 {
                     if (OnStay != null)
-                        OnStay(hit);
+                        OnStay?.Invoke(hit);
                 }
             }
 
@@ -42,7 +42,7 @@ namespace Game.CustomCollider
                 if (!Array.Exists(_hits, element => element == other)  && other.enabled)
                 {
                     if (OnExit != null)
-                        OnExit(other);
+                        OnExit?.Invoke(other);
                     CollidersInBox.RemoveAt(i);
                 }
             }

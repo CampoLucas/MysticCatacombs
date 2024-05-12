@@ -82,7 +82,7 @@ namespace Game.Enemies
         public bool IsTargetInSight(Transform target) => CheckRange(target) && CheckAngle(target) && CheckView(target);
         public bool IsFollowing() => _isFollowing;
         public void SetFollowing(bool isFollowing) => _isFollowing = isFollowing;
-        public bool TargetInRange(Transform target) => _range.GetBool(target, _data.AttackRange);
+        public bool TargetInRange(Transform target) => _range.GetBool(target, CurrentWeapon().Stats.Range);
         public bool IsTargetAlive(IModel target) => target != null && target.IsAlive();
 
         public void SetVisionConeColor(VisionConeEnum input)
@@ -103,8 +103,16 @@ namespace Game.Enemies
 
         protected virtual void OnDrawGizmosSelected()
         {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, GetData<EnemySO>().AttackRange);
+            #region AttackRange
+
+            if (CurrentWeapon())
+            {
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawWireSphere(transform.position, CurrentWeapon().Stats.Range);
+
+            }
+
+            #endregion
         }
 
         #if UNITY_EDITOR
@@ -140,8 +148,8 @@ namespace Game.Enemies
             Handles.DrawWireArc(position, Vector3.up, obsLeftRayDirection, GetData<EnemySO>().ObstacleAvoidance.Angle, GetData<EnemySO>().ObstacleAvoidance.Range);
 
             #endregion
-            
 
+            
 
         }
         #endif

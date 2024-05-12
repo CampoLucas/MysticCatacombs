@@ -9,12 +9,14 @@ namespace Game.SO
     public class WeaponSO : ScriptableObject
     {
         public float Damage => damage;
+        public float Range => range;
         public int WeaponIndex => weaponIndex;
         public AttackSO LightAttack => lightAttack;
         public AttackSO HeavyAttack => heavyAttack;
         
         [Header("Settings")] 
         [SerializeField] private float damage;
+        [SerializeField] private float range;
 
         [Header("Animation")] 
         [Range(0, 3)] [SerializeField] private int weaponIndex;

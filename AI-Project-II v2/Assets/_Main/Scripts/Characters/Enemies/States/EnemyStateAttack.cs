@@ -27,6 +27,9 @@ namespace Game.Player.States
             _timer = 0;
             _triggered = false;
             Continue = false;
+            
+            
+            Model.Rotate((Controller.Target.Transform.position - Model.transform.position).normalized, 80);
         }
 
         public override void Execute()
@@ -35,7 +38,8 @@ namespace Game.Player.States
             _timer += Time.deltaTime;
             if (_timer < _currentAttack.Duration)
             {
-
+                
+                
                 if (!_triggered && TriggerEvent(_timer))
                 {
                     _triggered = true;

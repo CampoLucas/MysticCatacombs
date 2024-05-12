@@ -26,9 +26,9 @@ namespace Game.CustomCollider
             }
         }
 
-        public Action<Collider> OnEnter = delegate {  };
-        public Action<Collider> OnStay = delegate {  };
-        public Action<Collider> OnExit = delegate {  };
+        public Action<Collider> OnEnter = delegate { };
+        public Action<Collider> OnStay = delegate { };
+        public Action<Collider> OnExit = delegate { };
         
         [Header("Detection Settings")]
         [SerializeField] protected LayerMask damageLayerMask;

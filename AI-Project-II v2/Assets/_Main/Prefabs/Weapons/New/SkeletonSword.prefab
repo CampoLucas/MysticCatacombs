@@ -48,7 +48,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a933f888e1434283b43180169f16eb8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  owner: {fileID: 0}
   stats: {fileID: 11400000, guid: 6a45e5fc7faf0c84d9f5333e942b7198, type: 2}
   modules:
   - {fileID: 6112167269359312907}
@@ -95,7 +94,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageLayerMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 192
   offset: {x: 0, y: 0.63, z: 0}
   size: {x: 0.05, y: 1, z: 0.2}
 --- !u!1 &7929219905371388070

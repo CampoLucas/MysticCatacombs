@@ -20,6 +20,7 @@ namespace Game.Interfaces
         void Move(Vector3 dir);
         void Move(Vector3 dir, float speed);
         void Rotate(Vector3 dir);
+        void Rotate(Vector3 dir, float speed);
         Vector3 GetVelocity();
         Vector3 GetForward();
 
