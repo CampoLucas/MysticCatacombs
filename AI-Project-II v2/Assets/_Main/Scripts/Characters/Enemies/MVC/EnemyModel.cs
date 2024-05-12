@@ -122,7 +122,7 @@ namespace Game.Enemies
             
             #region FOV
 
-            GetData<EnemySO>().DrawFOVs(transform);
+            GetData<EnemySO>().DrawFOVs(transform1);
 
             #endregion
 
@@ -146,9 +146,6 @@ namespace Game.Enemies
             Handles.DrawWireArc(position, Vector3.up, obsLeftRayDirection, GetData<EnemySO>().ObstacleAvoidance.Angle, GetData<EnemySO>().ObstacleAvoidance.Range);
 
             #endregion
-
-            
-
         }
         #endif
 

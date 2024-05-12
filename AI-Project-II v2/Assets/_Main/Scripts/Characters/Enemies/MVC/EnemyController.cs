@@ -54,7 +54,8 @@ namespace Game.Enemies
                 });
             pursuit.OnStart += OnPursuitStartHandler;
             
-            var lookAtTarget = new EnemyStateMove<EnemyStatesEnum>(_data.Pursuit.Get(t), Model.GetData().MoveSpeed, move: false);
+            var lookAtTarget = new EnemyStateMove<EnemyStatesEnum>(_data.Pursuit.Get(t), Model.GetData().MoveSpeed, move: false, moveAmount: 0.5f);
+            lookAtTarget.OnStart += OnPursuitStartHandler;
             
             var damage = new EnemyStateDamage<EnemyStatesEnum>();
             var lightAttack = new EnemyStateAttack<EnemyStatesEnum>(Model.CurrentWeapon().Stats.LightAttack);

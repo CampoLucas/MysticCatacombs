@@ -632,7 +632,7 @@ GameObject:
   - component: {fileID: 56466937}
   - component: {fileID: 298113399026734968}
   m_Layer: 7
-  m_Name: Skeleton(Ranged)
+  m_Name: Mage_skeleton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -665,7 +665,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.25
+  m_Radius: 0.5
   m_Height: 2.2
   m_Direction: 1
   m_Center: {x: 0, y: 1.1, z: 0}
@@ -681,7 +681,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 2.2
-  m_Radius: 0.25
+  m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
@@ -738,7 +738,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnable: 0
-  stats: {fileID: 11400000, guid: a0266c3916141964b95f06451acf23b8, type: 2}
+  stats: {fileID: 11400000, guid: c7551210c0623724a9d2f16524750292, type: 2}
   weapon: {fileID: 3145662436936905714}
   radius: 20
 --- !u!114 &5450059233993777539
