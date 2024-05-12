@@ -53,6 +53,12 @@ namespace Game.Enemies
             base.Move(_direction);
         }
 
+        public override void Move(Vector3 dir, float speed)
+        {
+            _direction = dir;
+            base.Move(dir, speed);
+        }
+
         private bool CheckRange(Transform target) => _fieldOfView.CheckRange(target);
         private bool CheckAngle(Transform target) => _fieldOfView.CheckAngle(target);
         private bool CheckView(Transform target) => _fieldOfView.CheckView(target);

@@ -14,14 +14,19 @@ namespace Game.WeaponSystem.Modules
 
         private void Awake()
         {
-            _damageBox = GetComponentInChildren<Damager>();
+            _damageBox = GetComponent<Damager>();
             
         }
 
         private void Start()
         {
-            _damageBox.SetOwner(MainWeapon.Owner);
             SubscribeDamager();
+        }
+
+        protected override void OnSetOwner()
+        {
+            base.OnSetOwner();
+            _damageBox.SetOwner(MainWeapon.Owner);
         }
 
         protected override void OnBegin()

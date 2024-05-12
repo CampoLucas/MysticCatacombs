@@ -24,7 +24,6 @@ namespace Game.Player.States
             base.Start();
             Model.Damageable.OnTakeDamage += TakeDamageHandler;
             Model.Damageable.OnDie += OnDieHandler;
-            Model.SetMovement(Model.GetRunningMovement());
         }
 
         public override void Execute()
@@ -47,7 +46,7 @@ namespace Game.Player.States
                 Controller.StateMachine.SetState(_inHeavyAttack);
             }
             
-            Model.Move(Controller.MoveDirection());
+            Model.Move(Controller.MoveDirection(), Model.GetData().MoveSpeed);
             Model.Rotate(Controller.MoveDirection());
             View.UpdateMovementValues(Controller.MoveAmount());
         }

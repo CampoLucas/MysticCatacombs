@@ -8,7 +8,6 @@ namespace Game.Enemies.States
         public override void Start()
         {
             base.Start();
-            Model.SetMovement(Model.GetWalkingMovement());
             Model.SetVisionConeColor(VisionConeEnum.Clear);
         }
 

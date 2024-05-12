@@ -36,10 +36,6 @@ namespace Game.Interfaces
         #region Attacks
 
         BaseWeapon CurrentWeapon();
-        public void LightAttack();
-        public void CancelLightAttack();
-        public void HeavyAttack();
-        public void CancelHeavyAttack();
 
         #endregion
 
@@ -64,12 +60,8 @@ namespace Game.Interfaces
         
         #region Strategy
 
-        IMovement GetWalkingMovement();
-        IMovement GetRunningMovement();
-        void SetMovement(IMovement movement);
+        void SetMovement(IMovement movement, bool dispose = false);
         void SetRotation(IRotation rotation);
-        void SetLightAttack(IAttack attack);
-        void SetHeavyAttack(IAttack attack);
 
         #endregion
     }

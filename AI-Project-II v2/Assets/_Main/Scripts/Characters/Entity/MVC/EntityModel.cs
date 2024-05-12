@@ -18,51 +18,37 @@ namespace Game.Entities
         [SerializeField] private StatSO stats;
         [SerializeField] private BaseWeapon weapon;
 
-        protected Rigidbody Rigidbody { get; private set; }
-        private IMovement _walkMovement;
-        private IMovement _runMovement;
+        protected CharacterController Controller { get; private set; }
         private IMovement _movement;
         private IRotation _rotate;
-        private IAttack _lightAttack;
-        private IAttack _heavyAttack;
         private WaitTimer _waitTimer;
         private Levelable _level;
 
         protected virtual void Awake()
         {
             Transform = transform;
-            Rigidbody = GetComponent<Rigidbody>();
+            Controller = GetComponent<CharacterController>();
 
-            _runMovement = new Movement(stats.MoveSpeed, stats.MoveLerpSpeed, Rigidbody);
-            _walkMovement = new Movement(stats.WalkSpeed, stats.MoveLerpSpeed, Rigidbody);
-            SetMovement(_runMovement);
+            SetMovement(new Movement(Controller));
             SetRotation(new Rotation(transform, stats));
-            _lightAttack = GetComponent<LightAttack>();
-            _heavyAttack = GetComponent<HeavyAttack>();
             Damageable = GetComponent<Damageable>();
             _waitTimer = new WaitTimer();
             _level = new Levelable(stats.Level, stats.MaxLevel);
+            weapon.Equip(gameObject);
         }
 
         public virtual void Move(Vector3 dir) => _movement?.Move(dir);
 
-        public virtual void Move(Vector3 dir, float speed)
-        {
-            
-        }
+        public virtual void Move(Vector3 dir, float speed) => _movement?.Move(dir, speed);
         public void Rotate(Vector3 dir) => _rotate?.Rotate(dir);
         public StatSO GetData() => stats;
         public T GetData<T>() where T : StatSO => (T)stats;
-        public Vector3 GetVelocity() => Rigidbody.velocity;
+        public Vector3 GetVelocity() => Controller.velocity;
         public Vector3 GetForward() => transform.forward;
         public bool IsAlive() => Damageable != null && Damageable.IsAlive();
         public bool IsInvulnerable() => Damageable != null && Damageable.IsInvulnerable();
         public bool HasTakenDamage() => Damageable != null && Damageable.HasTakenDamage();
         public BaseWeapon CurrentWeapon() => weapon;
-        public void LightAttack() => _lightAttack.Attack();
-        public void CancelLightAttack() => _lightAttack.CancelAttack();
-        public void HeavyAttack() => _heavyAttack.Attack();
-        public void CancelHeavyAttack() => _heavyAttack.CancelAttack();
         public void IncreaseLevel() => _level.IncreaseLevel();
         public int GetCurrentLevel() => _level.CurrentLevel;
 
@@ -80,22 +66,10 @@ namespace Game.Entities
 
         #region Strategy
         
-        public IMovement GetWalkingMovement()
-        {
-            if (_walkMovement == null) return default;
-            return _walkMovement;
-        }
-
-        public IMovement GetRunningMovement()
-        {
-            if (_runMovement == null) return default;
-            return _runMovement;
-        }
-
-        public void SetMovement(IMovement movement)
+        public void SetMovement(IMovement movement, bool dispose = false)
         {
             if (_movement == movement) return;
-            if (_movement != null && !(movement == _walkMovement || movement == _runMovement))
+            if (dispose && _movement != null)
                 _movement.Dispose();
             _movement = movement;
         }
@@ -106,16 +80,6 @@ namespace Game.Entities
             if (_rotate != null)
                 _rotate.Dispose();
             _rotate = rotation;
-        }
-
-        public void SetLightAttack(IAttack attack)
-        {
-            _lightAttack = attack;
-        }
-
-        public void SetHeavyAttack(IAttack attack)
-        {
-            _heavyAttack = attack;
         }
         
         #endregion
@@ -135,19 +99,7 @@ namespace Game.Entities
 
             stats = null;
             weapon = null;
-            Rigidbody = null;
-
-            if (_walkMovement != null)
-            {
-                _walkMovement.Dispose();
-                _walkMovement = null;
-            }
-
-            if (_runMovement != null)
-            {
-                _runMovement.Dispose();
-                _runMovement = null;
-            }
+            Controller = null;
 
             if (_movement != null)
             {
@@ -159,18 +111,6 @@ namespace Game.Entities
             {
                 _rotate.Dispose();
                 _rotate = null;
-            }
-
-            if (_lightAttack != null)
-            {
-                _lightAttack.Dispose();
-                _lightAttack = null;
-            }
-
-            if (_heavyAttack != null)
-            {
-                _heavyAttack.Dispose();
-                _heavyAttack = null;
             }
 
             _waitTimer = null;

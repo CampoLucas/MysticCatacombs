@@ -37,24 +37,26 @@ namespace Game.Enemies
             var idle = new EnemyStateIdle<EnemyStatesEnum>();
             var t = transform;
             
-            var seek = new EnemyStateMove<EnemyStatesEnum>(_data.Seek.Get(t, pathfinder), new [] 
-            { 
-                _data.ObstacleAvoidance.GetDecorator(t), 
-                _data.Flocking.GetDecorator(GetModel<EnemyModel>()) 
-            });
+            var seek = new EnemyStateMove<EnemyStatesEnum>(_data.Seek.Get(t, pathfinder), Model.GetData().MoveSpeed, 
+                new [] 
+                { 
+                    _data.ObstacleAvoidance.GetDecorator(t), 
+                    _data.Flocking.GetDecorator(GetModel<EnemyModel>()) 
+                });
             seek.OnStart += OnSeekStartHandler;
             seek.OnExecute += OnSeekExecuteHandler;
             
-            var pursuit = new EnemyStateMove<EnemyStatesEnum>(_data.Pursuit.Get(t), new []
-            {
-                _data.ObstacleAvoidance.GetDecorator(t),
-                _data.Flocking.GetDecorator(GetModel<EnemyModel>())
-            });
+            var pursuit = new EnemyStateMove<EnemyStatesEnum>(_data.Pursuit.Get(t), Model.GetData().MoveSpeed, 
+                new []
+                {
+                    _data.ObstacleAvoidance.GetDecorator(t),
+                    _data.Flocking.GetDecorator(GetModel<EnemyModel>())
+                });
             pursuit.OnStart += OnPursuitStartHandler;
             
             var damage = new EnemyStateDamage<EnemyStatesEnum>();
-            var lightAttack = new EnemyStateLightAttack<EnemyStatesEnum>();
-            var heavyAttack = new EnemyStateHeavyAttack<EnemyStatesEnum>();
+            var lightAttack = new EnemyStateAttack<EnemyStatesEnum>(Model.CurrentWeapon().Stats.LightAttack);
+            var heavyAttack = new EnemyStateAttack<EnemyStatesEnum>(Model.CurrentWeapon().Stats.HeavyAttack);
             var dead = new EnemyStateDeath<EnemyStatesEnum>();
             var followRoute = new EnemyStateFollowRoute<EnemyStatesEnum>();
             

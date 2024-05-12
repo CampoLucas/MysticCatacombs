@@ -10,6 +10,11 @@ namespace Game.WeaponSystem.Modules
             OnInit();
         }
 
+        public void SetOwner()
+        {
+            OnSetOwner();
+        }
+
         protected virtual void OnInit() { }
         protected override void OnBegin() { }
         protected override void OnEnd() { }
@@ -18,5 +23,7 @@ namespace Game.WeaponSystem.Modules
         {
             MainWeapon = null;
         }
+
+        protected virtual void OnSetOwner() { }
     }
 }

@@ -7,41 +7,27 @@ namespace Game.Entities
 {
     public class Movement : IMovement
     {
-        public Rigidbody Rigidbody => _rb;
-        public float Speed => _speed;
-        public float LerpSpeed => _lerpSpeed;
+        private CharacterController _controller;
 
-        private Rigidbody _rb;
-        private Vector3 _normalVector;
-        private Vector3 _cachedProjectedVelocity;
-        private float _speed;
-        public float _lerpSpeed;
-
-        public Movement(float speed, float lerpSpeed, Rigidbody rb)
+        public Movement(CharacterController controller)
         {
-            _speed = speed;
-            _lerpSpeed = lerpSpeed;
-            _rb = rb;
-        }
-
-        public Movement(Movement other)
-        {
-            _speed = other._speed;
-            _lerpSpeed = other._lerpSpeed;
-            _rb = other._rb;
+            _controller = controller;
         }
 
         public void Move(Vector3 dir)
         {
-            var targetVelocity = dir * _speed;
-            _cachedProjectedVelocity = Vector3.ProjectOnPlane(targetVelocity, _normalVector);
-            
-            _rb.velocity = Vector3.Lerp(_rb.velocity, _cachedProjectedVelocity, _lerpSpeed);
+            _controller.Move(dir);
+        }
+
+        public void Move(Vector3 dir, float speed, float delta = -1)
+        {
+            if (delta < 0) delta = Time.deltaTime;
+            _controller.Move(dir * (speed * delta));
         }
 
         public void Dispose()
         {
-            _rb = null;
+            _controller = null;
         }
     }
 }

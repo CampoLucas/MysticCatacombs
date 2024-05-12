@@ -41,6 +41,16 @@ namespace Game.Entities
             _animator.CrossFade(stateHash, transitionDuration);
         }
 
+        public void Play(string stateName)
+        {
+            _animator.Play(stateName);
+        }
+
+        public void SetFloat(string parameter, float value)
+        {
+            _animator.SetFloat(parameter, value);
+        }
+
         private void OnDestroy()
         {
             Dispose();

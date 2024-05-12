@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Game.Interfaces;
 using Game.SO;
 using Game.WeaponSystem.Modules;
 using UnityEngine;
@@ -10,13 +11,33 @@ namespace Game.WeaponSystem
     public class BaseWeapon : Weapon
     {
         public WeaponSO Stats => stats;
-        public GameObject Owner => owner;
-
-        [SerializeField] private GameObject owner;
+        public GameObject Owner { get; private set; }
+        public IView View { get; private set; }
+        
         [SerializeField] private WeaponSO stats;
         [SerializeField] private List<WeaponModule> modules = new();
 
         private void Awake()
+        {
+            InitModules();
+        }
+
+        public void Equip(GameObject owner)
+        {
+            Owner = owner;
+            if (Owner)
+            {
+                View = Owner.GetComponent<IView>();
+                View.SetFloat("WeaponIndex", stats.WeaponIndex);
+            }
+
+            for (var i = 0; i < modules.Count; i++)
+            {
+                modules[i].SetOwner();
+            }
+        }
+
+        public void InitModules()
         {
             for (var i = 0; i < modules.Count; i++)
             {
@@ -43,7 +64,8 @@ namespace Game.WeaponSystem
         protected override void OnDispose()
         {
             modules = null;
-            owner = null;
+            Owner = null;
+            View = null;
             stats = null;
         }
     }

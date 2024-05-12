@@ -7,11 +7,13 @@ namespace Game.Player.States
     public class EnemyStateMove<T> : EnemyStateBase<T>
     {
         private ISteering _steering;
+        private float _speed;
 
-        public EnemyStateMove(ISteering steering, ISteeringDecorator[] decorators = null)
+        public EnemyStateMove(ISteering steering, float speed, ISteeringDecorator[] decorators = null)
         {
             _steering = steering;
-
+            _speed = speed;
+            
             if (decorators == null) return;
             for (var i = 0; i < decorators.Length; i++)
             {
@@ -34,7 +36,7 @@ namespace Game.Player.States
             var dir = Controller.MoveDirection();
             dir.y = 0;
             
-            Model.Move(Model.Transform.forward);
+            Model.Move(Model.Transform.forward, _speed);
             //Model.Move(dir);
             Model.Rotate(dir);
             View.UpdateMovementValues(Controller.MoveAmount());
