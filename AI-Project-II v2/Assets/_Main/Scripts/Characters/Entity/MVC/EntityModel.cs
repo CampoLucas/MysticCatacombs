@@ -37,7 +37,7 @@ namespace Game.Entities
             
         }
 
-        private void Start()
+        protected virtual void Start()
         {
             weapon.Equip(gameObject);
         }

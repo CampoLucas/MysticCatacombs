@@ -6,8 +6,9 @@ namespace Game.Player
 {
     public class PlayerModel : EntityModel
     {
-        private void Start()
+        protected virtual void Start()
         {
+            base.Start();
             Damageable.OnDie += OnGameOverHandler;
         }
 
