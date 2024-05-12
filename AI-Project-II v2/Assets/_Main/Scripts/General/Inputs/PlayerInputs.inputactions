@@ -16,7 +16,7 @@
                 },
                 {
                     "name": "LightAttack",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "d3fe68a9-ac8a-436a-853e-147318579e75",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -25,7 +25,7 @@
                 },
                 {
                     "name": "HeavyAttack",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "06fd3d25-97ee-4e8a-97df-7547cbc0702d",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -93,7 +93,7 @@
                     "name": "",
                     "id": "420e0968-7f0b-4047-9ed3-23892b82efb6",
                     "path": "<Mouse>/leftButton",
-                    "interactions": "",
+                    "interactions": "Tap",
                     "processors": "",
                     "groups": "Keyboard & Mouse",
                     "action": "LightAttack",
@@ -101,45 +101,12 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "One Modifier",
-                    "id": "2f07515a-49cb-4ade-9c94-a2848ed4eaad",
-                    "path": "OneModifier",
-                    "interactions": "",
+                    "name": "",
+                    "id": "039d8420-44a3-4af4-8d7d-df6993fd278b",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "Hold",
                     "processors": "",
                     "groups": "",
-                    "action": "HeavyAttack",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "8ce1fcc9-0ff6-4de6-9550-c63387085567",
-                    "path": "<Keyboard>/leftCtrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard & Mouse",
-                    "action": "HeavyAttack",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "b5a2b9da-7a91-4ddb-9015-bb0d2865055e",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard & Mouse",
-                    "action": "HeavyAttack",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "30e19fac-d761-46c5-a886-f66a160897c6",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard & Mouse",
                     "action": "HeavyAttack",
                     "isComposite": false,
                     "isPartOfComposite": false

@@ -56,10 +56,12 @@ namespace Game.Player
         }
         private void LightAttackPerformedHandler(InputAction.CallbackContext context)
         {
+            Debug.Log("Tap");
             _inputLightAttack = true;
         }
         private void HeavyAttackPerformedHandler(InputAction.CallbackContext context)
         {
+            Debug.Log("Hold");
             _inputHeavyAttack = true;
         }
 
@@ -80,12 +82,16 @@ namespace Game.Player
         {
             if (_inputLightAttack)
             {
+                Debug.Log("Light attack");
                 FlagLightAttack = true;
+                _inputHeavyAttack = false;
+                FlagHeavyAttack = false;
             }
-
-            if (_inputHeavyAttack)
+            if (!_inputLightAttack && _inputHeavyAttack)
             {
+                Debug.Log("Heavy attack");
                 FlagHeavyAttack = true;
+                FlagLightAttack = false;
             }
         }
     }

@@ -417,6 +417,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BigAxe
       objectReference: {fileID: 0}
+    - target: {fileID: 7118878947998023055, guid: ca7b920eb63f2994d95821c1d6af760a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ca7b920eb63f2994d95821c1d6af760a, type: 3}
 --- !u!1 &36300853
@@ -13388,6 +13392,17 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &775850632 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8091511072644774275, guid: a72c5b2da9a10944b868543506d266ca, type: 3}
+  m_PrefabInstance: {fileID: 6211915852113687474}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a933f888e1434283b43180169f16eb8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &779044891
 GameObject:
   m_ObjectHideFlags: 0
@@ -30586,17 +30601,6 @@ Transform:
   m_Father: {fileID: 1338255707}
   m_RootOrder: 88
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1938923414 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8641367895889738776, guid: ca7b920eb63f2994d95821c1d6af760a, type: 3}
-  m_PrefabInstance: {fileID: 29703687}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a933f888e1434283b43180169f16eb8a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1942365188
 GameObject:
   m_ObjectHideFlags: 0
@@ -35813,7 +35817,7 @@ PrefabInstance:
     - target: {fileID: 6211915852871192571, guid: a72c5b2da9a10944b868543506d266ca, type: 3}
       propertyPath: weapon
       value: 
-      objectReference: {fileID: 1938923414}
+      objectReference: {fileID: 775850632}
     - target: {fileID: 6369285390073114013, guid: a72c5b2da9a10944b868543506d266ca, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.000000059604645
@@ -35868,7 +35872,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7308720479860488212, guid: a72c5b2da9a10944b868543506d266ca, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7339335966952687648, guid: a72c5b2da9a10944b868543506d266ca, type: 3}
       propertyPath: m_LocalPosition.x

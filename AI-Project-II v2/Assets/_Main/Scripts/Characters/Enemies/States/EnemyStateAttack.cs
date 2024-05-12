@@ -7,28 +7,33 @@ namespace Game.Player.States
     public class EnemyStateAttack<T> : EnemyStateBase<T>
     {
         
-        private AttackSO _initAttack;
-        private AttackSO _currentAttack;
+        private Attack _initAttack;
+        private Attack _currentAttack;
+        private Attack _nextAttack;
 
         private float _timer;
         private bool _triggered;
 
         public EnemyStateAttack(AttackSO currentAttack)
         {
-            _initAttack = currentAttack;
-            _currentAttack = _initAttack;
+            _initAttack = currentAttack.GetAttack();
+            _nextAttack = _initAttack;
         }
 
         public override void Start()
         {
             base.Start();
-            View.UpdateMovementValues(0);
-            View.CrossFade(_currentAttack.Animation);
-            _timer = 0;
-            _triggered = false;
+            Attack(_nextAttack);
+            if (_currentAttack.TrModule.TryGetTransition(out var transition))
+            {
+                _nextAttack = transition;
+            }
+            else if (_currentAttack != _initAttack)
+            {
+                _nextAttack = _initAttack;
+            }
+            
             Continue = false;
-            
-            
             Model.Rotate((Controller.Target.Transform.position - Model.transform.position).normalized, 80);
         }
 
@@ -36,10 +41,8 @@ namespace Game.Player.States
         {
             base.Execute();
             _timer += Time.deltaTime;
-            if (_timer < _currentAttack.Duration)
+            if (_timer < _currentAttack.AnimModule.Duration)
             {
-                
-                
                 if (!_triggered && TriggerEvent(_timer))
                 {
                     _triggered = true;
@@ -52,7 +55,7 @@ namespace Game.Player.States
                     Model.CurrentWeapon().End();
                 }
                 
-                _currentAttack.AttackMove(Model, _timer);
+                _currentAttack.MoveModule.DoMove(Model, _timer);
                 
             }
             else
@@ -66,19 +69,22 @@ namespace Game.Player.States
             base.Exit();
             Continue = true;
 
-            if (_currentAttack.TryGetTransition(out var transition))
-            {
-                _currentAttack = transition;
-            }
-            else if (_currentAttack != _initAttack)
-            {
-                _currentAttack = _initAttack;
-            }
+            
+        }
+
+        private void Attack(Attack attack)
+        {
+            _currentAttack = attack;
+            
+            View.UpdateMovementValues(0);
+            View.CrossFade(_currentAttack.AnimModule.Animation);
+            _timer = 0;
+            _triggered = false;
         }
 
         private bool TriggerEvent(float t)
         {
-            return _currentAttack.TriggerTime.Evaluate(t) > 0;
+            return _currentAttack.EvModule.Triggered(t);
         }
     }
 }

@@ -56,23 +56,20 @@ namespace Game.WeaponSystem.Modules
 
         private void SubscribeDamager()
         {
-            Debug.Log(triggers.Length);
             for (var i = 0; i < triggers.Length; i++)
             {
-                Debug.Log($"index {i}");
-                Debug.Log($"Trigger {triggers[i].name}");
                 if (_damageBox != null && triggers[i] != null && triggers[i].OnEnter != null)
                 {
-                    // Check if _damageBox.OnEnter is not null to avoid ArgumentNullException
-                    // Subscribe to the OnEnter event of the trigger
                     triggers[i].OnEnter += _damageBox.OnEnter;
                 }
                 else
                 {
+#if UNITY_EDITOR
                     if (_damageBox == null) Debug.LogWarning("Damage box is null.");
                     if (triggers[i] == null) Debug.LogWarning("The trigger is null.");
                     if (triggers[i].OnEnter == null) Debug.LogWarning("The OnEnter is null");
-                    Debug.LogWarning("One of the triggers or _damageBox is null, skipping subscription.");
+                    Debug.LogWarning("One of the triggers or _damageBox is null, skipping subscription.");              
+#endif
                 }
             }
         }

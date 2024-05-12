@@ -8,8 +8,8 @@ namespace Game.Player.States
     {
         private readonly T _inIdle;
         private readonly T _inMoving;
-        private AttackSO _initAttack;
-        private AttackSO _currentAttack;
+        private Attack _initAttack;
+        private Attack _currentAttack;
         private Func<bool> _attackFlag;
 
         private float _timer;
@@ -19,7 +19,7 @@ namespace Game.Player.States
         {
             _inIdle = inIdle;
             _inMoving = inMoving;
-            _initAttack = attack;
+            _initAttack = attack.GetAttack();
             _attackFlag = attackFlag;
         }
 
@@ -33,9 +33,8 @@ namespace Game.Player.States
         {
             base.Execute();
             _timer += Time.deltaTime;
-            if (_timer < _currentAttack.Duration)
+            if (_timer < _currentAttack.AnimModule.Duration)
             {
-
                 if (!_triggered && TriggerEvent(_timer))
                 {
                     _triggered = true;
@@ -48,11 +47,10 @@ namespace Game.Player.States
                     Model.CurrentWeapon().End();
                 }
                 
-                _currentAttack.AttackMove(Model, _timer);
+                _currentAttack.MoveModule.DoMove(Model, _timer);
 
-                if (_currentAttack.TryGetTransition(out var transition) && _timer >= _currentAttack.TransitionTime && _attackFlag())
+                if (_timer >= _currentAttack.TrModule.TimeToTransition && _currentAttack.TrModule.TryGetTransition(out var transition) && _attackFlag())
                 {
-                    Debug.Log("DoAttack");
                     Attack(transition);
                 }
                 
@@ -70,19 +68,19 @@ namespace Game.Player.States
             }
         }
 
-        private void Attack(AttackSO attack)
+        private void Attack(Attack attack)
         {
             _currentAttack = attack;
             
             View.UpdateMovementValues(0);
-            View.CrossFade(_currentAttack.Animation);
+            View.CrossFade(_currentAttack.AnimModule.Animation);
             _timer = 0;
             _triggered = false;
         }
 
         private bool TriggerEvent(float t)
         {
-            return _currentAttack.TriggerTime.Evaluate(t) > 0;
+            return _currentAttack.EvModule.Triggered(t);
         }
     }
 }

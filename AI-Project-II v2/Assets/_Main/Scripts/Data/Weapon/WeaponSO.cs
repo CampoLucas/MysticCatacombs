@@ -4,7 +4,7 @@ using Game.Interfaces;
 
 namespace Game.SO
 {
-    [CreateAssetMenu(fileName = "Weapon", menuName = "SO/Items/Weapons", order = 1)]
+    [CreateAssetMenu(fileName = "New Weapon", menuName = "Game/Items/Weapon", order = 1)]
 
     public class WeaponSO : ScriptableObject
     {
