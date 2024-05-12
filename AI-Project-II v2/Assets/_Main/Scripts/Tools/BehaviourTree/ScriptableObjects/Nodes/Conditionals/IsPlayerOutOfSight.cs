@@ -6,6 +6,8 @@ namespace BehaviourTreeAsset.Runtime.Nodes
 {
     public class IsPlayerOutOfSight : Conditional
     {
+        [SerializeField] private int fovIndex;
+        
         private EnemyController _controller;
         private EnemyModel _model;
         private bool _started;
@@ -37,7 +39,7 @@ namespace BehaviourTreeAsset.Runtime.Nodes
                 return NodeState.Failure;
             }
 
-            return _model && !_model.IsTargetInSight(_controller.Target.Transform) && _model.IsFollowing()
+            return _model && !_model.IsTargetInSight(_controller.Target.Transform, fovIndex) && _model.IsFollowing()
                 ? NodeState.Success
                 : NodeState.Failure;
         }

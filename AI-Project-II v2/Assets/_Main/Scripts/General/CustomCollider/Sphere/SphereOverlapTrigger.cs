@@ -21,12 +21,12 @@ namespace Game.CustomCollider
                 var hit = _hits[i];
                 if (hit != null && !CollidersInBox.Contains(hit) && hit.enabled)
                 {
-                    OnEnter(hit);
+                    OnEnter?.Invoke(hit);
                     CachedNewColliders.Add(hit);
                 }
                 else if (hit != null && hit.enabled)
                 {
-                    OnStay(hit);
+                    OnStay?.Invoke(hit);
                 }
             }
 
@@ -36,7 +36,7 @@ namespace Game.CustomCollider
                 var other = CollidersInBox[i];
                 if (!Array.Exists(_hits, element => element == other)  && other.enabled)
                 {
-                    OnExit(other);
+                    OnExit?.Invoke(other);
                     CachedNewColliders.RemoveAt(i);
                 }
             }

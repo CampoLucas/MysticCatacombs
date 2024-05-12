@@ -1,9 +1,10 @@
-using UnityEngine;
-
-public interface IFactory<T1, T2> where T1 : IProduct<T2>
+namespace Game.DesignPatterns.Factory
 {
-    T1 Product { get; }
+    public interface IFactory<T1, T2> where T1 : IProduct<T2>
+    {
+        T1 Product { get; }
 
-    T1 Create();
-    T1[] Create(int quantity, float delay = 0);
+        T1 Create();
+        T1[] Create(int quantity, float delay = 0);
+    }
 }

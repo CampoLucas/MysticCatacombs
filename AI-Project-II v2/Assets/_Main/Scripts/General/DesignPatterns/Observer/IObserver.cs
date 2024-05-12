@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public interface IObserver
+namespace Game.DesignPatterns.Observer
 {
-    void OnNotify(string message, params object[] args);
+    public interface IObserver
+    {
+        void OnNotify(string message, params object[] args);
+    }
 }

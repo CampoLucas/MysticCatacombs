@@ -16,11 +16,13 @@ namespace Game.Entities.Flocking
 
         public Vector3 GetDir(List<IBoid> boids, IBoid self)
         {
-            Vector3 front = Vector3.zero;
+            var front = Vector3.zero;
             for (int i = 0; i < boids.Count; i++)
             {
                 var boid = boids[i];
-                front += boid.Front;
+                
+                if (boid.Velocity.magnitude > 0.01f)
+                    front += boid.Front;
             }
             return front.normalized * _multiplier;
         }

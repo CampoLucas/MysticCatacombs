@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using Game.DesignPatterns.Factory;
+using Game.DesignPatterns.Pool;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -73,7 +75,7 @@ namespace Game.WeaponSystem.Modules
         private void SetProjectilePosition(Projectile projectile)
         {
             var t = projectile.transform;
-            t.position = transform.TransformPoint(transform.localPosition + moduleData.SpawnPoint);
+            t.position = SpawnPoint();
             t.forward = MainWeapon.Owner.transform.forward;
         }
 
@@ -87,7 +89,20 @@ namespace Game.WeaponSystem.Modules
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.magenta;
-            Gizmos.DrawSphere(transform.TransformPoint(transform.localPosition + moduleData.SpawnPoint), 0.05f);
+            Gizmos.DrawSphere(SpawnPoint(), 0.05f);
+        }
+
+        private Vector3 SpawnPoint()
+        {
+            var tr = moduleData.FromOwner && MainWeapon != null && MainWeapon.Owner != null
+                ? MainWeapon.Owner.transform
+                : transform;
+
+            var x = tr.right * moduleData.SpawnPoint.x;
+            var y = tr.up * moduleData.SpawnPoint.y;
+            var z = tr.forward * moduleData.SpawnPoint.z;
+
+            return tr.position + x + y + z;
         }
     }
 }

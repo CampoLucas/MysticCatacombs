@@ -23,19 +23,50 @@ MonoBehaviour:
   level: 1
   maxLevel: 15
   attackRange: 1.24
-  fieldOfView:
-    range: 9.73
-    angle: 120
-    mask:
-      serializedVersion: 2
-      m_Bits: 8
+  fieldOfViews:
+  - name: View
+    rangeData:
+      enabled: 1
+      range: 9.73
+    angleData:
+      enabled: 1
+      angle: 120
+    viewData:
+      enabled: 1
+      mask:
+        serializedVersion: 2
+        m_Bits: 8
+  - name: CloseProximity
+    rangeData:
+      enabled: 1
+      range: 1.25
+    angleData:
+      enabled: 0
+      angle: 0
+    viewData:
+      enabled: 0
+      mask:
+        serializedVersion: 2
+        m_Bits: 0
+  - name: AttackView
+    rangeData:
+      enabled: 0
+      range: 0
+    angleData:
+      enabled: 1
+      angle: 10
+    viewData:
+      enabled: 1
+      mask:
+        serializedVersion: 2
+        m_Bits: 8
   seek:
     strength: 1
   pursuit:
     strength: 1
     pursuitTime: 10
   obstacleAvoidance:
-    strength: 2
+    strength: 10
     range: 1
     angle: 180
     maxObs: 5
@@ -53,6 +84,6 @@ MonoBehaviour:
     alignmentMultiplier: 1
     useAvoidance: 1
     avoidanceMultiplier: 2
-    avoidanceRange: 3
+    avoidanceRange: 2
     useCohesion: 1
     cohesionMultiplier: 0.5

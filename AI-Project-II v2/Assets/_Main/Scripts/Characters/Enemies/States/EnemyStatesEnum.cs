@@ -11,5 +11,6 @@
         Damage,
         FollowRoute,
         Flee,
+        LookAtTarget,
     }
 }

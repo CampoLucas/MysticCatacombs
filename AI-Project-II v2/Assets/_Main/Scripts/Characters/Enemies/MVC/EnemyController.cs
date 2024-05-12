@@ -54,6 +54,8 @@ namespace Game.Enemies
                 });
             pursuit.OnStart += OnPursuitStartHandler;
             
+            var lookAtTarget = new EnemyStateMove<EnemyStatesEnum>(_data.Pursuit.Get(t), Model.GetData().MoveSpeed, move: false);
+            
             var damage = new EnemyStateDamage<EnemyStatesEnum>();
             var lightAttack = new EnemyStateAttack<EnemyStatesEnum>(Model.CurrentWeapon().Stats.LightAttack);
             var heavyAttack = new EnemyStateAttack<EnemyStatesEnum>(Model.CurrentWeapon().Stats.HeavyAttack);
@@ -68,9 +70,10 @@ namespace Game.Enemies
             states.Add(heavyAttack);
             states.Add(dead);
             states.Add(followRoute);
+            states.Add(lookAtTarget);
             StateMachine.AddState(new List<IState<EnemyStatesEnum>>
             {
-                idle, seek, pursuit, damage, lightAttack, heavyAttack, dead, followRoute
+                idle, seek, pursuit, damage, lightAttack, heavyAttack, dead, followRoute, lookAtTarget,
             });
             
             idle.AddTransition(new Dictionary<EnemyStatesEnum, IState<EnemyStatesEnum>>
@@ -82,6 +85,7 @@ namespace Game.Enemies
                 { EnemyStatesEnum.Damage, damage },
                 { EnemyStatesEnum.Die, dead },
                 { EnemyStatesEnum.FollowRoute, followRoute },
+                { EnemyStatesEnum.LookAtTarget, lookAtTarget },
             });
             
             seek.AddTransition(new Dictionary<EnemyStatesEnum, IState<EnemyStatesEnum>>
@@ -93,6 +97,7 @@ namespace Game.Enemies
                 { EnemyStatesEnum.Damage, damage },
                 { EnemyStatesEnum.Die, dead},
                 { EnemyStatesEnum.FollowRoute, followRoute },
+                { EnemyStatesEnum.LookAtTarget, lookAtTarget },
             });
             
             pursuit.AddTransition(new Dictionary<EnemyStatesEnum, IState<EnemyStatesEnum>>
@@ -104,6 +109,19 @@ namespace Game.Enemies
                 { EnemyStatesEnum.Damage, damage },
                 { EnemyStatesEnum.Die, dead},
                 { EnemyStatesEnum.FollowRoute, followRoute },
+                { EnemyStatesEnum.LookAtTarget, lookAtTarget },
+            });
+            
+            lookAtTarget.AddTransition(new Dictionary<EnemyStatesEnum, IState<EnemyStatesEnum>>
+            {
+                { EnemyStatesEnum.Idle, idle },
+                { EnemyStatesEnum.Seek, seek },
+                { EnemyStatesEnum.LightAttack, lightAttack },
+                { EnemyStatesEnum.HeavyAttack, heavyAttack },
+                { EnemyStatesEnum.Damage, damage },
+                { EnemyStatesEnum.Die, dead},
+                { EnemyStatesEnum.FollowRoute, followRoute },
+                { EnemyStatesEnum.Pursuit, pursuit },
             });
             
             lightAttack.AddTransition(new Dictionary<EnemyStatesEnum, IState<EnemyStatesEnum>>
@@ -114,6 +132,7 @@ namespace Game.Enemies
                 { EnemyStatesEnum.Damage, damage },
                 { EnemyStatesEnum.FollowRoute, followRoute },
                 { EnemyStatesEnum.Die, dead},
+                { EnemyStatesEnum.LookAtTarget, lookAtTarget },
             });
             
             heavyAttack.AddTransition(new Dictionary<EnemyStatesEnum, IState<EnemyStatesEnum>>
@@ -124,6 +143,7 @@ namespace Game.Enemies
                 { EnemyStatesEnum.Damage, damage },
                 { EnemyStatesEnum.Die, dead},
                 { EnemyStatesEnum.FollowRoute, followRoute },
+                { EnemyStatesEnum.LookAtTarget, lookAtTarget },
             });
             
             damage.AddTransition(new Dictionary<EnemyStatesEnum, IState<EnemyStatesEnum>>
@@ -133,6 +153,7 @@ namespace Game.Enemies
                 { EnemyStatesEnum.Seek, seek },
                 { EnemyStatesEnum.Die, dead},
                 { EnemyStatesEnum.FollowRoute, followRoute },
+                { EnemyStatesEnum.LookAtTarget, lookAtTarget },
             });
             
             followRoute.AddTransition(new Dictionary<EnemyStatesEnum, IState<EnemyStatesEnum>>
@@ -142,6 +163,7 @@ namespace Game.Enemies
                 { EnemyStatesEnum.Seek, seek },
                 { EnemyStatesEnum.Damage, damage },
                 { EnemyStatesEnum.Die, dead},
+                { EnemyStatesEnum.LookAtTarget, lookAtTarget },
             });
 
             foreach (var state in states)

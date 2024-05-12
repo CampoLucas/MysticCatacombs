@@ -1,7 +1,7 @@
 ﻿using System;
-using Game.Scripts.VisionCone;
 using UnityEngine;
 using Game.Entities;
+using Game.Entities.FieldOfView;
 using Game.Interfaces;
 using Game.Player;
 using Game.SO;
@@ -17,10 +17,9 @@ namespace Game.Enemies
     {
         [SerializeField] private float radius;
         
-        private VisionCone visionCone;
         private bool _hasVisionCone;
         private EnemySO _data;
-        private FieldOfView _fieldOfView;
+        private FieldOfView[] _fieldOfViews;
         private PathToFollow _path;
         private InRange _range;
         private Vector3 _direction = Vector3.zero;
@@ -32,16 +31,9 @@ namespace Game.Enemies
             base.Awake();
             
             _data = GetData<EnemySO>();
-            _fieldOfView = new FieldOfView(_data.FOV, transform);
+            _fieldOfViews = _data.GetFieldOfViews(transform);
             _path = GetComponent<PathToFollow>();
             _range = new InRange(transform);
-            visionCone = GetComponentInChildren<VisionCone>();
-
-            if (visionCone != null)
-            {
-                _hasVisionCone = true;
-                visionCone.SetMesh(_data.FOV);
-            }
         }
 
 
@@ -59,9 +51,15 @@ namespace Game.Enemies
             base.Move(dir, speed);
         }
 
-        private bool CheckRange(Transform target) => _fieldOfView.CheckRange(target);
-        private bool CheckAngle(Transform target) => _fieldOfView.CheckAngle(target);
-        private bool CheckView(Transform target) => _fieldOfView.CheckView(target);
+        private bool CheckFOV(Transform target, int index)
+        {
+            return _fieldOfViews != null && 
+                   _fieldOfViews.Length != 0 && 
+                   index >= 0 && 
+                   index < _fieldOfViews.Length &&
+                   _fieldOfViews[index].Evaluate(target);
+        }
+            
 
         public void Spawn()
         {
@@ -79,25 +77,25 @@ namespace Game.Enemies
         public bool ReachedWaypoint() => _path.ReachedWaypoint();
         public void ChangeWaypoint() => _path.ChangeWaypoint();
 
-        public bool IsTargetInSight(Transform target) => CheckRange(target) && CheckAngle(target) && CheckView(target);
+        public bool IsTargetInSight(Transform target, int index) => CheckFOV(target, index);
         public bool IsFollowing() => _isFollowing;
         public void SetFollowing(bool isFollowing) => _isFollowing = isFollowing;
         public bool TargetInRange(Transform target) => _range.GetBool(target, CurrentWeapon().Stats.Range);
         public bool IsTargetAlive(IModel target) => target != null && target.IsAlive();
 
-        public void SetVisionConeColor(VisionConeEnum input)
-        {
-            if (_hasVisionCone) 
-                visionCone.SetMaterial(input);
-        }
-
         
         public override void Dispose()
         {
             base.Dispose();
-            if (_fieldOfView != null)
-                _fieldOfView.Dispose();
-            _fieldOfView = null;
+            if (_fieldOfViews != null)
+            {
+                for (var i = 0; i < _fieldOfViews.Length; i++)
+                {
+                    _fieldOfViews[i].Dispose();
+                    _fieldOfViews[i] = null;
+                }
+            }
+            _fieldOfViews = null;
             _data = null;
         }
 
@@ -124,7 +122,7 @@ namespace Game.Enemies
             
             #region FOV
 
-            GetData<EnemySO>().FOV.DebugGizmos(transform, Color.red);
+            GetData<EnemySO>().DrawFOVs(transform);
 
             #endregion
 
@@ -158,5 +156,6 @@ namespace Game.Enemies
         public Vector3 Position => Transform.position;
         public Vector3 Front => Transform.forward;
         public float Radius => radius;
+        public Vector3 Velocity => GetVelocity();
     }
 }

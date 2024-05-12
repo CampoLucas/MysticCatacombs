@@ -36,6 +36,8 @@ namespace BehaviourTreeAsset.Runtime.Nodes
 #endif
                 return NodeState.Failure;
             }
+            
+            if (_controller.Target == null) Debug.LogWarning("Target is null", Owner);
 
             return _controller.Target != null && _controller.Target.IsAlive()
                 ? NodeState.Success

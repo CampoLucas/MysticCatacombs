@@ -1,11 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-public interface ISubject
+namespace Game.DesignPatterns.Observer
 {
-    List<IObserver> Subscribers { get; }
-    void Subscribe(IObserver observer);
-    void Unsubscribe(IObserver observer);
-    void NotifyAll(string message, params object[] args);
+    public interface ISubject
+    {
+        List<IObserver> Subscribers { get; }
+        void Subscribe(IObserver observer);
+        void Unsubscribe(IObserver observer);
+        void NotifyAll(string message, params object[] args);
+    }
 }

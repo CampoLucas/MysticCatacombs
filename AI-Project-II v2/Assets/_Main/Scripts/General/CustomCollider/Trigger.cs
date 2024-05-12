@@ -20,9 +20,12 @@ namespace Game.CustomCollider
             get
             {
                 var tr = (MyTransform ? MyTransform : transform);
-                var pos = tr.localPosition + offset;
-                
-                return tr.TransformPoint(pos);
+
+                var x = tr.right * offset.x;
+                var y = tr.up * offset.y;
+                var z = tr.forward * offset.z;
+
+                return tr.position + x + y + z;
             }
         }
 

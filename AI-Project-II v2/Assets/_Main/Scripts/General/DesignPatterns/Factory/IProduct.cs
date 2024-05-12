@@ -1,6 +1,7 @@
-using UnityEngine;
-
-public interface IProduct<T>
+namespace Game.DesignPatterns.Factory
 {
-    T Data { get; }
+    public interface IProduct<T>
+    {
+        T Data { get; }
+    }
 }

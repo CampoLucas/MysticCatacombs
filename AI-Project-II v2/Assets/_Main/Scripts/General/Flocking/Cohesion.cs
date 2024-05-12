@@ -18,17 +18,21 @@ namespace Game.Entities.Flocking
         {
             var center = Vector3.zero;
             var dir = Vector3.zero;
+            var movingBoids = 0;
             
             for (int i = 0; i < boids.Count; i++)
             {
                 var boid = boids[i];
-                
-                center += boid.Position;
+                if (boid.Velocity.magnitude > 0.01f)
+                {
+                    center += boid.Position;
+                    movingBoids++;
+                }
             }
             
-            if (boids.Count > 0)
+            if (movingBoids > 0)
             {
-                center /= boids.Count;
+                center /= movingBoids;
                 dir = center - self.Position;
             }
             return dir.normalized * _multiplier;

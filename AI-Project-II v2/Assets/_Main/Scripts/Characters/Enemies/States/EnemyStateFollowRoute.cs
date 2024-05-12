@@ -1,16 +1,9 @@
-﻿using Game.Scripts.VisionCone;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Game.Enemies.States
 {
     public class EnemyStateFollowRoute<T> : EnemyStateBase<T>
     {
-        public override void Start()
-        {
-            base.Start();
-            Model.SetVisionConeColor(VisionConeEnum.Clear);
-        }
-
         public override void Execute()
         {
             base.Execute();

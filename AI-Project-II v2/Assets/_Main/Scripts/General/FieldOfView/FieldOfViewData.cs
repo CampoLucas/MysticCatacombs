@@ -1,26 +1,48 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using Game.DesignPatterns.Predicate;
+using Game.Enemies;
+using UnityEngine;
 
-namespace Game.Data
+namespace Game.Entities.FieldOfView
 {
     [System.Serializable]
     public class FieldOfViewData
     {
-        public float Range => range;
-        public float Angle => angle;
-        public LayerMask Mask => mask;
+        [SerializeField] private string name;
+        [SerializeField] private CheckRangeData rangeData;
+        [SerializeField] private CheckAngleData angleData;
+        [SerializeField] private CheckViewData viewData;
 
-        [SerializeField] private float range = 0.25f;
-        [SerializeField] private float angle = 120;
-        [SerializeField] private LayerMask mask;
+        public FieldOfView GetFieldOfView(Transform origin)
+        {
+            var predicates = new List<IFOVPredicate>(1);
+            
+            if (rangeData.TryGetPredicate(origin, out var range))
+            {
+                predicates.Add(range);
+            }
+            if (angleData.TryGetPredicate(origin, out var angle))
+            {
+                predicates.Add(angle);
+            }
+            if (viewData.TryGetPredicate(origin, out var view))
+            {
+                predicates.Add(view);
+            }
+
+            return new FieldOfView(predicates.ToArray());
+        }
 
         #if UNITY_EDITOR
         public void DebugGizmos(Transform origin, Color color)
         {
             var forward = origin.forward;
             var position = origin.position;
+            var angle = angleData.Enabled ? angleData.Angle : 360;
+            var range = rangeData.Enabled ? rangeData.Range : 2;
             
             Gizmos.color = color;
-            var halfFOV = Angle / 2f;
+            var halfFOV = angleData.Angle / 2f;
             var leftRayRotation = Quaternion.AngleAxis(-halfFOV, Vector3.up);
             var rightRayRotation = Quaternion.AngleAxis(halfFOV, Vector3.up);
 
@@ -29,13 +51,13 @@ namespace Game.Data
             var rightRayDirection = rightRayRotation * forward;
 
             
-            Gizmos.DrawRay(position, leftRayDirection * Range);
-            Gizmos.DrawRay(position, rightRayDirection * Range);
+            Gizmos.DrawRay(position, leftRayDirection * range);
+            Gizmos.DrawRay(position, rightRayDirection * range);
 
             UnityEditor.Handles.color = color - new Color(0, 0, 0, 0.9f);
-            UnityEditor.Handles.DrawSolidArc(position, Vector3.up, leftRayDirection, Angle, Range);
+            UnityEditor.Handles.DrawSolidArc(position, Vector3.up, leftRayDirection, angle, range);
             UnityEditor.Handles.color = color;
-            UnityEditor.Handles.DrawWireArc(position, Vector3.up, leftRayDirection, Angle, Range);
+            UnityEditor.Handles.DrawWireArc(position, Vector3.up, leftRayDirection, angle, range);
 
         }
         #endif

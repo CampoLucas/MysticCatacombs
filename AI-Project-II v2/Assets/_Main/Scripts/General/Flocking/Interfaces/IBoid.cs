@@ -8,5 +8,6 @@ namespace Game.Interfaces
         Vector3 Position { get; }
         Vector3 Front { get; }
         float Radius { get; }
+        Vector3 Velocity { get; }
     }
 }
