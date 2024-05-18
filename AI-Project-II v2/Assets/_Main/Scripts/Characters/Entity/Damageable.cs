@@ -49,20 +49,19 @@ namespace Game.Entities
         
         public void TakeDamage(float damage)
         {
-            if (IsAlive() && !_isInvulnerable)
-            {
-                var roundedDamage = Mathf.Round(damage * 4) / 4f;
-                _currentLife -= roundedDamage;
-                Debug.Log(_currentLife);
-                _hasTakenDamage = true;
-                OnTakeDamage?.Invoke();
-                TurnInvulnerable();
-            }
+            if (_isInvulnerable) return;
+            _currentLife -= damage;
 
             if (!IsAlive())
             {
                 OnDie?.Invoke();
                 Die();
+            }
+            else
+            {
+                _hasTakenDamage = true;
+                OnTakeDamage?.Invoke();
+                TurnInvulnerable();
             }
         }
 

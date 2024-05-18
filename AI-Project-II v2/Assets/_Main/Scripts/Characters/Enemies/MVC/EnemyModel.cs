@@ -15,8 +15,6 @@ namespace Game.Enemies
 {
     public class EnemyModel : EntityModel, IBoid
     {
-        [SerializeField] private float radius;
-        
         private bool _hasVisionCone;
         private EnemySO _data;
         private FieldOfView[] _fieldOfViews;
@@ -152,7 +150,6 @@ namespace Game.Enemies
 
         public Vector3 Position => Transform.position;
         public Vector3 Front => Transform.forward;
-        public float Radius => radius;
         public Vector3 Velocity => GetVelocity();
     }
 }

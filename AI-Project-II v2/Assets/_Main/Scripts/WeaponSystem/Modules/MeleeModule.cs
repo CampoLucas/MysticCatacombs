@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace Game.WeaponSystem.Modules
 {
+    [RequireComponent(typeof(Damager))]
     public class MeleeModule : WeaponModule
     {
         [SerializeField] private Trigger[] triggers;

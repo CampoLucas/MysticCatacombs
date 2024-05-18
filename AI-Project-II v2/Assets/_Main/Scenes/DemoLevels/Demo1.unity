@@ -183,7 +183,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &22774232
 Transform:
   m_ObjectHideFlags: 0
@@ -1302,6 +1302,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.y
       value: -0.008891992
       objectReference: {fileID: 0}
+    - target: {fileID: 298113399026734968, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
+      propertyPath: <Path>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: de00d250b21bf8341b79ba18361a5d46, type: 2}
     - target: {fileID: 2878532175023282192, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
       propertyPath: m_Name
       value: Spider (1)
@@ -7536,6 +7540,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.y
       value: -0.008891992
       objectReference: {fileID: 0}
+    - target: {fileID: 298113399026734968, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
+      propertyPath: <Path>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: de00d250b21bf8341b79ba18361a5d46, type: 2}
     - target: {fileID: 2878532175023282192, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
       propertyPath: m_Name
       value: Spider (2)
@@ -8926,6 +8934,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.y
       value: -0.008891992
       objectReference: {fileID: 0}
+    - target: {fileID: 298113399026734968, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
+      propertyPath: <Path>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: de00d250b21bf8341b79ba18361a5d46, type: 2}
     - target: {fileID: 2878532175023282192, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
       propertyPath: m_Name
       value: Spider (3)
@@ -33227,6 +33239,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.y
       value: -0.008891992
       objectReference: {fileID: 0}
+    - target: {fileID: 298113399026734968, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
+      propertyPath: <Path>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: de00d250b21bf8341b79ba18361a5d46, type: 2}
     - target: {fileID: 2878532175023282192, guid: 30afe45681bdd214e95bee590c7924a2, type: 3}
       propertyPath: m_Name
       value: Spider
