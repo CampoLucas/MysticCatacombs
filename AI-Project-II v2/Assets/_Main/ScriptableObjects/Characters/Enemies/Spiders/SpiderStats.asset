@@ -15,7 +15,7 @@ MonoBehaviour:
   moveSpeed: 4
   walkSpeed: 2
   moveLerpSpeed: 10
-  rotSpeed: 15
+  rotSpeed: 10
   maxHealth: 1
   invulnerableCooldown: 0.1
   hitAnimation: {fileID: 11400000, guid: d48f0b50d9785464fbcfe906275ae1cb, type: 2}
@@ -83,7 +83,7 @@ MonoBehaviour:
     useAlignment: 1
     alignmentMultiplier: 0.2
     useAvoidance: 1
-    avoidanceMultiplier: 2
-    avoidanceRange: 2
+    avoidanceMultiplier: 3
+    avoidanceRange: 3
     useCohesion: 1
     cohesionMultiplier: 0.5

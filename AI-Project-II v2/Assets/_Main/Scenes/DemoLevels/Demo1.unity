@@ -3563,6 +3563,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 99efd5832baf01740aca44ed7be85128, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 68c02d02bfa255a43a66e05878749ebe, type: 2}
     - target: {fileID: 919132149155446097, guid: 99efd5832baf01740aca44ed7be85128, type: 3}
       propertyPath: m_Name
       value: DemoLevel_Walls01
@@ -13542,6 +13546,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7a96fa76bb8713b4691aa21c3a921c37, type: 3}
   m_PrefabInstance: {fileID: 1069853817}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1071223456
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1071223458}
+  - component: {fileID: 1071223457}
+  m_Layer: 0
+  m_Name: WallHole
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1071223457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1071223456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f67e430ccf577b4bbb922a5d3c5972d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WallRenderer: {fileID: 1892901961}
+--- !u!4 &1071223458
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1071223456}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.51, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1927019588}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1099545575
 GameObject:
   m_ObjectHideFlags: 0
@@ -26402,6 +26451,11 @@ Transform:
   m_Father: {fileID: 1338255707}
   m_RootOrder: 107
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &1892901961 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 99efd5832baf01740aca44ed7be85128, type: 3}
+  m_PrefabInstance: {fileID: 330962336}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1896335880
 GameObject:
   m_ObjectHideFlags: 0
