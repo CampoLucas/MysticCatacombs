@@ -132,7 +132,7 @@ MonoBehaviour:
   backgroung: {fileID: 2137364377885679451}
   effect: {fileID: 5074577301000191253}
   normalSpeed: 0.5
-  fastSpeed: 1.1
+  fastSpeed: 3
   damageable: {fileID: 0}
 --- !u!1 &5167049255378045664
 GameObject:

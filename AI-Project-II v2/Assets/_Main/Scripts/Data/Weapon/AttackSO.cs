@@ -7,9 +7,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Attack", menuName = "Game/Attacks/Attack")]
 public class AttackSO : ScriptableObject
 {
-    [Header("General")] 
-    [SerializeField] private string name;
-    
     [Header("Animation")] 
     [SerializeField] private AnimationModule animationModule;
 

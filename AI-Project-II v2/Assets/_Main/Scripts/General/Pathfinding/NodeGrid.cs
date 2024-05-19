@@ -25,9 +25,6 @@ namespace Game.Pathfinding
         [SerializeField] private Node prefab;
         [SerializeField] private float nodeRadius;
         [SerializeField] private List<Node> nodes;
-
-        [Header("Condition Settings")] 
-        [Range(0.1f, 10)] [SerializeField] private float radius = 2f;
         
         private Collider[] _closestNodes;
         private static NodeGrid _instance;

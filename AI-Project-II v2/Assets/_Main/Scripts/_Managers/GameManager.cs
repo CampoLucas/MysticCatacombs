@@ -10,6 +10,7 @@ namespace Game.Managers
     {
         public static readonly string GameWonMessage = "GameWon";
         public static readonly string GameLostMessage = "GameLost";
+        public static readonly string GameOverMessage = "GameOver";
         
         public bool IsGameOver { get; private set; }
         
@@ -58,6 +59,7 @@ namespace Game.Managers
                 _gameOverScreen.gameObject.SetActive(true);
                 _gameOverScreen.Init();
                 IsGameOver = true;
+                NotifyAll(GameOverMessage);
             }
             
         }
@@ -69,6 +71,7 @@ namespace Game.Managers
                 _gameWonScreen.gameObject.SetActive(true);
                 _gameWonScreen.Init();
                 IsGameOver = true;
+                NotifyAll(GameOverMessage);
             }
         }
     }

@@ -38,6 +38,7 @@ namespace Game.Entities
         protected virtual void Start()
         {
             weapon.Equip(gameObject);
+            Damageable.OnDie += OnDieHandler;
         }
 
         public virtual void Move(Vector3 dir) => _movement?.Move(dir);
@@ -88,10 +89,16 @@ namespace Game.Entities
             Dispose();
         }
 
+        private void OnDieHandler()
+        {
+            Controller.enabled = false;
+        }
+
         public virtual void Dispose()
         {
             if (Damageable != null)
             {
+                Damageable.OnDie -= OnDieHandler;
                 Damageable.Dispose();
                 Damageable = null;
             }

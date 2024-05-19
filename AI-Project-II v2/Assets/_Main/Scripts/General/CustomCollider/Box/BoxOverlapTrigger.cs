@@ -39,7 +39,9 @@ namespace Game.CustomCollider
             for (var i = CollidersInBox.Count - 1; i >= 0; i--)
             {
                 var other = CollidersInBox[i];
-                if (!Array.Exists(_hits, element => element == other)  && other.enabled)
+                if (!other.enabled) CollidersInBox.RemoveAt(i);
+                
+                if (!Array.Exists(_hits, element => element == other))
                 {
                     if (OnExit != null)
                         OnExit?.Invoke(other);

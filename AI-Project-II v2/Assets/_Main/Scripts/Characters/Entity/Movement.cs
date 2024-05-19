@@ -21,6 +21,7 @@ namespace Game.Entities
 
         public void Move(Vector3 dir, float speed, float delta = -1)
         {
+            if (!_controller.enabled) return;
             if (delta < 0) delta = Time.deltaTime;
             _controller.Move(dir * (speed * delta));
         }

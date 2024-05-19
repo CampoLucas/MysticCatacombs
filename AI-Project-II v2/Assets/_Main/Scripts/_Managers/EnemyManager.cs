@@ -22,6 +22,7 @@ namespace Game.Managers
             if (!_enemies.Add(enemy)) return;
             TotalEnemies++;
             CurrentEnemies++;
+            OnAddEnemy();
         }
 
         public void RemoveEnemy(EnemyController enemy)
@@ -29,6 +30,11 @@ namespace Game.Managers
             if (!_enemies.Remove(enemy)) return;
             CurrentEnemies--;
             OnRemoveEnemy();
+        }
+
+        private void OnAddEnemy()
+        {
+            NotifyAll(LevelManager.EvaluateCondition);
         }
         
         private void OnRemoveEnemy()
