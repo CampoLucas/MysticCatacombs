@@ -43,5 +43,5 @@ Material:
     - _Translucency: 1
     - __dirty: 1
     m_Colors:
-    - _Hole: {r: -1.8241568, g: 1.59, b: -9.253431, a: 0}
+    - _Hole: {r: -0.88373226, g: 1.5899999, b: -1.2954234, a: 0}
   m_BuildTextureStacks: []

@@ -6,38 +6,25 @@ using UnityEngine;
 
 namespace Game.Managers
 {
-    public class GameManager : MonoBehaviour
+    public class GameManager : MonoManager<GameManager>
     {
+        public static readonly string GameWonMessage = "GameWon";
+        public static readonly string GameLostMessage = "GameLost";
+        
         public bool IsGameOver { get; private set; }
+        
         [SerializeField] private GameOverScreen gameOverPrefab;
         [SerializeField] private GameOverScreen gameWonPrefab;
+        
         private GameOverScreen _gameOverScreen;
         private GameOverScreen _gameWonScreen;
         private Transform _canvas;
 
-        private static GameManager _instance = null;
-        private static readonly object Padlock = new();
-
-        public static GameManager Instance
+        protected override void OnAwake()
         {
-            get
-            {
-                lock (Padlock)
-                {
-                    return _instance;
-                }
-            }
-        }
-
-        private void Awake()
-        {
-            lock (Padlock)
-            {
-                if (_instance == null)
-                {
-                    _instance = this;
-                }
-            }
+            base.OnAwake();
+            AddEvent(GameWonMessage, GameWonHandler);
+            AddEvent(GameLostMessage, GameLostHandler);
         }
 
         public void InitScreens()
@@ -54,6 +41,16 @@ namespace Game.Managers
             InitScreens();
         }
 
+        private void GameLostHandler(object[] args)
+        {
+            GameOver();
+        }
+        
+        private void GameWonHandler(object[] args)
+        {
+            GameWon();
+        }
+        
         public void GameOver()
         {
             if (!IsGameOver)

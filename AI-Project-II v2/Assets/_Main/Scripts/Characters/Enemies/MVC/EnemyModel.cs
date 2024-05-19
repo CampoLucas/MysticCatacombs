@@ -18,7 +18,6 @@ namespace Game.Enemies
         private bool _hasVisionCone;
         private EnemySO _data;
         private FieldOfView[] _fieldOfViews;
-        private PathToFollow _path;
         private InRange _range;
         private Vector3 _direction = Vector3.zero;
         private bool _isFollowing;
@@ -30,7 +29,6 @@ namespace Game.Enemies
             
             _data = GetData<EnemySO>();
             _fieldOfViews = _data.GetFieldOfViews(transform);
-            _path = GetComponent<PathToFollow>();
             _range = new InRange(transform);
         }
 
@@ -57,24 +55,7 @@ namespace Game.Enemies
                    index < _fieldOfViews.Length &&
                    _fieldOfViews[index].Evaluate(target);
         }
-            
-
-        public void Spawn()
-        {
-            if (_path)
-            {
-                transform.position = _path.GetCurrentPoint();
-                transform.rotation = Quaternion.LookRotation(_path.GetWaypointDirection());
-            }
-            
-        }
-
-        public Vector3 GetWaypointDirection() => _path.GetWaypointDirection();
-        public Vector3 GetNextWaypoint() => _path.GetNextWaypoint();
-        public bool HasARoute() => _path.Path;
-        public bool ReachedWaypoint() => _path.ReachedWaypoint();
-        public void ChangeWaypoint() => _path.ChangeWaypoint();
-
+        
         public bool IsTargetInSight(Transform target, int index) => CheckFOV(target, index);
         public bool IsFollowing() => _isFollowing;
         public void SetFollowing(bool isFollowing) => _isFollowing = isFollowing;

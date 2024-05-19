@@ -61,7 +61,6 @@ namespace Game.Enemies
             var lightAttack = new EnemyStateAttack<EnemyStatesEnum>(Model.CurrentWeapon().Stats.LightAttack);
             var heavyAttack = new EnemyStateAttack<EnemyStatesEnum>(Model.CurrentWeapon().Stats.HeavyAttack);
             var dead = new EnemyStateDeath<EnemyStatesEnum>();
-            var followRoute = new EnemyStateFollowRoute<EnemyStatesEnum>();
             
             states.Add(idle);
             states.Add(seek);
@@ -70,11 +69,10 @@ namespace Game.Enemies
             states.Add(lightAttack);
             states.Add(heavyAttack);
             states.Add(dead);
-            states.Add(followRoute);
             states.Add(lookAtTarget);
             StateMachine.AddState(new List<IState<EnemyStatesEnum>>
             {
-                idle, seek, pursuit, damage, lightAttack, heavyAttack, dead, followRoute, lookAtTarget,
+                idle, seek, pursuit, damage, lightAttack, heavyAttack, dead, lookAtTarget,
             });
             
             idle.AddTransition(new Dictionary<EnemyStatesEnum, IState<EnemyStatesEnum>>
@@ -85,7 +83,6 @@ namespace Game.Enemies
                 { EnemyStatesEnum.HeavyAttack, heavyAttack },
                 { EnemyStatesEnum.Damage, damage },
                 { EnemyStatesEnum.Die, dead },
-                { EnemyStatesEnum.FollowRoute, followRoute },
                 { EnemyStatesEnum.LookAtTarget, lookAtTarget },
             });
             
@@ -97,7 +94,6 @@ namespace Game.Enemies
                 { EnemyStatesEnum.HeavyAttack, heavyAttack },
                 { EnemyStatesEnum.Damage, damage },
                 { EnemyStatesEnum.Die, dead},
-                { EnemyStatesEnum.FollowRoute, followRoute },
                 { EnemyStatesEnum.LookAtTarget, lookAtTarget },
             });
             
@@ -109,7 +105,6 @@ namespace Game.Enemies
                 { EnemyStatesEnum.HeavyAttack, heavyAttack },
                 { EnemyStatesEnum.Damage, damage },
                 { EnemyStatesEnum.Die, dead},
-                { EnemyStatesEnum.FollowRoute, followRoute },
                 { EnemyStatesEnum.LookAtTarget, lookAtTarget },
             });
             
@@ -121,7 +116,6 @@ namespace Game.Enemies
                 { EnemyStatesEnum.HeavyAttack, heavyAttack },
                 { EnemyStatesEnum.Damage, damage },
                 { EnemyStatesEnum.Die, dead},
-                { EnemyStatesEnum.FollowRoute, followRoute },
                 { EnemyStatesEnum.Pursuit, pursuit },
             });
             
@@ -131,7 +125,6 @@ namespace Game.Enemies
                 { EnemyStatesEnum.Pursuit, pursuit },
                 { EnemyStatesEnum.Seek, seek },
                 { EnemyStatesEnum.Damage, damage },
-                { EnemyStatesEnum.FollowRoute, followRoute },
                 { EnemyStatesEnum.Die, dead},
                 { EnemyStatesEnum.LookAtTarget, lookAtTarget },
             });
@@ -143,7 +136,6 @@ namespace Game.Enemies
                 { EnemyStatesEnum.Seek, seek },
                 { EnemyStatesEnum.Damage, damage },
                 { EnemyStatesEnum.Die, dead},
-                { EnemyStatesEnum.FollowRoute, followRoute },
                 { EnemyStatesEnum.LookAtTarget, lookAtTarget },
             });
             
@@ -152,17 +144,6 @@ namespace Game.Enemies
                 { EnemyStatesEnum.Idle, idle },
                 { EnemyStatesEnum.Pursuit, pursuit },
                 { EnemyStatesEnum.Seek, seek },
-                { EnemyStatesEnum.Die, dead},
-                { EnemyStatesEnum.FollowRoute, followRoute },
-                { EnemyStatesEnum.LookAtTarget, lookAtTarget },
-            });
-            
-            followRoute.AddTransition(new Dictionary<EnemyStatesEnum, IState<EnemyStatesEnum>>
-            {
-                { EnemyStatesEnum.Idle, idle },
-                { EnemyStatesEnum.Pursuit, pursuit },
-                { EnemyStatesEnum.Seek, seek },
-                { EnemyStatesEnum.Damage, damage },
                 { EnemyStatesEnum.Die, dead},
                 { EnemyStatesEnum.LookAtTarget, lookAtTarget },
             });
@@ -173,30 +154,6 @@ namespace Game.Enemies
             }
             StateMachine.SetInitState(idle);
         }
-
-        // protected virtual void InitTree()
-        // {
-        //     var idle = new TreeAction(ActionIdle);
-        //     var chase = new TreeAction(ActionSeek);
-        //     var pursuit = new TreeAction(ActionPursuit);
-        //     var damage = new TreeAction(ActionDamage);
-        //     var lightAttack = new TreeAction(ActionLightAttack);
-        //     var heavyAttack = new TreeAction(ActionHeavyAttack);
-        //     var die = new TreeAction(ActionDie);
-        //     var followRoute = new TreeAction(ActionFollowRoute);
-        //
-        //     var isHeavyAttack = new TreeQuestion(DoHeavyAttack, heavyAttack, lightAttack);
-        //     var willAttack = new TreeQuestion(WillAttack, isHeavyAttack, idle);
-        //     var isInAttackRange = new TreeQuestion(IsInAttackingRange, willAttack, pursuit);
-        //     var hasARoute = new TreeQuestion(HasARoute, followRoute, idle);
-        //     var isPlayerOutOfSight = new TreeQuestion(IsPlayerOutOfSight, chase, hasARoute);
-        //     var isPlayerInSight = new TreeQuestion(IsPlayerInSight, isInAttackRange, isPlayerOutOfSight);
-        //     var isPlayerAlive = new TreeQuestion(IsTargetAlive, isPlayerInSight, hasARoute);
-        //     var hasTakenDamage = new TreeQuestion(HasTakenDamage, damage, isPlayerAlive);
-        //     var isAlive = new TreeQuestion(IsAlive, hasTakenDamage, die);
-        //
-        //     Root = isAlive;
-        // }
         
         protected override void Awake()
         {
@@ -207,13 +164,17 @@ namespace Game.Enemies
 
         protected override void Start()
         {
-            if (player == null) Debug.LogError("Player is null");
-            if (player as IModel == null) Debug.LogError("Player as IModel is null");
             SetNewTarget(player);
             
             base.Start();
             
             pathfinder.InitPathfinder(transform);
+            if (EnemyManager.Instance)
+            {
+                EnemyManager.Instance.AddEnemy(this);
+            }
+
+            Model.Damageable.OnDie += OnDieHandler;
         }
 
         public override bool DoLightAttack()
@@ -240,7 +201,6 @@ namespace Game.Enemies
 
             if (_currentSteering == null)
             {
-                Debug.LogError("CurrentSteering is null", this);
                 return Vector3.zero;
             }
             return _currentSteering.GetDir(Target.Transform).normalized;
@@ -293,15 +253,19 @@ namespace Game.Enemies
         private void OnDrawGizmosSelected()
         {
             if (pathfinder != null) pathfinder.OnDrawGizmosSelected();
-            
             if (_currentSteering != null) _currentSteering.Draw();
-            
-            
+        }
+
+        private void OnDieHandler()
+        {
+            if (EnemyManager.Instance) EnemyManager.Instance.RemoveEnemy(this);
         }
 
         public override void Dispose()
         {
             base.Dispose();
+            
+            if (EnemyManager.Instance) EnemyManager.Instance.RemoveEnemy(this);
             
             Target = null;
             if (_currentSteering != null) _currentSteering.Dispose();

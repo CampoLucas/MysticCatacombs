@@ -37,9 +37,7 @@ namespace BehaviourTreeAsset.Runtime.Nodes
                 return NodeState.Failure;
             }
 
-            return _model && _model.HasARoute()
-                ? NodeState.Success
-                : NodeState.Failure;
+            return NodeState.Failure;
         }
 
         private void OnDestroy()
