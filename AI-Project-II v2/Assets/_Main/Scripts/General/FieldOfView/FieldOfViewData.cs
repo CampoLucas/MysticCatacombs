@@ -32,8 +32,8 @@ namespace Game.Entities.FieldOfView
 
             return new FieldOfView(predicates.ToArray());
         }
-
-        #if UNITY_EDITOR
+        
+        [System.Diagnostics.Conditional("UNITY_EDITOR")]
         public void DebugGizmos(Transform origin, Color color)
         {
             var forward = origin.forward;
@@ -60,6 +60,6 @@ namespace Game.Entities.FieldOfView
             UnityEditor.Handles.DrawWireArc(position, Vector3.up, leftRayDirection, angle, range);
 
         }
-        #endif
+        
     }
 }

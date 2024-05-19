@@ -55,12 +55,14 @@ namespace Game.MeshCombiner
 
         public void SaveMesh()
         {
+#if UNITY_EDITOR
             var fileName = gameObject.name + "_CombinedMesh";
             var filePath = savePath + fileName + ".asset";
             AssetDatabase.CreateAsset(_meshFilter.sharedMesh, filePath);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
             Debug.Log("Combined mesh saved at: " + filePath);
+#endif
         }
 
         public bool HasAMesh() => _meshFilter != null && _meshFilter.sharedMesh != null;
