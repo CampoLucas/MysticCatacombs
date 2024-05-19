@@ -11,7 +11,7 @@ namespace Game.WeaponSystem
     {
         public ProjectileData Data { get; private set; }
 
-        private Trigger _trigger;
+        private Trigger _damageTrigger;
         private Transform _transform;
         private Damager _damager;
         private Coroutine _coroutine;
@@ -22,8 +22,8 @@ namespace Game.WeaponSystem
         {
             _transform = transform;
             _damager = GetComponent<Damager>();
-            _trigger = GetComponent<Trigger>();
-            _trigger.OnEnter += _damager.OnEnter;
+            _damageTrigger = GetComponent<Trigger>();
+            _damageTrigger.OnEnter += OnDamageHandler;
         }
 
         private void OnEnable()
@@ -46,7 +46,7 @@ namespace Game.WeaponSystem
             _begin = true;
             if (_coroutine != null) StopCoroutine(_coroutine);
             _coroutine = StartCoroutine(DisableAfterTime(Data.LifeTime));
-            _trigger.EnableCollider();
+            _damageTrigger.EnableCollider();
         }
 
         public void Reset()
@@ -60,6 +60,18 @@ namespace Game.WeaponSystem
             _transform.position += _transform.forward * (Data.Speed * Time.deltaTime);
         }
 
+        private void OnDamageHandler(Collider other)
+        {
+            if (other.gameObject.layer == 3 || other.gameObject.layer == 8)
+            {
+                PoolDestroy();
+                return;
+            }
+            
+            _damager.OnEnter(other);
+            PoolDestroy();
+        }
+
         private IEnumerator DisableAfterTime(float t)
         {
             yield return new WaitForSeconds(t);
@@ -69,13 +81,34 @@ namespace Game.WeaponSystem
         private void PoolDestroy()
         {
             _pool.Recicle(this);
-            _trigger.DisableCollider();
+            _damager.Reset();
+            _damageTrigger.DisableCollider();
             gameObject.SetActive(false);
         }
 
         private void OnDisable()
         {
             if (_coroutine != null) StopCoroutine(_coroutine);
+        }
+
+        private void OnDestroy()
+        {
+            if (_damageTrigger)
+            {
+                _damageTrigger.OnEnter -= OnDamageHandler;
+                _damageTrigger = null;
+            }
+
+            Data = null;
+            _transform = null;
+            _damager = null;
+            _coroutine = null;
+
+            if (_pool != null)
+            {
+                _pool.Dispose();
+                _pool = null;
+            }
         }
     }
 }

@@ -54,11 +54,12 @@ namespace Game.Entities.FieldOfView
             Gizmos.DrawRay(position, leftRayDirection * range);
             Gizmos.DrawRay(position, rightRayDirection * range);
 
+#if UNITY_EDITOR
             UnityEditor.Handles.color = color - new Color(0, 0, 0, 0.9f);
             UnityEditor.Handles.DrawSolidArc(position, Vector3.up, leftRayDirection, angle, range);
             UnityEditor.Handles.color = color;
             UnityEditor.Handles.DrawWireArc(position, Vector3.up, leftRayDirection, angle, range);
-
+#endif
         }
         
     }
