@@ -31,12 +31,10 @@ namespace Game.WeaponSystem
 
         public void OnEnter(Collider other)
         {
-            Debug.Log("Damager enter");
             var obj = other.gameObject;
 
             if ((ignoreOwner && obj == owner) || _damaged.Contains(obj))
             {
-                Debug.Log("Cant");
                 return;
             }
             _damaged.Add(obj);

@@ -12,17 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b1c9fe052d94f8bb74a51af2a67cb8a, type: 3}
   m_Name: RangedSkeletonStats
   m_EditorClassIdentifier: 
-  moveSpeed: 4
-  walkSpeed: 2
-  moveLerpSpeed: 10
+  moveSpeed: 5
   rotSpeed: 5
   maxHealth: 3
   invulnerableCooldown: 0.1
   hitAnimation: {fileID: 11400000, guid: d48f0b50d9785464fbcfe906275ae1cb, type: 2}
   deathAnimation: {fileID: 11400000, guid: 6f1558d83ff2f6243bcbf1465fc1a564, type: 2}
-  level: 1
-  maxLevel: 15
-  attackRange: 1.24
+  alertNearby: 1
+  alertRange: 7
   fieldOfViews:
   - name: View
     rangeData:
@@ -39,7 +36,7 @@ MonoBehaviour:
   - name: CloseProximity
     rangeData:
       enabled: 1
-      range: 1.25
+      range: 4
     angleData:
       enabled: 0
       angle: 0

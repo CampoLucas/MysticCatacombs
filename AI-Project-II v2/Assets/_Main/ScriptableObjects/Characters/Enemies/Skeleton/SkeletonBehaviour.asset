@@ -65,6 +65,7 @@ MonoBehaviour:
   guid: 8d80fac3b0741c3419d36fa312b1920b
   children:
   - {fileID: 2782833052954227953}
+  - {fileID: -2281615123329941050}
   - {fileID: -8920347205822977472}
   position: {x: -133.37598, y: 837}
   previousPosition: {x: -129.8581, y: 837}
@@ -182,8 +183,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guid: b52b64471aa73b3459f411a75bc2752e
   children: []
-  position: {x: 546.3333, y: 1189.3334}
-  previousPosition: {x: 547.3333, y: 1189.3334}
+  position: {x: 431.33328, y: 955.3333}
+  previousPosition: {x: 432.33328, y: 955.3333}
   to: 0
 --- !u!114 &-4671209273437643766
 MonoBehaviour:
@@ -216,8 +217,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guid: 84d492dbfd9e3514b98c7936c6aefb35
   children: []
-  position: {x: -459.99997, y: 1075.3336}
-  previousPosition: {x: -459.99997, y: 1075.3336}
+  position: {x: -464, y: 1074.0001}
+  previousPosition: {x: -465, y: 1074.0001}
   fovIndex: 1
 --- !u!114 &-3729372724924392791
 MonoBehaviour:
@@ -308,6 +309,25 @@ MonoBehaviour:
   - {fileID: 6875606197907724180}
   position: {x: -132.66672, y: 1312.6469}
   previousPosition: {x: -134.6666, y: 1312.6469}
+--- !u!114 &-2281615123329941050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0992871e4ab44f9ca7a25eac18883aed, type: 3}
+  m_Name: AlertNearbyEnemies
+  m_EditorClassIdentifier: 
+  guid: 6de773f0320472c48b15084dbaa5eddc
+  children: []
+  position: {x: -247.33331, y: 955.3333}
+  previousPosition: {x: -247.33331, y: 955.3333}
+  enemyMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!114 &-1164393715377603029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -381,6 +401,7 @@ MonoBehaviour:
   - {fileID: 1599320648452105641}
   - {fileID: -2807754475266778740}
   - {fileID: -4671209273437643766}
+  - {fileID: -2281615123329941050}
 --- !u!114 &269773961616931560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -485,8 +506,8 @@ MonoBehaviour:
   children:
   - {fileID: -4117587844469204606}
   - {fileID: 5946108944956388477}
-  position: {x: -366.66663, y: 953.33344}
-  previousPosition: {x: -366.66663, y: 953.33344}
+  position: {x: -370.6667, y: 954.00006}
+  previousPosition: {x: -371.6667, y: 954.00006}
 --- !u!114 &3038039247685901488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -588,8 +609,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guid: 86276897ad7d5ee4aabde1aebb4f0444
   children: []
-  position: {x: -306.6666, y: 1078.6667}
-  previousPosition: {x: -306.6666, y: 1078.6667}
+  position: {x: -310.6667, y: 1077.3335}
+  previousPosition: {x: -311.6667, y: 1077.3335}
   fovIndex: 0
 --- !u!114 &5951705297612710087
 MonoBehaviour:

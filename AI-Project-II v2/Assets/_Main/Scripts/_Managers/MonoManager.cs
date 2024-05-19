@@ -87,9 +87,7 @@ namespace Game.Managers
             {
                 if (_instance == null)
                 {
-                    Debug.Log("SetInstance");
                     _instance = this as T;
-                    if (_instance == null) Debug.Log("Instance is null");
                     if (!DestroyOnLoad())
                     {
                         DontDestroyOnLoad(gameObject);

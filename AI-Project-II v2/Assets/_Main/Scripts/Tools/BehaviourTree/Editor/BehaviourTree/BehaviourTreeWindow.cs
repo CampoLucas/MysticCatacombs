@@ -54,11 +54,9 @@ namespace BehaviourTreeAsset.EditorUI
 
         private void OnSelectionChange()
         {
-            Debug.Log("OnSelectionChange");
             var tree = Selection.activeObject as BehaviourTree;
             if (tree && AssetDatabase.CanOpenAssetInEditor(tree.GetInstanceID()))
             {
-                Debug.Log("Populate view");
                 _treeView.PopulateView(tree);
                 tree.OnPopulateTree();
                 //GetInspectorView(out var inspector);

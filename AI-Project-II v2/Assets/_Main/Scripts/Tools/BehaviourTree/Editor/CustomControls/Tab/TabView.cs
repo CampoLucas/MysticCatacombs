@@ -20,7 +20,6 @@ public class TabView : VisualElement
 
 	public TabView()
 	{
-		Debug.Log("Create tab view");
 		name = "tab-view";
 		_container = new TabContainer();
 		_content = new TabContent();

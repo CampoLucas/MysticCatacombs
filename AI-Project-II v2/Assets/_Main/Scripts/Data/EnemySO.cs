@@ -8,15 +8,17 @@ namespace Game.SO
     [CreateAssetMenu(fileName = "EnemyStats", menuName = "SO/Entities/EnemyStats", order = 2)]
     public class EnemySO : StatSO
     {
-        public float AttackRange => attackRange;
         public FieldOfViewData[] FOVs => fieldOfViews; 
         public SeekData Seek => seek;
         public PursuitData Pursuit => pursuit;
         public ObstacleAvoidanceData ObstacleAvoidance => obstacleAvoidance;
         public FlockingHandlerData Flocking => flocking;
+        public bool AlertNearby => alertNearby;
+        public float AlertRange => alertRange;
 
-        [Header("Attack")]
-        [SerializeField] private float attackRange = 0.5f;
+        [Header("Behaviour")] 
+        [SerializeField] private bool alertNearby;
+        [SerializeField] private float alertRange;
         
         [Header("Cone Vision")]
         [SerializeField] private FieldOfViewData[] fieldOfViews;

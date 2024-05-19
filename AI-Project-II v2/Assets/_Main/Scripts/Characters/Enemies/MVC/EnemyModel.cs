@@ -89,6 +89,17 @@ namespace Game.Enemies
             }
 
             #endregion
+
+            #region AlertRange
+
+            var stats = GetData<EnemySO>();
+            if (stats && stats.AlertNearby)
+            {
+                Gizmos.color = Color.white;
+                Gizmos.DrawWireSphere(transform.position, stats.AlertRange);
+            }
+
+            #endregion
         }
 
         #if UNITY_EDITOR

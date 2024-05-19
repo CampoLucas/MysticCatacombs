@@ -39,16 +39,6 @@ namespace Game.Interfaces
         BaseWeapon CurrentWeapon();
 
         #endregion
-
-        #region Levels
-
-        void IncreaseLevel();
-        int GetCurrentLevel();
-
-        bool HasReachedMaxLevel();
-        Levelable GetLevelable();
-
-        #endregion
         
         #region Timer Methods
 

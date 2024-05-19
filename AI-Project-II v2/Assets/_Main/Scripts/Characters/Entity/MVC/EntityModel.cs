@@ -22,7 +22,6 @@ namespace Game.Entities
         private IMovement _movement;
         private IRotation _rotate;
         private WaitTimer _waitTimer;
-        private Levelable _level;
 
         protected virtual void Awake()
         {
@@ -33,7 +32,6 @@ namespace Game.Entities
             SetRotation(new Rotation(transform, stats));
             Damageable = GetComponent<Damageable>();
             _waitTimer = new WaitTimer();
-            _level = new Levelable(stats.Level, stats.MaxLevel);
             
         }
 
@@ -55,11 +53,6 @@ namespace Game.Entities
         public bool IsInvulnerable() => Damageable != null && Damageable.IsInvulnerable();
         public bool HasTakenDamage() => Damageable != null && Damageable.HasTakenDamage();
         public BaseWeapon CurrentWeapon() => weapon;
-        public void IncreaseLevel() => _level.IncreaseLevel();
-        public int GetCurrentLevel() => _level.CurrentLevel;
-
-        public bool HasReachedMaxLevel() => _level.HasReachedMaxLevel();
-        public Levelable GetLevelable() => _level;
 
         #region Timer Methods
 
@@ -120,7 +113,6 @@ namespace Game.Entities
             }
 
             _waitTimer = null;
-            _level = null;
         }
     }
 
