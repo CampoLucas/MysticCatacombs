@@ -21,7 +21,6 @@ namespace Game.Enemies
         private InRange _range;
         private Vector3 _direction = Vector3.zero;
         private bool _isFollowing;
-
         
         protected override void Awake()
         {

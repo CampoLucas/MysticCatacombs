@@ -8,18 +8,20 @@ namespace Game.Entities
 {
     public class Damageable : MonoBehaviour, IDamageable
     {
-        public float CurrentLife => _currentLife;
+        public float CurrentHealth => currentHealth;
         public Action OnTakeDamage { get; set; }
         public Action OnDie { get; set; }
+        public Action<float> OnHealthUpdated { get; set; }
+        
         private StatSO _data;
-        private float _currentLife;
+        private float currentHealth;
         private bool _isInvulnerable;
         private bool _hasTakenDamage;
         private Collider _collider;
 
         private void InitStats()
         {
-            _currentLife = _data.MaxHealth;
+            currentHealth = _data.MaxHealth;
         }
         private void Awake()
         {
@@ -33,7 +35,7 @@ namespace Game.Entities
         //     _hasTakenDamage = false;
         // }
 
-        public bool IsAlive() => _currentLife > 0;
+        public bool IsAlive() => currentHealth > 0;
         public bool IsInvulnerable() => _isInvulnerable;
 
         public bool HasTakenDamage()
@@ -50,7 +52,7 @@ namespace Game.Entities
         public void TakeDamage(float damage)
         {
             if (_isInvulnerable) return;
-            _currentLife -= damage;
+            currentHealth -= damage;
 
             if (!IsAlive())
             {
@@ -63,7 +65,10 @@ namespace Game.Entities
                 OnTakeDamage?.Invoke();
                 TurnInvulnerable();
             }
+            OnHealthUpdated?.Invoke(currentHealth);
         }
+
+        public float MaxHealth() => _data.MaxHealth;
 
         private void TurnInvulnerable()
         {

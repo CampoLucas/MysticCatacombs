@@ -265,8 +265,6 @@ namespace Game.Enemies
         {
             base.Dispose();
             
-            if (EnemyManager.Instance) EnemyManager.Instance.RemoveEnemy(this);
-            
             Target = null;
             if (_currentSteering != null) _currentSteering.Dispose();
             _currentSteering = null;
