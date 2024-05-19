@@ -175,6 +175,7 @@ namespace Game.Enemies
             }
 
             Model.Damageable.OnDie += OnDieHandler;
+            Model.Damageable.OnTakeDamage += OnTakeDamageHandler;
         }
 
         public override bool DoLightAttack()
@@ -258,12 +259,21 @@ namespace Game.Enemies
 
         private void OnDieHandler()
         {
+            Model.Damageable.OnDie -= OnDieHandler;
+            Model.Damageable.OnTakeDamage -= OnTakeDamageHandler;
+            StateMachine.SetState(EnemyStatesEnum.Die);
             if (EnemyManager.Instance) EnemyManager.Instance.RemoveEnemy(this);
+        }
+        
+        private void OnTakeDamageHandler()
+        {
+            StateMachine.SetState(EnemyStatesEnum.Damage);
         }
 
         public override void Dispose()
         {
             base.Dispose();
+            
             
             Target = null;
             if (_currentSteering != null) _currentSteering.Dispose();

@@ -7,9 +7,9 @@ namespace Game.Enemies.States
         public override void Start()
         {
             base.Start();
-            var timer = Model.GetRandomTime(0.5f);
-            Model.SetTimer(timer);
-            Continue = false;
+            //var timer = Model.GetRandomTime(0.5f);
+            //Model.SetTimer(timer);
+            //Continue = false;
         }
 
         public override void Execute()
@@ -17,14 +17,14 @@ namespace Game.Enemies.States
             base.Execute();
             
             
-            if (Model.GetTimerComplete())
-            {
-                Model.RunTimer();
-            }
-            else
-            {
-                Continue = true;
-            }
+            // if (Model.GetTimerComplete())
+            // {
+            //     Model.RunTimer();
+            // }
+            // else
+            // {
+            //     Continue = true;
+            // }
 
             View.UpdateMovementValues(0);
         }
