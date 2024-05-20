@@ -18,22 +18,6 @@ MonoBehaviour:
   - {fileID: -6192738703394583548}
   position: {x: -62.376022, y: 955}
   previousPosition: {x: -58.85814, y: 955}
---- !u!114 &-7849917359830110897
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e47446c45404b9b934a22008674dda3, type: 3}
-  m_Name: HasTakenDamage
-  m_EditorClassIdentifier: 
-  guid: 6ce11111b6301af459e66d3eb32c3526
-  children: []
-  position: {x: -367, y: 594}
-  previousPosition: {x: -367, y: 594}
 --- !u!114 &-7700927326342468334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,24 +224,6 @@ MonoBehaviour:
   - {fileID: 3813342394461885963}
   position: {x: 127, y: 476}
   previousPosition: {x: 117, y: 476}
---- !u!114 &-3067834581589045847
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c93c49c783344d3194be6fa8d3bc6bd5, type: 3}
-  m_Name: Sequencer
-  m_EditorClassIdentifier: 
-  guid: 50301c19cbe94f141ba76a794ad2ba5c
-  children:
-  - {fileID: -7849917359830110897}
-  - {fileID: 1715569558459011432}
-  position: {x: -270.99994, y: 474.00003}
-  previousPosition: {x: -270.99994, y: 474.00003}
 --- !u!114 &-3004411763743874806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,14 +292,8 @@ MonoBehaviour:
   rootNode: {fileID: 7828694079850300497}
   nodes:
   - {fileID: 7828694079850300497}
-  - {fileID: 5211583269859945332}
   - {fileID: 6547300315323723430}
   - {fileID: 6569826192188135152}
-  - {fileID: 8319223671852135123}
-  - {fileID: 8547477013858548163}
-  - {fileID: -3067834581589045847}
-  - {fileID: -7849917359830110897}
-  - {fileID: 1715569558459011432}
   - {fileID: -3391638927541737198}
   - {fileID: -3729372724924392791}
   - {fileID: -7700927326342468334}
@@ -397,23 +357,6 @@ MonoBehaviour:
   - {fileID: -4671209273437643766}
   position: {x: -32.99994, y: 1193.3334}
   previousPosition: {x: -32.99994, y: 1193.3334}
---- !u!114 &1715569558459011432
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a73641a2d37404b962fb64f38638b25, type: 3}
-  m_Name: SetState
-  m_EditorClassIdentifier: 
-  guid: adad36e219cfa7442b6dcbc0b39ea689
-  children: []
-  position: {x: -192, y: 594}
-  previousPosition: {x: -192, y: 594}
-  to: 6
 --- !u!114 &2782833052954227953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -501,24 +444,6 @@ MonoBehaviour:
   - {fileID: 1599320648452105641}
   position: {x: -132.37605, y: 1073}
   previousPosition: {x: -128.85817, y: 1073}
---- !u!114 &5211583269859945332
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f1eaefeeef145298f060deabbc5702a, type: 3}
-  m_Name: Selector
-  m_EditorClassIdentifier: 
-  guid: de2a63a5e8e72aa44a2792d53210168b
-  children:
-  - {fileID: 6547300315323723430}
-  - {fileID: 8319223671852135123}
-  position: {x: 0, y: 120.11994}
-  previousPosition: {x: 0, y: 120.11994}
 --- !u!114 &5845332363316936785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -570,7 +495,6 @@ MonoBehaviour:
   guid: bd8ee99fa2dd0ed41a3023f0acb12e4a
   children:
   - {fileID: 6569826192188135152}
-  - {fileID: 8547477013858548163}
   position: {x: -90, y: 242}
   previousPosition: {x: -89, y: 242}
 --- !u!114 &6569826192188135152
@@ -656,45 +580,9 @@ MonoBehaviour:
   m_Name: Repeat
   m_EditorClassIdentifier: 
   guid: 653ee439268275048bfa6c402d01564c
-  children:
-  - {fileID: 5211583269859945332}
+  children: []
   position: {x: -0.000022888184, y: 9.149958}
   previousPosition: {x: -0.000022888184, y: 10.299957}
   amount: 1
   infinite: 1
   stopOnFailure: 0
---- !u!114 &8319223671852135123
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a73641a2d37404b962fb64f38638b25, type: 3}
-  m_Name: SetState
-  m_EditorClassIdentifier: 
-  guid: ca94275ebe6c2fa46acfbd6d62544a35
-  children: []
-  position: {x: 77.00006, y: 241.99998}
-  previousPosition: {x: 77.00006, y: 241.99998}
-  to: 5
---- !u!114 &8547477013858548163
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f1eaefeeef145298f060deabbc5702a, type: 3}
-  m_Name: Selector
-  m_EditorClassIdentifier: 
-  guid: 45a34f76a8c06514ebb387a89aaa6d05
-  children:
-  - {fileID: -3067834581589045847}
-  - {fileID: -3391638927541737198}
-  position: {x: -27.999996, y: 361}
-  previousPosition: {x: -27.999996, y: 361}

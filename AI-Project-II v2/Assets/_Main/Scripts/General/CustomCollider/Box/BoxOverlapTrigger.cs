@@ -39,7 +39,11 @@ namespace Game.CustomCollider
             for (var i = CollidersInBox.Count - 1; i >= 0; i--)
             {
                 var other = CollidersInBox[i];
-                if (!other.enabled) CollidersInBox.RemoveAt(i);
+                if (!other.enabled)
+                {
+                    CollidersInBox.RemoveAt(i);
+                    continue;
+                }
                 
                 if (!Array.Exists(_hits, element => element == other))
                 {

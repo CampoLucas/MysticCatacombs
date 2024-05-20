@@ -13,6 +13,8 @@ namespace Game.Entities
     {
         public IDamageable Damageable { get; private set; }
         public Transform Transform { get; private set; }
+        public Action OnTakeDamage { get; set; }
+        public Action OnDie { get; set; }
 
         [SerializeField] private bool spawnable;
         [SerializeField] private StatSO stats;
@@ -39,6 +41,7 @@ namespace Game.Entities
         {
             weapon.Equip(gameObject);
             Damageable.OnDie += OnDieHandler;
+            Damageable.OnTakeDamage += OnTakeDamageHandler;
         }
 
         public virtual void Move(Vector3 dir) => _movement?.Move(dir);
@@ -92,6 +95,12 @@ namespace Game.Entities
         private void OnDieHandler()
         {
             Controller.enabled = false;
+            OnDie?.Invoke();
+        }
+        
+        private void OnTakeDamageHandler()
+        {
+            OnTakeDamage?.Invoke();
         }
 
         public virtual void Dispose()
@@ -99,6 +108,7 @@ namespace Game.Entities
             if (Damageable != null)
             {
                 Damageable.OnDie -= OnDieHandler;
+                Damageable.OnTakeDamage -= OnTakeDamageHandler;
                 Damageable.Dispose();
                 Damageable = null;
             }

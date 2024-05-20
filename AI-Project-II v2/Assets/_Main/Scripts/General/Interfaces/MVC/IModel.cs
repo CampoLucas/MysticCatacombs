@@ -11,6 +11,8 @@ namespace Game.Interfaces
     {
         IDamageable Damageable { get; }
         Transform Transform { get; }
+        Action OnTakeDamage { get; set; }
+        Action OnDie { get; set; }
 
         T GetData<T>() where T : StatSO;
         StatSO GetData();

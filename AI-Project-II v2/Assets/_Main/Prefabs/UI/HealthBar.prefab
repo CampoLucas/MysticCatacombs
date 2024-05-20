@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6378165426330328660}
   - component: {fileID: 1374615373484343094}
   - component: {fileID: 2137364377885679451}
-  m_Layer: 6
+  m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86,7 +86,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5071495405703334379}
   - component: {fileID: 746815921288084560}
-  m_Layer: 6
+  m_Layer: 5
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 1462204407523415040}
   - component: {fileID: 4999349322562161153}
   - component: {fileID: 6774509742272743380}
-  m_Layer: 6
+  m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -257,7 +257,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6217979593515403199}
-  m_Layer: 6
+  m_Layer: 5
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -291,7 +291,7 @@ GameObject:
   - component: {fileID: 3860382816695449490}
   - component: {fileID: 592352867117025194}
   - component: {fileID: 418704283364760776}
-  m_Layer: 6
+  m_Layer: 5
   m_Name: Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -367,7 +367,7 @@ GameObject:
   - component: {fileID: 2220716517148933834}
   - component: {fileID: 3691404207530838143}
   - component: {fileID: 5074577301000191253}
-  m_Layer: 6
+  m_Layer: 5
   m_Name: Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}

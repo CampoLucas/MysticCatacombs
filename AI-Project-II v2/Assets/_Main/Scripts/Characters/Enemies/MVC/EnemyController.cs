@@ -174,8 +174,8 @@ namespace Game.Enemies
                 EnemyManager.Instance.AddEnemy(this);
             }
 
-            Model.Damageable.OnDie += OnDieHandler;
-            Model.Damageable.OnTakeDamage += OnTakeDamageHandler;
+            Model.OnDie += OnDieHandler;
+            Model.OnTakeDamage += OnTakeDamageHandler;
         }
 
         public override bool DoLightAttack()
@@ -259,8 +259,7 @@ namespace Game.Enemies
 
         private void OnDieHandler()
         {
-            Model.Damageable.OnDie -= OnDieHandler;
-            Model.Damageable.OnTakeDamage -= OnTakeDamageHandler;
+            
             StateMachine.SetState(EnemyStatesEnum.Die);
             if (EnemyManager.Instance) EnemyManager.Instance.RemoveEnemy(this);
         }
@@ -272,8 +271,8 @@ namespace Game.Enemies
 
         public override void Dispose()
         {
-            base.Dispose();
-            
+            Model.OnDie -= OnDieHandler;
+            Model.OnTakeDamage -= OnTakeDamageHandler;
             
             Target = null;
             if (_currentSteering != null) _currentSteering.Dispose();
@@ -281,6 +280,8 @@ namespace Game.Enemies
             
             if (pathfinder != null) pathfinder.Dispose();
             pathfinder = null;
+            
+            base.Dispose();
         }
     }
 }
