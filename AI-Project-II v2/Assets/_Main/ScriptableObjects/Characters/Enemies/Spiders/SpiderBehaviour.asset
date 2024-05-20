@@ -222,8 +222,8 @@ MonoBehaviour:
   children:
   - {fileID: -3729372724924392791}
   - {fileID: 3813342394461885963}
-  position: {x: 127, y: 476}
-  previousPosition: {x: 117, y: 476}
+  position: {x: 124.333374, y: 361.33334}
+  previousPosition: {x: 124.333374, y: 361.33334}
 --- !u!114 &-3004411763743874806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -322,6 +322,7 @@ MonoBehaviour:
   - {fileID: -2807754475266778740}
   - {fileID: -4671209273437643766}
   - {fileID: 5845332363316936785}
+  - {fileID: 4421877105604125187}
 --- !u!114 &915541490575932215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -426,6 +427,23 @@ MonoBehaviour:
   position: {x: 212, y: 594.0001}
   previousPosition: {x: 212, y: 594.0001}
   to: 0
+--- !u!114 &4421877105604125187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74fc5b7c733b41779c59e0784e6418a9, type: 3}
+  m_Name: DebugLog
+  m_EditorClassIdentifier: 
+  guid: 72f7cae587e938a48b9d6e47286da02a
+  children: []
+  position: {x: 0, y: 0}
+  previousPosition: {x: 0, y: 0}
+  message: 
 --- !u!114 &5009109387363494136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -495,6 +513,7 @@ MonoBehaviour:
   guid: bd8ee99fa2dd0ed41a3023f0acb12e4a
   children:
   - {fileID: 6569826192188135152}
+  - {fileID: -3391638927541737198}
   position: {x: -90, y: 242}
   previousPosition: {x: -89, y: 242}
 --- !u!114 &6569826192188135152
@@ -580,7 +599,8 @@ MonoBehaviour:
   m_Name: Repeat
   m_EditorClassIdentifier: 
   guid: 653ee439268275048bfa6c402d01564c
-  children: []
+  children:
+  - {fileID: 6547300315323723430}
   position: {x: -0.000022888184, y: 9.149958}
   previousPosition: {x: -0.000022888184, y: 10.299957}
   amount: 1
