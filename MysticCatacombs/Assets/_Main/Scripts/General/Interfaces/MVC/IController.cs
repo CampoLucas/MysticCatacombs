@@ -1,11 +1,12 @@
 using System;
+using Game.StateMachine.Interfaces;
 using UnityEngine;
 
 namespace Game.Interfaces
 {
-    public interface IController<T> : IDisposable
+    public interface IController : IDisposable
     {
-        IStateMachine<T> StateMachine { get; }
+        IStateMachine StateMachine { get; }
         IModel Model { get; }
         IView View { get; }
 
@@ -15,5 +16,6 @@ namespace Game.Interfaces
         bool DoHeavyAttack();
         TModel GetModel<TModel>() where TModel : IModel;
         TView GetView<TView>() where TView : IView;
+        void SetSteering(ISteering steering);
     }
 }

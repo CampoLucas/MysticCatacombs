@@ -69,7 +69,7 @@ MonoBehaviour:
   children: []
   position: {x: 160.99994, y: 962.0001}
   previousPosition: {x: 160.99994, y: 962.0001}
-  to: 1
+  to: Seek
 --- !u!114 &-6798619054684780330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,7 +86,7 @@ MonoBehaviour:
   children: []
   position: {x: -405.6667, y: 1796.6666}
   previousPosition: {x: -405.6667, y: 1796.6666}
-  to: 3
+  to: LightAttack
 --- !u!114 &-6192738703394583548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,7 +103,7 @@ MonoBehaviour:
   children: []
   position: {x: -155.00008, y: 962.0001}
   previousPosition: {x: -155.00008, y: 962.0001}
-  to: 2
+  to: Pursuit
 --- !u!114 &-5398267029928038821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,6 +135,7 @@ MonoBehaviour:
   guid: 52ec8a56efa6f6447be6f39423e4e785
   children:
   - {fileID: 3559242249221905424}
+  - {fileID: -4749019072178736274}
   position: {x: 212.99997, y: 724}
   previousPosition: {x: 212.99997, y: 724}
 --- !u!114 &-4749019072178736274
@@ -153,7 +154,7 @@ MonoBehaviour:
   children: []
   position: {x: 272.99988, y: 844}
   previousPosition: {x: 272.99988, y: 844}
-  to: 0
+  to: Idle
 --- !u!114 &-4671209273437643766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,7 +171,7 @@ MonoBehaviour:
   children: []
   position: {x: -105.66681, y: 1201.3335}
   previousPosition: {x: -105.66681, y: 1201.3335}
-  to: 9
+  to: LookAtTarget
 --- !u!114 &-4117587844469204606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -379,7 +380,7 @@ MonoBehaviour:
   children: []
   position: {x: -291, y: 1564}
   previousPosition: {x: -291, y: 1564}
-  to: 0
+  to: Idle
 --- !u!114 &1589439970423396732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -503,7 +504,7 @@ MonoBehaviour:
   children: []
   position: {x: 33.66661, y: 482.66672}
   previousPosition: {x: 33.66661, y: 482.66672}
-  to: 0
+  to: Idle
 --- !u!114 &5009109387363494136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -555,7 +556,7 @@ MonoBehaviour:
   children: []
   position: {x: -341.66675, y: 1680.6667}
   previousPosition: {x: -341.66675, y: 1680.6667}
-  to: 4
+  to: HeavyAttack
 --- !u!114 &6547300315323723430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -662,4 +663,4 @@ MonoBehaviour:
   previousPosition: {x: -0.000022888184, y: 10.299957}
   amount: 1
   infinite: 1
-  stopOnFailure: 0
+  stopOnFailure: 1

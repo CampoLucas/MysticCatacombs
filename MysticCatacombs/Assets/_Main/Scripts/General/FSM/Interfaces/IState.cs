@@ -1,48 +1,56 @@
 using System;
 using System.Collections.Generic;
+using Game.Interfaces;
 
-namespace Game.FSM
+namespace Game.StateMachine.Interfaces
 {
     /// <summary>
-    /// A state in a Finite State Machine for a generic type T.
+    /// Interface for a state in a state machine.
+    /// Includes methods and properties that define the lifecycle of a state.
     /// </summary>
-    public interface IState<T> : IDisposable
+    public interface IState : IDisposable
     {
         /// <summary>
-        /// A method that is called when the state is activated.
+        /// Used to check if it has been initialized.
+        /// </summary>
+        bool Initialized { get; }
+
+        /// <summary>
+        /// Method called when the state is first added to the state machine.
+        /// </summary>
+        /// <param name="stateMachine">The state machine it belongs to.</param>
+        void Awake(IStateMachine stateMachine);
+        
+        /// <summary>
+        /// Method called when the state becomes active.
+        /// Intended to perform any actions required when the state starts.
         /// </summary>
         void Start();
+        
         /// <summary>
-        /// A method that is called every frame while the state is active.
+        /// Method called on each frame while the state is active.
+        /// Intended to handle the state's behavior that needs to be updated regularly
         /// </summary>
-        void Execute();
+        void Update();
+        
         /// <summary>
-        /// A method that is called when the state is deactivated.
+        /// Method called when the state exits or transitions to another state.
+        /// Intended to perform any cleanup or actions required when the state is about to become inactive.
         /// </summary>
         void Exit();
+        
         /// <summary>
-        /// A method that returns the next state based on the provided input parameter.
+        /// Method to check if the state can transition to another state.
         /// </summary>
-        IState<T> GetTransition(T input);
-        /// <summary>
-        /// A method that adds a new transition from the current state to the provided state based on the provided input parameter.
-        /// </summary>
-        void AddTransition(T input, IState<T> state);
-        /// <summary>
-        /// A method that adds a dictionary to the transitions dictionary.
-        /// The keys are of type T and represent the input that triggers the transition, and the values are of type IState that represent the state that the transition leads to.
-        /// </summary>
-        void AddTransition(Dictionary<T, IState<T>> transitions);
-        /// <summary>
-        /// A method that removes a transition from the current state to the provided state.
-        /// </summary>
-        void RemoveTransition(IState<T> state);
-        /// <summary>
-        /// A method that removes a transition based on the provided input parameter.
-        /// </summary>
-        /// <param name="input"></param>
-        void RemoveTransition(T input);
-
+        /// <returns>Returns true if the state is ready to transition, otherwise false.</returns>
         bool CanTransition();
+        /// <summary>
+        /// Method to check if the state can transition to itself.
+        /// </summary>
+        /// <returns>Returns true if the state can transition to itself, otherwise false.</returns>
+        bool CanTransitionToItself();
+
+        void Draw();
+        void DrawSelected();
     }
 }

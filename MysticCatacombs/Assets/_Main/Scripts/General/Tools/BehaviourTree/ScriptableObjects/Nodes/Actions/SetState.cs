@@ -1,6 +1,3 @@
-using System;
-using Game.Enemies.States;
-using Game.FSM;
 using Game.Interfaces;
 using UnityEngine;
 
@@ -8,13 +5,13 @@ namespace BehaviourTreeAsset.Runtime.Nodes
 {
     public class SetState : Action
     {
-        [SerializeField] private EnemyStatesEnum to;
+        [SerializeField] private string to;
 
-        private IController<EnemyStatesEnum> _controller;
+        private IController _controller;
 
         protected override void OnAwake()
         {
-            _controller = Owner.GetComponent<IController<EnemyStatesEnum>>();
+            _controller = Owner.GetComponent<IController>();
         }
 
         protected override void OnStart()
@@ -33,7 +30,7 @@ namespace BehaviourTreeAsset.Runtime.Nodes
                 return NodeState.Failure;
             }
             
-            return _controller.StateMachine.Current.CanTransition() ? NodeState.Success : NodeState.Running;
+            return _controller.StateMachine.CanTransition() ? NodeState.Success : NodeState.Running;
         }
 
         private void OnDestroy()

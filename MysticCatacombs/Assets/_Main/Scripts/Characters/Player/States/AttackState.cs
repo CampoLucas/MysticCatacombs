@@ -4,10 +4,8 @@ using UnityEngine;
 
 namespace Game.Player.States
 {
-    public class PlayerStateAttack<T> : PlayerStateBase<T>
+    public class AttackState : EntityState
     {
-        private readonly T _inIdle;
-        private readonly T _inMoving;
         private Attack _initAttack;
         private Attack _currentAttack;
         private Func<bool> _attackFlag;
@@ -15,23 +13,22 @@ namespace Game.Player.States
         private float _timer;
         private bool _triggered;
 
-        public PlayerStateAttack(T inIdle, T inMoving, T inDamage, T inDead, AttackSO attack, Func<bool> attackFlag): base(inDamage, inDead)
+        public AttackState(AttackSO attack, Func<bool> attackFlag)
         {
-            _inIdle = inIdle;
-            _inMoving = inMoving;
             _initAttack = attack.GetAttack();
             _attackFlag = attackFlag;
         }
 
-        public override void Start()
+        protected override void OnStart()
         {
-            base.Start();
+            base.OnStart();
             Attack(_initAttack);
+            holdState = true;
         }
 
-        public override void Execute()
+        protected override void OnUpdate()
         {
-            base.Execute();
+            base.OnUpdate();
             _timer += Time.deltaTime;
             if (_timer < _currentAttack.AnimModule.Duration)
             {
@@ -57,14 +54,16 @@ namespace Game.Player.States
             }
             else
             {
-                if (Controller.MoveDirection() != Vector3.zero)
-                {
-                    Controller.StateMachine.SetState(_inMoving);
-                }
-                else
-                {
-                    Controller.StateMachine.SetState(_inIdle);
-                }
+                holdState = false;
+                StateMachine.SetToDefault();
+                // if (Controller.MoveDirection() != Vector3.zero)
+                // {
+                //     Controller.StateMachine.SetState(_inMoving);
+                // }
+                // else
+                // {
+                //     Controller.StateMachine.SetState(_inIdle);
+                // }
             }
         }
 

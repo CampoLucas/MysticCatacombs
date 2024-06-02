@@ -1,19 +1,20 @@
 ﻿using System;
 using UnityEngine;
-using Game.FSM;
 using Game.Interfaces;
+using Game.StateMachine;
+using Game.StateMachine.Interfaces;
 
 namespace Game.Entities
 {
-    public class EntityController<T> : MonoBehaviour, IController<T>
+    public class EntityController : MonoBehaviour, IController
     {
-        public IStateMachine<T> StateMachine { get; protected set; }
+        public IStateMachine StateMachine { get; protected set; }
         public IModel Model { get; private set; }
         public IView View { get; private set; }
 
         protected virtual void InitFSM()
         {
-            StateMachine = new FSM<T>();
+            StateMachine = new FSM(gameObject);
         }
 
         protected virtual void Awake()
@@ -30,7 +31,7 @@ namespace Game.Entities
         protected virtual void Update()
         {
             if (StateMachine != null)
-                StateMachine.OnUpdate();
+                StateMachine.Update();
         }
 
         public TModel GetModel<TModel>() where TModel : IModel
@@ -51,7 +52,7 @@ namespace Game.Entities
             return view;
         }
         
-        public string GetCurrentState() => StateMachine.CurrentID.ToString();
+        public string GetCurrentState() => StateMachine.CurrentState;
 
         public virtual float MoveAmount()
         {
@@ -73,6 +74,11 @@ namespace Game.Entities
             return false;
         }
         
+        public virtual void SetSteering(ISteering steering)
+        {
+            //_currentSteering = steering;
+        }
+        
         private void OnDestroy()
         {
             Dispose();
@@ -88,6 +94,16 @@ namespace Game.Entities
             Model = null;
             View = null;
             
+        }
+
+        protected virtual void OnDrawGizmos()
+        {
+            if (StateMachine != null) StateMachine.Draw();
+        }
+
+        protected virtual void OnDrawGizmosSelected()
+        {
+            if (StateMachine != null) StateMachine.DrawOnSelected();
         }
     }
 }

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Game.Enemies.States;
+﻿using System.Collections.Generic;
 using Game.Entities;
-using Game.Entities.Flocking;
-using Game.Entities.Steering;
 using UnityEngine;
-using Game.FSM;
 using Game.Sheared;
 using Game.Interfaces;
 using Game.Managers;
@@ -13,12 +8,13 @@ using Game.Pathfinding;
 using Game.Player;
 using Game.Player.States;
 using Game.SO;
-using UnityEngine.Serialization;
+using Game.StateMachine.Interfaces;
+using Game.StateMachine.Predicates;
 using Random = UnityEngine.Random;
 
 namespace Game.Enemies
 {
-    public class EnemyController : EntityController<EnemyStatesEnum>
+    public class EnemyController : EntityController
     {
         public IModel Target { get; private set; }
 
@@ -31,35 +27,35 @@ namespace Game.Enemies
         protected override void InitFSM()
         {
             base.InitFSM();
-            var states = new List<EnemyStateBase<EnemyStatesEnum>>();
+            var states = new List<EntityState>();
 
-            var idle = new EnemyStateIdle<EnemyStatesEnum>();
+            var idle = new IdleState();
             var t = transform;
             
-            var seek = new EnemyStateMove<EnemyStatesEnum>(_data.Seek.Get(t, pathfinder), Model.GetData().MoveSpeed, 
+            var seek = new SteeringMoveState(_data.Seek.Get(t, pathfinder), Model.GetData().MoveSpeed, 
                 new [] 
                 { 
                     _data.ObstacleAvoidance.GetDecorator(t), 
                     _data.Flocking.GetDecorator(GetModel<EnemyModel>()) 
                 });
-            seek.OnStart += OnSeekStartHandler;
-            seek.OnExecute += OnSeekExecuteHandler;
+            seek.OnStartState += OnSeekStartHandler;
+            seek.OnExitState += OnSeekExecuteHandler;
             
-            var pursuit = new EnemyStateMove<EnemyStatesEnum>(_data.Pursuit.Get(t), Model.GetData().MoveSpeed, 
+            var pursuit = new SteeringMoveState(_data.Pursuit.Get(t), Model.GetData().MoveSpeed, 
                 new []
                 {
                     _data.ObstacleAvoidance.GetDecorator(t),
                     _data.Flocking.GetDecorator(GetModel<EnemyModel>())
                 });
-            pursuit.OnStart += OnPursuitStartHandler;
+            pursuit.OnStartState += OnPursuitStartHandler;
             
-            var lookAtTarget = new EnemyStateMove<EnemyStatesEnum>(_data.Pursuit.Get(t), Model.GetData().MoveSpeed, move: false, moveAmount: 0.5f);
-            lookAtTarget.OnStart += OnPursuitStartHandler;
+            var lookAtTarget = new SteeringMoveState(_data.Pursuit.Get(t), Model.GetData().MoveSpeed, move: false, moveAmount: 0.5f);
+            lookAtTarget.OnStartState += OnPursuitStartHandler;
             
-            var damage = new EnemyStateDamage<EnemyStatesEnum>();
-            var lightAttack = new EnemyStateAttack<EnemyStatesEnum>(Model.CurrentWeapon().Stats.LightAttack);
-            var heavyAttack = new EnemyStateAttack<EnemyStatesEnum>(Model.CurrentWeapon().Stats.HeavyAttack);
-            var dead = new EnemyStateDeath<EnemyStatesEnum>();
+            var damage = new DamageState();
+            var lightAttack = new EnemyAttackState(Model.CurrentWeapon().Stats.LightAttack);
+            var heavyAttack = new EnemyAttackState(Model.CurrentWeapon().Stats.HeavyAttack);
+            var dead = new DeathState();
             
             states.Add(idle);
             states.Add(seek);
@@ -69,89 +65,29 @@ namespace Game.Enemies
             states.Add(heavyAttack);
             states.Add(dead);
             states.Add(lookAtTarget);
-            StateMachine.AddState(new List<IState<EnemyStatesEnum>>
+            
+            StateMachine.AddState(new Dictionary<string, IState>
             {
-                idle, seek, pursuit, damage, lightAttack, heavyAttack, dead, lookAtTarget,
+                { "Idle", idle },
+                { "Seek", seek},
+                { "Pursuit", pursuit},
+                { "LookAtTarget", lookAtTarget},
+                { "LightAttack", lightAttack },
+                { "HeavyAttack", heavyAttack},
+                { "Damage", damage },
+                { "Death", dead},
             });
             
-            idle.AddTransition(new Dictionary<EnemyStatesEnum, IState<EnemyStatesEnum>>
-            {
-                { EnemyStatesEnum.Seek, seek },
-                { EnemyStatesEnum.Pursuit, pursuit },
-                { EnemyStatesEnum.LightAttack, lightAttack },
-                { EnemyStatesEnum.HeavyAttack, heavyAttack },
-                { EnemyStatesEnum.Damage, damage },
-                { EnemyStatesEnum.Die, dead },
-                { EnemyStatesEnum.LookAtTarget, lookAtTarget },
-            });
-            
-            seek.AddTransition(new Dictionary<EnemyStatesEnum, IState<EnemyStatesEnum>>
-            {
-                { EnemyStatesEnum.Idle, idle },
-                { EnemyStatesEnum.Pursuit, pursuit },
-                { EnemyStatesEnum.LightAttack, lightAttack },
-                { EnemyStatesEnum.HeavyAttack, heavyAttack },
-                { EnemyStatesEnum.Damage, damage },
-                { EnemyStatesEnum.Die, dead},
-                { EnemyStatesEnum.LookAtTarget, lookAtTarget },
-            });
-            
-            pursuit.AddTransition(new Dictionary<EnemyStatesEnum, IState<EnemyStatesEnum>>
-            {
-                { EnemyStatesEnum.Idle, idle },
-                { EnemyStatesEnum.Seek, seek },
-                { EnemyStatesEnum.LightAttack, lightAttack },
-                { EnemyStatesEnum.HeavyAttack, heavyAttack },
-                { EnemyStatesEnum.Damage, damage },
-                { EnemyStatesEnum.Die, dead},
-                { EnemyStatesEnum.LookAtTarget, lookAtTarget },
-            });
-            
-            lookAtTarget.AddTransition(new Dictionary<EnemyStatesEnum, IState<EnemyStatesEnum>>
-            {
-                { EnemyStatesEnum.Idle, idle },
-                { EnemyStatesEnum.Seek, seek },
-                { EnemyStatesEnum.LightAttack, lightAttack },
-                { EnemyStatesEnum.HeavyAttack, heavyAttack },
-                { EnemyStatesEnum.Damage, damage },
-                { EnemyStatesEnum.Die, dead},
-                { EnemyStatesEnum.Pursuit, pursuit },
-            });
-            
-            lightAttack.AddTransition(new Dictionary<EnemyStatesEnum, IState<EnemyStatesEnum>>
-            {
-                { EnemyStatesEnum.Idle, idle },
-                { EnemyStatesEnum.Pursuit, pursuit },
-                { EnemyStatesEnum.Seek, seek },
-                { EnemyStatesEnum.Damage, damage },
-                { EnemyStatesEnum.Die, dead},
-                { EnemyStatesEnum.LookAtTarget, lookAtTarget },
-            });
-            
-            heavyAttack.AddTransition(new Dictionary<EnemyStatesEnum, IState<EnemyStatesEnum>>
-            {
-                { EnemyStatesEnum.Idle, idle },
-                { EnemyStatesEnum.Pursuit, pursuit },
-                { EnemyStatesEnum.Seek, seek },
-                { EnemyStatesEnum.Damage, damage },
-                { EnemyStatesEnum.Die, dead},
-                { EnemyStatesEnum.LookAtTarget, lookAtTarget },
-            });
-            
-            damage.AddTransition(new Dictionary<EnemyStatesEnum, IState<EnemyStatesEnum>>
-            {
-                { EnemyStatesEnum.Idle, idle },
-                { EnemyStatesEnum.Pursuit, pursuit },
-                { EnemyStatesEnum.Seek, seek },
-                { EnemyStatesEnum.Die, dead},
-                { EnemyStatesEnum.LookAtTarget, lookAtTarget },
-            });
+            // Any transition
+            StateMachine.AddAnyTransition("Death", new IsDeathPredicate(Model), true);
+            StateMachine.AddAnyTransition("Damage", new TakenDamagePredicate(Model), true);
 
             foreach (var state in states)
             {
                 state.Init(this);
             }
-            StateMachine.SetInitState(idle);
+            
+            StateMachine.SetState("Idle");
         }
         
         protected override void Awake()
@@ -208,11 +144,12 @@ namespace Game.Enemies
 
         public override float MoveAmount()
         {
-            return 1;
+            return Model.GetVelocity().magnitude;
         }
 
-        public void SetSteering(ISteering steering)
+        public override void SetSteering(ISteering steering)
         {
+            base.SetSteering(steering);
             _currentSteering = steering;
         }
 
@@ -244,14 +181,16 @@ namespace Game.Enemies
             }
         }
 
-        private void OnDrawGizmos()
+        protected override void OnDrawGizmos()
         {
+            base.OnDrawGizmos();
             if (pathfinder != null) pathfinder.OnDrawGizmos();
-            if (StateMachine != null) StateMachine.Draw(transform);
+            if (StateMachine != null) StateMachine.Draw();
         }
 
-        private void OnDrawGizmosSelected()
+        protected override void OnDrawGizmosSelected()
         {
+            base.OnDrawGizmosSelected();
             if (pathfinder != null) pathfinder.OnDrawGizmosSelected();
             if (_currentSteering != null) _currentSteering.Draw();
         }
@@ -259,13 +198,13 @@ namespace Game.Enemies
         private void OnDieHandler()
         {
             
-            StateMachine.SetState(EnemyStatesEnum.Die);
+            StateMachine.SetState("Death");
             if (EnemyManager.Instance) EnemyManager.Instance.RemoveEnemy(this);
         }
         
         private void OnTakeDamageHandler()
         {
-            StateMachine.SetState(EnemyStatesEnum.Damage);
+            StateMachine.SetState("Damage");
         }
 
         public override void Dispose()

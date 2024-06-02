@@ -85,7 +85,7 @@ namespace Game.Entities
         public void Die()
         {
             _collider.enabled = false;
-            Destroy(gameObject, 3f);
+            //Destroy(gameObject, 3f);
         }
         
         private void OnDestroy()
