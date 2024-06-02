@@ -1,17 +1,17 @@
-﻿using Game.Enemies.States;
-using Game.Interfaces;
+﻿using Game.Interfaces;
 using UnityEngine;
 
 namespace Game.Player.States
 {
-    public class EnemyStateMove<T> : EnemyStateBase<T>
+    public class SteeringMoveState : EntityState
     {
         private ISteering _steering;
         private float _speed;
         private bool _move;
         private float _moveAmount;
 
-        public EnemyStateMove(ISteering steering, float speed, ISteeringDecorator[] decorators = null, bool move = true, float moveAmount = 1)
+        public SteeringMoveState(ISteering steering, float speed, ISteeringDecorator[] decorators = null, 
+            bool move = true, float moveAmount = 1)
         {
             _steering = steering;
             _speed = speed;
@@ -26,16 +26,16 @@ namespace Game.Player.States
             }
         }
         
-        public override void Start()
+        protected override void OnStart()
         {
-            base.Start();
+            base.OnStart();
 
             Controller.SetSteering(_steering);
         }
 
-        public override void Execute()
+        protected override void OnUpdate()
         {
-            base.Execute();
+            base.OnUpdate();
 
             var dir = Controller.MoveDirection();
             dir.y = 0;
@@ -46,18 +46,17 @@ namespace Game.Player.States
             View.UpdateMovementValues(Controller.MoveAmount() * _moveAmount);
         }
         
-        public override void Exit()
+        protected override void OnExit()
         {
-            base.Exit();
+            base.OnExit();
             Model.Move(Vector3.zero);
         }
 
-        public override void Dispose()
+        protected override void OnDisposed()
         {
+            base.OnDisposed();
             if (_steering != null) _steering.Dispose();
             _steering = null;
-            
-            base.Dispose();
         }
     }
 }

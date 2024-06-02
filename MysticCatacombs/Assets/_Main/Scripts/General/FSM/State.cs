@@ -1,121 +1,86 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Game.StateMachine.Interfaces;
 using UnityEngine;
 
-namespace Game.FSM
+namespace Game.StateMachine
 {
-    public class State<T> : IState<T>
+    public class State : IState
     {
-        public Action OnStart;
-        public Action OnExecute;
-        public Action OnExit;
-        
-        private Dictionary<T, IState<T>> _transitions = new();
-        private List<T> _transitionList = new();
+        public bool Initialized { get; private set; }
 
-        public virtual void Start()
+        protected GameObject Owner => StateMachine.Owner;
+        protected IStateMachine StateMachine;
+
+        #region Public Methods
+
+        public void Awake(IStateMachine stateMachine)
         {
-            OnStart?.Invoke();
-        }
+            if (Initialized) return;
+            Initialized = true;
 
-        public virtual void Execute()
-        {
-            OnExecute?.Invoke();
-        }
-
-        public virtual void Exit()
-        {
-            OnExit?.Invoke();
-        }
-
-        public IState<T> GetTransition(T input) => _transitions.ContainsKey(input) ? _transitions[input] : null;
-
-        public void AddTransition(T input, IState<T> state)
-        {
-            _transitions[input] = state;
-            _transitionList.Add(input);
-        }
-
-        public void AddTransition(Dictionary<T, IState<T>> transitions)
-        {
-            _transitions = _transitions.Union(transitions).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-            _transitionList.Clear();
-            _transitionList.AddRange(_transitions.Keys);
-        }
-        
-        /// <summary>
-        /// Iterates throw a list to remove the provided state.
-        /// </summary>
-        /// <param name="state"></param>
-        public void RemoveTransition(IState<T> state)
-        {
-            // foreach(var item in _transitions)
-            // {
-            //     if (item.Value != state) continue;
-            //     _transitions.Remove(item.Key);
-            //     break;
-            // }
-
-            // This is better because it doesn't iterate a dictionary, but a list.
-            // Also using a for loop is a better choice because ehn using a foreach loop, you cannot modify the collection while iterating over it without causing an exception.
-            // With a for loop you can remove items safely.
-            for (var i = _transitionList.Count - 1; i >= 0; i--)
+            StateMachine = stateMachine;
+            if (StateMachine == null)
             {
-                if (_transitions[_transitionList[i]] != state) continue;
-                _transitions.Remove(_transitionList[i]);
-                _transitionList.RemoveAt(i);
-            }
-        }
-
-        public void RemoveTransition(T input)
-        {
-            if (_transitions.ContainsKey(input))
-            {
-                _transitions.Remove(input);
-                _transitions.Remove(input);
-            }
-        }
-
-        /// <summary>
-        /// A method that removes all transitions and nullifies the transition dictionary and list.
-        /// </summary>
-        public virtual void Dispose()
-        {
-            UnsubscribeAll();
-
-            if (_transitionList != null)
-            {
-                for (var i = _transitionList.Count - 1; i >= 0; i--)
-                {
-                    RemoveTransition(_transitionList[i]);
-                }
+#if UNITY_EDITOR
+                Debug.LogError("State: the state machine is null.");
+#endif
             }
             
-            _transitions = null;
-            _transitionList = null;
-            Logging.LogDestroy("Transition Dictionary Nulled");
+            OnAwake();
+        }
+
+        public void Start()
+        {
+            OnStart();
+        }
+
+        public void Update()
+        {
+            OnUpdate();
+        }
+
+        public void Exit()
+        {
+            OnExit();
+        }
+
+        public void Dispose()
+        {
+            OnDisposed();
+            StateMachine = null;
         }
 
         public virtual bool CanTransition() => true;
+        public virtual bool CanTransitionToItself() => false;
 
-        private void UnsubscribeAll()
+        public void Draw()
         {
-            UnsubscribeAllAction(OnStart);
-            UnsubscribeAllAction(OnExecute);
-            UnsubscribeAllAction(OnExit);
+#if UNITY_EDITOR
+            OnDraw();
+#endif
         }
-        
-        private void UnsubscribeAllAction(Action action)
-        {
-            if (action == null) return;
-            var delegates = action.GetInvocationList();
-            if (delegates.Length == 0) return;
 
-            foreach (var d in delegates)
-            {
-                action -= (Action)d;
-            }
+        public void DrawSelected()
+        {
+#if UNITY_EDITOR
+            OnDrawSelected();
+#endif
         }
+
+        #endregion
+
+        #region Protected Methods
+
+        protected virtual void OnAwake() { }
+        protected virtual void OnStart() { }
+        protected virtual void OnUpdate() { }
+        protected virtual void OnExit() { }
+        protected virtual void OnDisposed() { }
+        protected virtual void OnDraw() { }
+        protected virtual void OnDrawSelected() { }
+
+        #endregion
     }
 }

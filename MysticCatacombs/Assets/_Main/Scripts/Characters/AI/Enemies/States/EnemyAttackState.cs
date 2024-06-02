@@ -1,12 +1,14 @@
-﻿using Game.Enemies.States;
+﻿using System;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using Game.Enemies;
 using Game.SO;
 using UnityEngine;
 
 namespace Game.Player.States
 {
-    public class EnemyStateAttack<T> : EnemyStateBase<T>
+    public class EnemyAttackState : EntityState
     {
-        
         private Attack _initAttack;
         private Attack _currentAttack;
         private Attack _nextAttack;
@@ -14,15 +16,15 @@ namespace Game.Player.States
         private float _timer;
         private bool _triggered;
 
-        public EnemyStateAttack(AttackSO currentAttack)
+        public EnemyAttackState(AttackSO currentAttack)
         {
             _initAttack = currentAttack.GetAttack();
             _nextAttack = _initAttack;
         }
 
-        public override void Start()
+        protected override void OnStart()
         {
-            base.Start();
+            base.OnStart();
             Attack(_nextAttack);
             if (_currentAttack.TrModule.TryGetTransition(out var transition))
             {
@@ -32,14 +34,26 @@ namespace Game.Player.States
             {
                 _nextAttack = _initAttack;
             }
+
+            holdState = true;
+
+            var controller = Controller as EnemyController;
+            if (controller == null)
+            {
+                Debug.LogError("Controller is null");
+                return;
+            }else if (controller.Target == null)
+            {
+                Debug.LogError("Target is null");
+                return;
+            }
             
-            Continue = false;
-            Model.Rotate((Controller.Target.Transform.position - Model.transform.position).normalized, 80);
+            Model.Rotate((controller.Target.Transform.position - controller.transform.position).normalized, 80);
         }
 
-        public override void Execute()
+        protected override void OnUpdate()
         {
-            base.Execute();
+            base.OnUpdate();
             _timer += Time.deltaTime;
             if (_timer < _currentAttack.AnimModule.Duration)
             {
@@ -60,16 +74,14 @@ namespace Game.Player.States
             }
             else
             {
-                Continue = true;
+                holdState = false;
             }
         }
 
-        public override void Exit()
+        protected override void OnExit()
         {
-            base.Exit();
-            Continue = true;
-
-            
+            base.OnExit();
+            holdState = false;
         }
 
         private void Attack(Attack attack)

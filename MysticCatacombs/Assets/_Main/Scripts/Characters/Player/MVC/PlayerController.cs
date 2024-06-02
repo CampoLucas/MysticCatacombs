@@ -2,87 +2,75 @@
 using System.Collections.Generic;
 using Game.Entities;
 using Game.Player.States;
-using Game.FSM;
+using Game.StateMachine.Interfaces;
+using Game.StateMachine.Predicates;
 using UnityEngine;
 
 namespace Game.Player
 {
-    public class PlayerController : EntityController<PlayerStatesEnum>
+    public class PlayerController : EntityController
     {
         private PlayerInputHandler _inputs;
-        private List<PlayerStateBase<PlayerStatesEnum>> _states;
 
         protected override void InitFSM()
         {
             base.InitFSM();
-            _states = new List<PlayerStateBase<PlayerStatesEnum>>();
+           var states = new List<EntityState>();
+
+            var idle = new IdleState();
+            var move = new MoveState();
+            var lightAttack = new AttackState(Model.CurrentWeapon().Stats.LightAttack, DoLightAttack);
+            var heavyAttack = new AttackState(Model.CurrentWeapon().Stats.HeavyAttack, DoHeavyAttack);
+            var damage = new DamageState();
+            var dead = new DeathState();
             
-            var idle = new PlayerStateIdle<PlayerStatesEnum>(PlayerStatesEnum.Moving, PlayerStatesEnum.LightAttack, PlayerStatesEnum.HeavyAttack, PlayerStatesEnum.Damage, PlayerStatesEnum.Dead);
-            var move = new PlayerStateMove<PlayerStatesEnum>(PlayerStatesEnum.Idle, PlayerStatesEnum.LightAttack, PlayerStatesEnum.HeavyAttack, PlayerStatesEnum.Damage, PlayerStatesEnum.Dead);
-            var lightAttack = new PlayerStateAttack<PlayerStatesEnum>(PlayerStatesEnum.Idle, PlayerStatesEnum.Moving, PlayerStatesEnum.Damage, PlayerStatesEnum.Dead, Model.CurrentWeapon().Stats.LightAttack, DoLightAttack);
-            var heavyAttack = new PlayerStateAttack<PlayerStatesEnum>(PlayerStatesEnum.Idle, PlayerStatesEnum.Moving, PlayerStatesEnum.Damage, PlayerStatesEnum.Dead, Model.CurrentWeapon().Stats.HeavyAttack, DoHeavyAttack);
-            var damage = new PlayerStateDamage<PlayerStatesEnum>(PlayerStatesEnum.Idle, PlayerStatesEnum.Moving, PlayerStatesEnum.Damage, PlayerStatesEnum.Dead);
-            var dead = new PlayerStateDead<PlayerStatesEnum>();
-            
-            _states.Add(idle);
-            _states.Add(move);
-            _states.Add(lightAttack);
-            _states.Add(heavyAttack);
-            _states.Add(damage);
-            _states.Add(dead);
-            
-            StateMachine.AddState(new List<IState<PlayerStatesEnum>>
+            states.Add(idle);
+            states.Add(move);
+            states.Add(lightAttack);
+            states.Add(heavyAttack);
+            states.Add(damage);
+            states.Add(dead);
+
+            StateMachine.AddState(new Dictionary<string, IState>
             {
-                idle, move, damage, lightAttack, heavyAttack, dead,
+                { "Idle", idle },
+                { "Move", move},
+                { "LightAttack", lightAttack },
+                { "HeavyAttack", heavyAttack},
+                { "Damage", damage },
+                { "Death", dead},
             });
 
-            idle.AddTransition(new Dictionary<PlayerStatesEnum, IState<PlayerStatesEnum>>
-            {
-                { PlayerStatesEnum.Moving, move },
-                { PlayerStatesEnum.LightAttack, lightAttack },
-                { PlayerStatesEnum.HeavyAttack, heavyAttack },
-                { PlayerStatesEnum.Damage, damage },
-                { PlayerStatesEnum.Dead, dead },
-            });
+            // Any transition
+            StateMachine.AddAnyTransition("Death", new IsDeathPredicate(Model), true);
+            StateMachine.AddAnyTransition("Damage", new TakenDamagePredicate(Model), true);
             
-            move.AddTransition(new Dictionary<PlayerStatesEnum, IState<PlayerStatesEnum>>
-            {
-                { PlayerStatesEnum.Idle, idle },
-                { PlayerStatesEnum.LightAttack, lightAttack },
-                { PlayerStatesEnum.HeavyAttack, heavyAttack },
-                { PlayerStatesEnum.Damage, damage },
-                { PlayerStatesEnum.Dead, dead },
-            });
+            // Idle
+            StateMachine.AddTransition("Idle", "Move", () => MoveDirection() != Vector3.zero);
+            StateMachine.AddTransition("Idle", "LightAttack", DoLightAttack);
+            StateMachine.AddTransition("Idle", "HeavyAttack", DoHeavyAttack);
             
-            lightAttack.AddTransition(new Dictionary<PlayerStatesEnum, IState<PlayerStatesEnum>>
-            {
-                { PlayerStatesEnum.Idle, idle },
-                { PlayerStatesEnum.Moving, move },
-                { PlayerStatesEnum.Damage, damage },
-                { PlayerStatesEnum.Dead, dead },
-            });
+            // Move
+            StateMachine.AddTransition("Move", "Idle", () => MoveDirection() == Vector3.zero);
+            StateMachine.AddTransition("Move", "LightAttack", DoLightAttack);
+            StateMachine.AddTransition("Move", "HeavyAttack", DoHeavyAttack);
             
-            heavyAttack.AddTransition(new Dictionary<PlayerStatesEnum, IState<PlayerStatesEnum>>
-            {
-                { PlayerStatesEnum.Idle, idle },
-                { PlayerStatesEnum.Moving, move },
-                { PlayerStatesEnum.Damage, damage },
-                { PlayerStatesEnum.Dead, dead },
-            });
+            // LightAttack
+            StateMachine.AddTransition("LightAttack", "HeavyAttack", DoHeavyAttack);
+            StateMachine.AddTransition("LightAttack", "Move", () => MoveDirection() != Vector3.zero);
+            StateMachine.AddTransition("LightAttack", "Idle", () => MoveDirection() == Vector3.zero);
             
-            damage.AddTransition(new Dictionary<PlayerStatesEnum, IState<PlayerStatesEnum>>
-            {
-                { PlayerStatesEnum.Idle, idle },
-                { PlayerStatesEnum.Moving, move },
-                { PlayerStatesEnum.Dead, dead },
-            });
+            // HeavyAttack
+            StateMachine.AddTransition("HeavyAttack", "LightAttack", DoLightAttack);
+            StateMachine.AddTransition("HeavyAttack", "Move", () => MoveDirection() != Vector3.zero);
+            StateMachine.AddTransition("HeavyAttack", "Idle", () => MoveDirection() == Vector3.zero);
 
-            foreach (var state in _states)
+            foreach (var state in states)
             {
                 state.Init(this);
             }
-            _states = null;
-            StateMachine.SetInitState(idle);
+            
+            StateMachine.SetState("Idle");
         }
 
         public override Vector3 MoveDirection()
@@ -115,7 +103,6 @@ namespace Game.Player
         {
             base.Dispose();
             _inputs = null;
-            _states = null;
         }
     }
 }
