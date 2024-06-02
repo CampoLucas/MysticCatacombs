@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using Game.StateMachine.Interfaces;
 using Game.StateMachine.Predicates;
 using UnityEngine;
-using IState = Game.StateMachine.Interfaces.IState;
 
 namespace Game.StateMachine
 {
     /// <summary>
     /// A generic class that implements a Finite State Machine for a generic type T.
     /// </summary>
-    public class FSM : IStateMachine, IDisposable
+    public class FSM : IStateMachine
     {
         public GameObject Owner { get; private set; }
         public string DefaultState { get; private set; } = "";
