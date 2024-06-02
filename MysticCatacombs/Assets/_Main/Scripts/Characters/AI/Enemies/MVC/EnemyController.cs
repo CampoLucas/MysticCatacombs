@@ -144,7 +144,7 @@ namespace Game.Enemies
 
         public override float MoveAmount()
         {
-            return MoveDirection().magnitude;
+            return Model.GetVelocity().magnitude;
         }
 
         public override void SetSteering(ISteering steering)
