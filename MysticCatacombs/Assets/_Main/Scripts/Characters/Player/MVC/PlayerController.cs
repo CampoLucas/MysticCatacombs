@@ -11,6 +11,16 @@ namespace Game.Player
     public class PlayerController : EntityController
     {
         private PlayerInputHandler _inputs;
+        private Transform _camTransform;
+        private Vector3 _catchInputDir;
+        private Vector3 _catchMoveDir;
+
+        protected override void Start()
+        {
+            base.Start();
+            _camTransform = Camera.main.transform;
+            Debug.Log(_camTransform.gameObject.name);
+        }
 
         protected override void InitFSM()
         {
@@ -73,9 +83,29 @@ namespace Game.Player
             StateMachine.SetState("Idle");
         }
 
+        /// <summary>
+        /// Calculates the direction to move.
+        /// </summary>
+        /// <returns>Returns the input direction relative to the camera.</returns>
         public override Vector3 MoveDirection()
         {
-            return _inputs.MoveDir;
+            if (Vector3.Distance(_inputs.MoveDir, _catchInputDir) < 0.01f)
+            {
+                return _catchMoveDir;
+            }
+            _catchInputDir = _inputs.MoveDir;
+            
+            var forward = _camTransform.forward;
+            forward.y = 0f;
+            forward.Normalize();
+                
+            var right = _camTransform.right;
+            right.y = 0f;
+            right.Normalize();
+
+            _catchMoveDir = (forward * _inputs.MoveDir.z + right * _inputs.MoveDir.x).normalized;
+            
+            return _catchMoveDir;
         }
 
         public override bool DoLightAttack()
